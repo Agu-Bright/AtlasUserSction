@@ -1,0 +1,4 @@
+export const GET_BRAND_REQUEST = "GET_BRAND_REQUEST";
+export const GET_BRAND_SUCCESS = "GET_BRAND_SUCCESS";
+export const GET_BRAND_FAIL = "GET_BRAND_FAIL";
+export const CLEAR_ERROR = "CLEAR_ERROR";
