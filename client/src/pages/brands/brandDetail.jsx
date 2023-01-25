@@ -6,6 +6,7 @@ import {
   Stack,
   ButtonGroup,
   IconButton,
+  Grid,
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import water from "../../images/water.jpg";
@@ -18,6 +19,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AppsIcon from "@mui/icons-material/Apps";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import ProductCard from "../../components/cardComponent/productCard";
+import Footer from "../../components/footer/Footer";
 
 function BrandDetail() {
   const [navbar, setNavbar] = useState(true);
@@ -30,6 +32,7 @@ function BrandDetail() {
           height: "auto",
           paddingTop: { md: "72px", xs: "50px" },
           backgroundColor: "white",
+          paddingBottom: "20px",
         }}
       >
         <Box
@@ -67,15 +70,18 @@ function BrandDetail() {
           sx={{
             width: "100%",
             minHeight: "100vh",
-            paddingTop: "50px",
+            paddingTop: { md: "50px", sm: "30px", xs: "15px" },
           }}
         >
-          <Stack direction="row" justifyContent="space-between">
+          <Stack
+            direction={{ md: "row", xs: "column" }}
+            justifyContent="space-between"
+          >
             <Typography
               sx={{
                 paddingLeft: "25px",
                 fontWeight: "900",
-                fontSize: "25px",
+                fontSize: { md: "25px", sm: "20px", xs: "18px" },
                 display: "flex",
                 alignItems: "center",
               }}
@@ -83,7 +89,7 @@ function BrandDetail() {
               Pepsi drink official{" "}
               <span style={{ color: "blue" }}>
                 <IconButton sx={{ color: "blue" }}>
-                  <VerifiedIcon />
+                  <VerifiedIcon sx={{ fontSize: "15px" }} />
                 </IconButton>
               </span>
             </Typography>
@@ -135,8 +141,9 @@ function BrandDetail() {
               </Typography>
               <Typography
                 sx={{
-                  width: "70%",
-                  height: "20vh",
+                  width: { md: "70%", xs: "100%" },
+                  maxHeight: "10vh",
+                  overflowY: "scroll",
                 }}
               >
                 WVRPS are the 1st hybrid generative PFP + AI-composed music NFTs
@@ -145,18 +152,46 @@ function BrandDetail() {
                 with art by Emmy-winning illustrator Andy Poon, the embedded 1/1
                 original music composed entirely by AI using the visual traits
                 of the PFP 🤯WVRPS are the opening note of WarpSound’s larger
-                vision for interactive, social music experience, helping ignite
-                the future of generative music creativity + synthetic artistry
-                🚀
+                ractive, social music experience, helping ignite the future of
+                generative music creativity + synthetic artistry 🚀
               </Typography>
             </Box>
           </div>
 
-          <Box sx={{ border: "2px solid black" }}>
-            <ProductCard />
+          <Box
+            sx={{
+              paddingLeft: "25px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Grid container my={4} rowSpacing={2} columnSpacing={4}>
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+            </Grid>
           </Box>
         </Box>
       </Box>
+      <div className="footer" style={{ oveflow: "hidden" }}>
+        <Footer />
+      </div>
     </>
   );
 }
