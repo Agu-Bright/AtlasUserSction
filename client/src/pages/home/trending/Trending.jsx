@@ -49,11 +49,9 @@ function Trending() {
           </Stack>
 
           <List sx={{ marginTop: "10px" }}>
-            {loading ? (
-              <TrendSkeleton />
-            ) : (
-              firstHalf.map((data) => <Trend key={data._id} data={data} />)
-            )}
+            {loading && <TrendSkeleton />}
+            {firstHalf &&
+              firstHalf.map((data) => <Trend key={data._id} data={data} />)}
           </List>
         </Box>
 

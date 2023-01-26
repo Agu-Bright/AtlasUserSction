@@ -119,6 +119,19 @@ const getNewBrands = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ success: true, latestBrands });
 });
 
+const getBrand = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+
+  const brand = await brandModel.findById(id);
+  // if (!book || book.status !== "approved") {
+  //   return next(new ErrorHandler("No Book Found", 404));
+  // }
+  res.status(200).json({
+    success: true,
+    brand,
+  });
+});
+
 //ADMIN ROUTES
 
 module.exports = {
@@ -127,4 +140,5 @@ module.exports = {
   updateBrand,
   deleteBrand,
   getNewBrands,
+  getBrand,
 };

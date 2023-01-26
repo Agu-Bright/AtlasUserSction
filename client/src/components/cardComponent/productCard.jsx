@@ -10,8 +10,8 @@ import { Grid } from "@mui/material";
 
 export default function ProductCard() {
   return (
-    <Grid item>
-      <Card sx={{ width: 300 }} component="div">
+    <Grid item sx={{ margin: "0px !important" }}>
+      <Card sx={{ width: { md: 300, sm: 200, xs: 250 } }} component="div">
         <CardMedia
           component="img"
           alt="green iguana"

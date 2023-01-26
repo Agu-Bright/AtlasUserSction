@@ -7,6 +7,8 @@ import {
   ButtonGroup,
   IconButton,
   Grid,
+  Button,
+  Skeleton,
 } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import water from "../../images/water.jpg";
@@ -20,9 +22,58 @@ import AppsIcon from "@mui/icons-material/Apps";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import ProductCard from "../../components/cardComponent/productCard";
 import Footer from "../../components/footer/Footer";
+import PrimarySearchAppBar from "../../components/search";
+
+const ReadMore = ({ children }) => {
+  const text = children;
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  return (
+    <p className="text">
+      {isReadMore ? text.slice(0, 150) : text}
+      <span onClick={toggleReadMore} className="read-or-hide">
+        {isReadMore ? (
+          <Typography
+            sx={{ cursor: "pointer", fontWeight: "600", color: "gray" }}
+          >
+            Read More
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ cursor: "pointer", fontWeight: "600", color: "gray" }}
+          >
+            show less
+          </Typography>
+        )}
+      </span>
+    </p>
+  );
+};
 
 function BrandDetail() {
   const [navbar, setNavbar] = useState(true);
+  const [toggle, setToggle] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const categories = [
+    "Electronics",
+    "phones",
+    "Laptops",
+    "Appliances",
+    "Glocerry",
+    "Books",
+    "Toys",
+    "Clothes",
+    "Shoes",
+    "Food",
+    "Others",
+  ];
+
+  const toggelSideBar = () => {
+    setToggle((prev) => !prev);
+  };
 
   return (
     <>
@@ -42,11 +93,19 @@ function BrandDetail() {
             position: "relative",
           }}
         >
-          <img
-            style={{ width: "100%", height: "inherit" }}
-            src={water}
-            alt="The Brand"
-          />
+          {loading ? (
+            <Skeleton
+              variant="rectanguler"
+              sx={{ width: "100%", height: "inherit" }}
+            />
+          ) : (
+            <img
+              style={{ width: "100%", height: "inherit" }}
+              src={water}
+              alt="The Brand"
+            />
+          )}
+
           <Box
             sx={{
               position: "absolute",
@@ -54,16 +113,28 @@ function BrandDetail() {
               left: "20px",
             }}
           >
-            <Avatar
-              src={pepsi}
-              alt="image"
-              sx={{
-                border: "5px solid white",
-                borderRadius: "20px",
-                width: { md: "200px", xs: "100px" },
-                height: { md: "200px", xs: "100px" },
-              }}
-            />
+            {loading ? (
+              <Skeleton
+                variant="rectanguler"
+                sx={{
+                  border: "5px solid white",
+                  borderRadius: "20px",
+                  width: { md: "200px", xs: "100px" },
+                  height: { md: "200px", xs: "100px" },
+                }}
+              />
+            ) : (
+              <Avatar
+                src={pepsi}
+                alt="image"
+                sx={{
+                  border: "5px solid white",
+                  borderRadius: "20px",
+                  width: { md: "200px", xs: "100px" },
+                  height: { md: "200px", xs: "100px" },
+                }}
+              />
+            )}
           </Box>
         </Box>
         <Box
@@ -77,58 +148,101 @@ function BrandDetail() {
             direction={{ md: "row", xs: "column" }}
             justifyContent="space-between"
           >
-            <Typography
-              sx={{
-                paddingLeft: "25px",
-                fontWeight: "900",
-                fontSize: { md: "25px", sm: "20px", xs: "18px" },
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              Pepsi drink official{" "}
-              <span style={{ color: "blue" }}>
-                <IconButton sx={{ color: "blue" }}>
-                  <VerifiedIcon sx={{ fontSize: "15px" }} />
+            {loading ? (
+              <Skeleton
+                variant="rectanguler"
+                sx={{
+                  marginLeft: "25px",
+                  width: "200px",
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "10px",
+                  height: "1.2em",
+                }}
+              />
+            ) : (
+              <Typography
+                sx={{
+                  paddingLeft: "25px",
+                  fontWeight: "900",
+                  fontSize: { md: "25px", sm: "20px", xs: "18px" },
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                Pepsi drink official{" "}
+                <span style={{ color: "blue" }}>
+                  <IconButton sx={{ color: "blue" }}>
+                    <VerifiedIcon sx={{ fontSize: "15px" }} />
+                  </IconButton>
+                </span>
+              </Typography>
+            )}
+            {loading ? (
+              <Skeleton
+                variant="rectanguler"
+                sx={{
+                  marginLeft: "25px",
+                  width: "200px",
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "10px",
+                  height: "1.2em",
+                }}
+              />
+            ) : (
+              <ButtonGroup
+                sx={{
+                  paddingRight: "25px",
+                  paddingLeft: "25px",
+                }}
+              >
+                <IconButton>
+                  <TwitterIcon sx={{ color: "black" }} />
                 </IconButton>
-              </span>
-            </Typography>
-            <ButtonGroup
-              sx={{
-                paddingRight: "25px",
-                paddingLeft: "25px",
-              }}
-            >
-              <IconButton>
-                <TwitterIcon sx={{ color: "black" }} />
-              </IconButton>
 
-              <IconButton>
-                <InstagramIcon sx={{ color: "black" }} />
-              </IconButton>
+                <IconButton>
+                  <InstagramIcon sx={{ color: "black" }} />
+                </IconButton>
 
-              <IconButton>
-                <FacebookIcon sx={{ color: "black" }} />
-              </IconButton>
-              <IconButton>
-                <MoreHorizIcon sx={{ color: "black" }} />
-              </IconButton>
-            </ButtonGroup>
+                <IconButton>
+                  <FacebookIcon sx={{ color: "black" }} />
+                </IconButton>
+                <IconButton>
+                  <MoreHorizIcon sx={{ color: "black" }} />
+                </IconButton>
+              </ButtonGroup>
+            )}
           </Stack>
           <div style={{ width: "100%" }}>
-            <Box
-              sx={{
-                display: "flex",
-                paddingLeft: "25px",
-              }}
-            >
-              <Typography sx={{ marginRight: "25px" }}>
-                Items <span style={{ fontWeight: "700" }}>9999</span>
-              </Typography>
-              <Typography>
-                Created <span style={{ fontWeight: "700" }}>jan 2022</span>
-              </Typography>
-            </Box>
+            {loading ? (
+              <Skeleton
+                variant="rectanguler"
+                sx={{
+                  marginLeft: "25px",
+                  width: "200px",
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "10px",
+                  height: "1.2em",
+                  marginTop: "10px",
+                }}
+              />
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  paddingLeft: "25px",
+                }}
+              >
+                <Typography sx={{ marginRight: "25px" }}>
+                  Items <span style={{ fontWeight: "700" }}>9999</span>
+                </Typography>
+                <Typography>
+                  Created <span style={{ fontWeight: "700" }}>jan 2022</span>
+                </Typography>
+              </Box>
+            )}
             <Box
               sx={{
                 paddingLeft: "25px",
@@ -139,53 +253,105 @@ function BrandDetail() {
               <Typography sx={{ fontWeight: "600" }} variant="h5">
                 Description
               </Typography>
+
               <Typography
                 sx={{
                   width: { md: "70%", xs: "100%" },
-                  maxHeight: "10vh",
-                  overflowY: "scroll",
                 }}
               >
-                WVRPS are the 1st hybrid generative PFP + AI-composed music NFTs
-                minted on the Ethereum blockchain. 9,999 unique NFTs based on
-                the WarpSound virtual artists Nayomi, Gnar Heart + DJ Dragoon,
-                with art by Emmy-winning illustrator Andy Poon, the embedded 1/1
-                original music composed entirely by AI using the visual traits
-                of the PFP 🤯WVRPS are the opening note of WarpSound’s larger
-                ractive, social music experience, helping ignite the future of
-                generative music creativity + synthetic artistry 🚀
+                <ReadMore>
+                  GeeksforGeeks: A Computer Science portal for geeks. It
+                  contains well written, well thought and well explained
+                  computer science, programming articles and quizzes. It
+                  provides a variety of services for you to learn, so thrive and
+                  also have fun! Free Tutorials, Millions of Articles, Live,
+                  Online and Classroom Courses ,Frequent Coding Competitions,
+                  Webinars by Industry Experts, Internship opportunities, and
+                  Job Opportunities. Knowledge is power! minted on the Ethereum
+                  blockchain. 9,999 unique NFTs based on the WarpSound virtual
+                  artists Nayomi, Gnar Heart + DJ Dragoon, with art by
+                  Emmy-winning illustrator Andy Poon, the embedded 1/1 original
+                  music composed entirely by AI using the visual traits of the
+                  PFP 🤯WVRPS are the opening note of WarpSound’s larger
+                  ractive, social music experience, helping ignite the future of
+                </ReadMore>
               </Typography>
             </Box>
           </div>
 
-          <Box
-            sx={{
-              paddingLeft: "25px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Grid container my={4} rowSpacing={2} columnSpacing={4}>
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-              <ProductCard />
-            </Grid>
+          <Box sx={{ border: "2px solid black", marginTop: "20px" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                border: "1px solid black",
+                marginBottom: "10px",
+              }}
+            >
+              <IconButton
+                onClick={toggelSideBar}
+                sx={{
+                  width: "auto",
+                  height: "auto",
+                }}
+              >
+                <AppsIcon
+                  sx={{ color: "black", width: "30px", height: "30px" }}
+                />
+              </IconButton>
+              <Box sx={{ width: "75%", padding: "10px" }}>
+                <PrimarySearchAppBar />
+              </Box>
+            </Box>
+
+            <Stack direction="row" sx={{ width: "100%" }}>
+              <Box
+                sx={{
+                  transition: "0.5s",
+                  width: `${toggle ? "23%" : "0%"}`,
+                  minHeight: "100vh",
+                  display: { md: "flex", sm: "flex", xs: "none" },
+                  justifyContent: "center",
+                }}
+              >
+                {toggle && (
+                  <Box sx={{ transition: "0.5s", overflow: "hidden" }}>
+                    <Typography>Filter By Category</Typography>
+                    {categories.map((category) => (
+                      <Typography>{category}</Typography>
+                    ))}
+                  </Box>
+                )}
+              </Box>
+
+              <Grid
+                container
+                rowSpacing={2}
+                columnSpacing={4}
+                sx={{
+                  margin: "0px !important",
+                  paddingBottom: "20px",
+                  width: {
+                    md: `${toggle ? "77%" : "100%"}`,
+                    xs: `${"100%"}`,
+                  },
+                }}
+              >
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+              </Grid>
+            </Stack>
           </Box>
         </Box>
       </Box>
