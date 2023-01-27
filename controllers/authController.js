@@ -17,7 +17,8 @@ const registerUser = catchAsyncErrors(async (req, res, next) => {
     });
   }
 
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
+  const { firstName, lastName, email, location, password, confirmPassword } =
+    req.body;
   if (password !== confirmPassword) {
     return next(new ErrorHandler("your passwords dont match", 403));
   }
@@ -29,12 +30,14 @@ const registerUser = catchAsyncErrors(async (req, res, next) => {
     data = {
       name,
       email,
+      location,
       password,
     };
   } else {
     data = {
       name,
       email,
+      location,
       password,
       avatar: {
         public_id: result?.public_id,
