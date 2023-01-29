@@ -123,9 +123,9 @@ const getBrand = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
 
   const brand = await brandModel.findById(id);
-  // if (!book || book.status !== "approved") {
-  //   return next(new ErrorHandler("No Book Found", 404));
-  // }
+  if (!brand || brand.status !== "approved") {
+    return next(new ErrorHandler("No Book Found", 404));
+  }
   res.status(200).json({
     success: true,
     brand,

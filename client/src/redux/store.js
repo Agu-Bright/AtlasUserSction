@@ -15,8 +15,7 @@ import {
 } from "./reducers/userReducer";
 
 const reducer = combineReducers({
-  newBrands: brandReducer,
-  trendingProducts: trendingProductReducer,
+  //user reducer section
   auth: userReducer,
   user: usersReducer,
   allSellers: allSellersReducer,
@@ -25,6 +24,12 @@ const reducer = combineReducers({
   updateUser: updateUserReducer,
   DeleteUser: deleteUserReducer,
   forgotPassword: forgotPasswordReducer,
+
+  //Brand reduser section
+  newBrands: brandReducer,
+
+  //product reducer section
+  trendingProducts: trendingProductReducer,
 });
 let initilaState;
 const middleware = [thunk];

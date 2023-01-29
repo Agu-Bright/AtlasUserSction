@@ -1,4 +1,4 @@
-const states = [
+export const states = [
   "Abia",
   "Adamawa",
   "Akwa Ibom",
@@ -38,4 +38,16 @@ const states = [
   "Zamfara",
 ];
 
-export default states;
+export const categories = [
+  "Electronics",
+  "phones",
+  "Laptops",
+  "Appliances",
+  "Glocerry",
+  "Books",
+  "Toys",
+  "Clothes",
+  "Shoes",
+  "Food",
+  "Others",
+];

@@ -9,7 +9,14 @@ import {
   Grid,
   Button,
   Skeleton,
+  List,
+  ListItem,
+  Paper,
 } from "@mui/material";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
 import Navbar from "../../components/navbar/Navbar";
 import water from "../../images/water.jpg";
 import pepsi from "../../images/pepsi.jpg";
@@ -24,6 +31,8 @@ import ProductCard from "../../components/cardComponent/productCard";
 import Footer from "../../components/footer/Footer";
 import PrimarySearchAppBar from "../../components/search";
 
+import { useParams } from "react-router-dom";
+import { categories } from "../../utils/stateData";
 const ReadMore = ({ children }) => {
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
@@ -53,26 +62,21 @@ const ReadMore = ({ children }) => {
 };
 
 function BrandDetail() {
+  const params = useParams();
+  const { id } = params;
   const [navbar, setNavbar] = useState(true);
   const [toggle, setToggle] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const categories = [
-    "Electronics",
-    "phones",
-    "Laptops",
-    "Appliances",
-    "Glocerry",
-    "Books",
-    "Toys",
-    "Clothes",
-    "Shoes",
-    "Food",
-    "Others",
-  ];
-
   const toggelSideBar = () => {
     setToggle((prev) => !prev);
+  };
+
+  //category section
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
   };
 
   return (
@@ -163,7 +167,9 @@ function BrandDetail() {
             ) : (
               <Typography
                 sx={{
-                  paddingLeft: "25px",
+                  marginTop: "25px",
+                  paddingTop: { md: "auto", xs: "" },
+                  paddingLeft: { md: "25px", xs: "10px" },
                   fontWeight: "900",
                   fontSize: { md: "25px", sm: "20px", xs: "18px" },
                   display: "flex",
@@ -194,7 +200,7 @@ function BrandDetail() {
               <ButtonGroup
                 sx={{
                   paddingRight: "25px",
-                  paddingLeft: "25px",
+                  paddingLeft: { md: "25px", xs: "10px" },
                 }}
               >
                 <IconButton>
@@ -232,7 +238,7 @@ function BrandDetail() {
               <Box
                 sx={{
                   display: "flex",
-                  paddingLeft: "25px",
+                  paddingLeft: { md: "25px", xs: "10px" },
                 }}
               >
                 <Typography sx={{ marginRight: "25px" }}>
@@ -245,7 +251,7 @@ function BrandDetail() {
             )}
             <Box
               sx={{
-                paddingLeft: "25px",
+                paddingLeft: { md: "25px", xs: "10px" },
                 paddingTop: "10px",
                 height: "auto",
               }}
@@ -279,7 +285,7 @@ function BrandDetail() {
             </Box>
           </div>
 
-          <Box sx={{ border: "2px solid black", marginTop: "20px" }}>
+          <Box sx={{ marginTop: "20px" }}>
             <Box
               sx={{
                 width: "100%",
@@ -305,52 +311,87 @@ function BrandDetail() {
               </Box>
             </Box>
 
-            <Stack direction="row" sx={{ width: "100%" }}>
-              <Box
+            <Stack
+              direction="row"
+              sx={{ width: "100%" }}
+              justifyContent="space-evenly"
+            >
+              <Paper
+                elevation={24}
                 sx={{
                   transition: "0.5s",
                   width: `${toggle ? "23%" : "0%"}`,
                   minHeight: "100vh",
                   display: { md: "flex", sm: "flex", xs: "none" },
-                  justifyContent: "center",
+                  justifyContent: "start",
                 }}
               >
                 {toggle && (
-                  <Box sx={{ transition: "0.5s", overflow: "hidden" }}>
-                    <Typography>Filter By Category</Typography>
-                    {categories.map((category) => (
-                      <Typography>{category}</Typography>
-                    ))}
+                  <Box
+                    sx={{
+                      transition: "0.5s",
+                      overflow: "hidden",
+                      width: "100%",
+                      margin: "10px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: "700",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      Filter By Category
+                    </Typography>
+                    <List component="nav" aria-label="secondary mailbox folder">
+                      {categories.map((category) => (
+                        <ListItemButton
+                          selected={selectedIndex === 2}
+                          onClick={(event) => handleListItemClick(event, 2)}
+                        >
+                          {" "}
+                          <ListItemText
+                            sx={{ fontWeight: "700" }}
+                            primary={category}
+                          />
+                        </ListItemButton>
+                      ))}
+                    </List>
                   </Box>
                 )}
-              </Box>
-
-              <Grid
-                container
-                rowSpacing={2}
-                columnSpacing={4}
+              </Paper>
+              <Paper
+                elevation={24}
                 sx={{
                   margin: "0px !important",
                   paddingBottom: "20px",
                   width: {
-                    md: `${toggle ? "77%" : "100%"}`,
+                    md: `${toggle ? "75%" : "100%"}`,
                     xs: `${"100%"}`,
                   },
                 }}
               >
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-                <ProductCard />
-              </Grid>
+                <Grid
+                  container
+                  rowSpacing={2}
+                  columnSpacing={4}
+                  sx={{ padding: "15px" }}
+                >
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                  <ProductCard />
+                </Grid>
+              </Paper>
             </Stack>
           </Box>
         </Box>
