@@ -151,6 +151,7 @@ const brandSchema = mongoose.Schema({
     required: true,
     unique: [true, "you can't create more than one store"],
   },
+  verified: { type: Boolean, default: false },
   status: {
     type: String,
     default: "approved",

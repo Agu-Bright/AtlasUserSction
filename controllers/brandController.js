@@ -3,6 +3,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const ApiFeatures = require("../middlewares/apiFeatures");
 const User = require("../model/authModel");
+const Product = require("../model/productModel");
 
 const cloudinary = require("cloudinary");
 
@@ -132,6 +133,20 @@ const getBrand = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
+  //get the brand id from the req.params object
+  const { id } = req.params;
+  //find the users object id from the brand returned
+  const brand = await brandModel.findById(id);
+  if (!brand) {
+    return next(new ErrorHandler("no rand found", 404));
+  }
+  const brandOwnerId = brand.user;
+  const brandOwner = await Product.findById({ user: brandOwnerId });
+  console.log(brandOwner);
+  //find all product with theat users id
+});
+
 //ADMIN ROUTES
 
 module.exports = {
@@ -141,4 +156,5 @@ module.exports = {
   deleteBrand,
   getNewBrands,
   getBrand,
+  getBrandProducts,
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -33,6 +33,9 @@ import PrimarySearchAppBar from "../../components/search";
 
 import { useParams } from "react-router-dom";
 import { categories } from "../../utils/stateData";
+import { useSelector, useDispatch } from "react-redux";
+import { clearErrors } from "../../redux/actions/brandAction";
+import { getBrandDetail } from "../../redux/actions/brandAction";
 const ReadMore = ({ children }) => {
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
@@ -63,10 +66,13 @@ const ReadMore = ({ children }) => {
 
 function BrandDetail() {
   const params = useParams();
+  const dispatch = useDispatch();
+  const { brandDetail, loading, error } = useSelector(
+    (state) => state.brandDetails
+  );
   const { id } = params;
   const [navbar, setNavbar] = useState(true);
   const [toggle, setToggle] = useState(true);
-  const [loading, setLoading] = useState(false);
 
   const toggelSideBar = () => {
     setToggle((prev) => !prev);
@@ -78,6 +84,11 @@ function BrandDetail() {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
+
+  useEffect(() => {
+    dispatch(getBrandDetail(id));
+  }, [dispatch, id]);
+  brandDetail ? console.log(brandDetail) : console.log("waiting");
 
   return (
     <>
@@ -97,17 +108,28 @@ function BrandDetail() {
             position: "relative",
           }}
         >
-          {loading ? (
+          {loading && (
             <Skeleton
               variant="rectanguler"
               sx={{ width: "100%", height: "inherit" }}
             />
-          ) : (
+          )}
+          {brandDetail?.backgroundImage && !loading ? (
             <img
               style={{ width: "100%", height: "inherit" }}
-              src={water}
-              alt="The Brand"
+              src={brandDetail?.backgroundImage}
+              alt={brandDetail?.brandName}
             />
+          ) : (
+            <>
+              {!loading && (
+                <Avatar
+                  sx={{ width: "100%", height: "inherit", borderRadius: "0px" }}
+                >
+                  {brandDetail?.brandName}
+                </Avatar>
+              )}
+            </>
           )}
 
           <Box
@@ -129,7 +151,7 @@ function BrandDetail() {
               />
             ) : (
               <Avatar
-                src={pepsi}
+                src={brandDetail?.brandLogo.url}
                 alt="image"
                 sx={{
                   border: "5px solid white",
@@ -176,12 +198,14 @@ function BrandDetail() {
                   alignItems: "center",
                 }}
               >
-                Pepsi drink official{" "}
-                <span style={{ color: "blue" }}>
-                  <IconButton sx={{ color: "blue" }}>
-                    <VerifiedIcon sx={{ fontSize: "15px" }} />
-                  </IconButton>
-                </span>
+                {brandDetail?.brandName}
+                {brandDetail?.verified && (
+                  <span style={{ color: "blue" }}>
+                    <IconButton sx={{ color: "blue" }}>
+                      <VerifiedIcon sx={{ fontSize: "15px" }} />
+                    </IconButton>
+                  </span>
+                )}
               </Typography>
             )}
             {loading ? (
@@ -265,22 +289,12 @@ function BrandDetail() {
                   width: { md: "70%", xs: "100%" },
                 }}
               >
-                <ReadMore>
-                  GeeksforGeeks: A Computer Science portal for geeks. It
-                  contains well written, well thought and well explained
-                  computer science, programming articles and quizzes. It
-                  provides a variety of services for you to learn, so thrive and
-                  also have fun! Free Tutorials, Millions of Articles, Live,
-                  Online and Classroom Courses ,Frequent Coding Competitions,
-                  Webinars by Industry Experts, Internship opportunities, and
-                  Job Opportunities. Knowledge is power! minted on the Ethereum
-                  blockchain. 9,999 unique NFTs based on the WarpSound virtual
-                  artists Nayomi, Gnar Heart + DJ Dragoon, with art by
-                  Emmy-winning illustrator Andy Poon, the embedded 1/1 original
-                  music composed entirely by AI using the visual traits of the
-                  PFP 🤯WVRPS are the opening note of WarpSound’s larger
-                  ractive, social music experience, helping ignite the future of
-                </ReadMore>
+                {/* {brandDetail?.brandDetail.split().length > 50 ? (
+                  brandDetail?.brandDetail
+                ) : (
+                  <ReadMore>{brandDetail?.brandDetail}</ReadMore>
+                )} */}
+                {brandDetail?.brandDetail}
               </Typography>
             </Box>
           </div>
@@ -347,6 +361,7 @@ function BrandDetail() {
                     <List component="nav" aria-label="secondary mailbox folder">
                       {categories.map((category) => (
                         <ListItemButton
+                          key={1}
                           selected={selectedIndex === 2}
                           onClick={(event) => handleListItemClick(event, 2)}
                         >
