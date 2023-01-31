@@ -134,17 +134,19 @@ const getBrand = catchAsyncErrors(async (req, res, next) => {
 });
 
 const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
-  //get the brand id from the req.params object
   const { id } = req.params;
-  //find the users object id from the brand returned
-  const brand = await brandModel.findById(id);
-  if (!brand) {
-    return next(new ErrorHandler("no rand found", 404));
+
+  const brand = await brandModel.findById(id).populate("user");
+  if (!brand || brand.status !== "approved") {
+    return next(new ErrorHandler("No Book Found", 404));
   }
-  const brandOwnerId = brand.user;
-  const brandOwner = await Product.findById({ user: brandOwnerId });
-  console.log(brandOwner);
-  //find all product with theat users id
+  const user = brand.user;
+  const brandProducts = await Product.find(user);
+  res.status(200).json({
+    success: true,
+    brand,
+    brandProducts,
+  });
 });
 
 //ADMIN ROUTES

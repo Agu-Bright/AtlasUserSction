@@ -15,5 +15,5 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 router.post("/user/createBrand", authMiddleware, userCreateBrand);
 router.get("/newBrands", getNewBrands);
 router.get("/brandDetails/:id", getBrand);
-router.get("/brandProduct", getBrandProducts);
+router.get("/brandProduct/:id", getBrandProducts);
 module.exports = router;
