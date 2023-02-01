@@ -1,7 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { brandReducer, brandDetailReducer } from "./reducers/brandReducer";
+import {
+  brandReducer,
+  brandDetailReducer,
+  brandProductReducer,
+} from "./reducers/brandReducer";
 import { trendingProductReducer } from "./reducers/productReducer";
 import {
   userReducer,
@@ -28,6 +32,7 @@ const reducer = combineReducers({
   //Brand reduser section
   newBrands: brandReducer,
   brandDetails: brandDetailReducer,
+  brandProducts: brandProductReducer,
   //product reducer section
   trendingProducts: trendingProductReducer,
 });

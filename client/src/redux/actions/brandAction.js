@@ -6,6 +6,9 @@ import {
   GET_BRAND_DETAIL_REQUEST,
   GET_BRAND_DETAIL_SUCCESS,
   GET_BRAND_DETAIL_FAIL,
+  GET_BRAND_PRODUCTS_REQUEST,
+  GET_BRAND_PRODUCTS_SUCCESS,
+  GET_BRAND_PRODUCTS_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -30,6 +33,18 @@ export const getBrandDetail = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_BRAND_DETAIL_FAIL,
+      payload: error.response.data.Message,
+    });
+  }
+};
+export const getBrandProducts = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_BRAND_PRODUCTS_REQUEST });
+    const { data } = await axios.get(`/api/v1/brand/brandProduct/${id}`);
+    dispatch({ type: GET_BRAND_PRODUCTS_SUCCESS, payload: { ...data } });
+  } catch (error) {
+    dispatch({
+      type: GET_BRAND_PRODUCTS_FAIL,
       payload: error.response.data.Message,
     });
   }

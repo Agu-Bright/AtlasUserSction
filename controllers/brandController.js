@@ -134,18 +134,32 @@ const getBrand = catchAsyncErrors(async (req, res, next) => {
 });
 
 const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
+  const resperpage = 10;
   const { id } = req.params;
 
   const brand = await brandModel.findById(id).populate("user");
   if (!brand || brand.status !== "approved") {
     return next(new ErrorHandler("No Book Found", 404));
   }
-  const user = brand.user;
-  const brandProducts = await Product.find(user);
+
+  const user = brand.user._id;
+  // const brandProducts = await Product.find({ user: user });
+  const productsCount = await Product.countDocuments({ user: user });
+  const apiFeatures = new ApiFeatures(Product.find({ user: user }), req.query)
+    .search()
+    .filter();
+  apiFeatures.paginate(resperpage);
+  let brandProducts = await apiFeatures.query;
+  let filteredProductCount = brandProducts.length;
+  const numberOfPages = Math.ceil(productsCount / resperpage);
+  const searchNumberOfPages = Math.ceil(filteredProductCount / resperpage);
   res.status(200).json({
     success: true,
-    brand,
+    productsCount,
     brandProducts,
+    filteredProductCount,
+    numberOfPages,
+    searchNumberOfPages,
   });
 });
 
