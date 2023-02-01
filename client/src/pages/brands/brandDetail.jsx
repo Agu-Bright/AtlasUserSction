@@ -305,6 +305,7 @@ function BrandDetail() {
             toggelSideBar={toggelSideBar}
             selectedIndex={selectedIndex}
             handleListItemClick={handleListItemClick}
+            id={id}
           />
         </Box>
       </Box>

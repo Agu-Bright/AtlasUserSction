@@ -14,12 +14,30 @@ import { categories } from "../../../utils/stateData";
 import AppsIcon from "@mui/icons-material/Apps";
 import PrimarySearchAppBar from "../../../components/search";
 import ProductCard from "../../../components/cardComponent/productCard";
+import { getBrandProducts } from "../../../redux/actions/brandAction";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ProductCardLoader from "../../../components/cardComponent/productCardSkeleton";
+
 function BrandProoducts({
   toggle,
   toggelSideBar,
   selectedIndex,
   handleListItemClick,
+  id,
 }) {
+  const dispatch = useDispatch();
+  const {
+    loading,
+    BrandProoducts,
+    productCount,
+    filteredProductCount,
+    numberOfPages,
+    searchNumberOfPages,
+  } = useSelector((state) => state.brandProductReducer);
+  useEffect(() => {
+    dispatch(getBrandProducts(id));
+  }, [dispatch, id]);
   return (
     <Box sx={{ marginTop: "20px" }}>
       <Box
@@ -113,17 +131,7 @@ function BrandProoducts({
             columnSpacing={4}
             sx={{ padding: "15px" }}
           >
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            <ProductCardLoader />
             <ProductCard />
           </Grid>
         </Paper>

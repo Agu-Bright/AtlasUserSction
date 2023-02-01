@@ -32,7 +32,7 @@ const reducer = combineReducers({
   //Brand reduser section
   newBrands: brandReducer,
   brandDetails: brandDetailReducer,
-  brandProducts: brandProductReducer,
+  brandProductReducer: brandProductReducer,
   //product reducer section
   trendingProducts: trendingProductReducer,
 });
