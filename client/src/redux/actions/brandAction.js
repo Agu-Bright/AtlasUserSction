@@ -37,10 +37,14 @@ export const getBrandDetail = (id) => async (dispatch) => {
     });
   }
 };
-export const getBrandProducts = (id) => async (dispatch) => {
+export const getBrandProducts = (id, searchQuery, page) => async (dispatch) => {
   try {
     dispatch({ type: GET_BRAND_PRODUCTS_REQUEST });
-    const { data } = await axios.get(`/api/v1/brand/brandProduct/${id}`);
+    let link = `/api/v1/brand/brandProduct/${id}?page=${page}`;
+    if (searchQuery) {
+      link = `/api/v1/brand/brandProduct?search=${searchQuery}`;
+    }
+    const { data } = await axios.get(link);
     dispatch({ type: GET_BRAND_PRODUCTS_SUCCESS, payload: { ...data } });
   } catch (error) {
     dispatch({

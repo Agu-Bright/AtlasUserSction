@@ -71,7 +71,7 @@ body {
   .active {
     background-color: white;
     box-shadow: 0.5px 0.5px 5px;
-    opacity: 0.9;
+
     .searchBox {
       .search {
         transition: 0.5s;
@@ -82,7 +82,6 @@ body {
   .active2 {
     background-color: white !important;
     box-shadow: 0.5px 0.5px 5px !important;
-    opacity: 0.9;
     .searchBox {
       .search {
         transition: 0.5s;

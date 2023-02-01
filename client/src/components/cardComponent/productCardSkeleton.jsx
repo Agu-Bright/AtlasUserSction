@@ -7,20 +7,162 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
-          border: "1px solid black",
           display: "flex",
-          alignItems: "center",
+          alignItems: "start",
         }}
       >
         <Skeleton
+          variant="rectangle"
           sx={{
-            width: { md: 250, sm: 200, xs: 250 },
-            minHeight: "500px",
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
             margin: "0px !important",
             padding: "0px !important",
-            border: "1px solid black",
           }}
-          component="div"
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
+        ></Skeleton>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          margin: "0px !important",
+          display: "flex",
+          alignItems: "start",
+        }}
+      >
+        <Skeleton
+          variant="rectangle"
+          sx={{
+            width: { md: 300, sm: 200, xs: 250 },
+            minHeight: "300px",
+            margin: "0px !important",
+            padding: "0px !important",
+          }}
         ></Skeleton>
       </Grid>
     </>

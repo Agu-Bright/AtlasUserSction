@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
 import {
   Box,
   Typography,
@@ -8,6 +10,7 @@ import {
   List,
   Paper,
   ListItemButton,
+  Pagination,
   ListItemText,
 } from "@mui/material";
 import { categories } from "../../../utils/stateData";
@@ -18,7 +21,9 @@ import { getBrandProducts } from "../../../redux/actions/brandAction";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCardLoader from "../../../components/cardComponent/productCardSkeleton";
-
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 function BrandProoducts({
   toggle,
   toggelSideBar,
@@ -26,18 +31,29 @@ function BrandProoducts({
   handleListItemClick,
   id,
 }) {
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const query = useQuery();
+  const searchQuery = query.get("search");
   const {
     loading,
-    BrandProoducts,
+    brandProducts,
     productCount,
     filteredProductCount,
     numberOfPages,
     searchNumberOfPages,
+    error,
   } = useSelector((state) => state.brandProductReducer);
+
   useEffect(() => {
-    dispatch(getBrandProducts(id));
-  }, [dispatch, id]);
+    dispatch(getBrandProducts(id, searchQuery, page));
+  }, [dispatch, id, searchQuery, page]);
+
+  const handleChange = (e, value) => {
+    setPage(value);
+  };
+
   return (
     <Box sx={{ marginTop: "20px" }}>
       <Box
@@ -131,9 +147,33 @@ function BrandProoducts({
             columnSpacing={4}
             sx={{ padding: "15px" }}
           >
-            <ProductCardLoader />
-            <ProductCard />
+            {loading && <ProductCardLoader />}
+            {brandProducts &&
+              brandProducts.map((product) => (
+                <ProductCard key={product._id} data={product} />
+              ))}
           </Grid>
+          <Stack
+            spacing={2}
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Pagination
+              count={searchQuery ? searchNumberOfPages : numberOfPages}
+              page={Number(page)}
+              onChange={handleChange}
+              sx={{
+                "&:focus": {
+                  outline: "none",
+                },
+                color: "blue",
+              }}
+            />
+          </Stack>
         </Paper>
       </Stack>
     </Box>

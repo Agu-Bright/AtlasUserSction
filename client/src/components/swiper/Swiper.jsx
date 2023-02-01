@@ -4,6 +4,7 @@ import { Navigation, A11y, Autoplay } from "swiper";
 import { Swiper as Slider, SwiperSlide } from "swiper/react";
 import { getNewBrands } from "../../redux/actions/brandAction";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "swiper/css";
 // Import Swiper styles
 import "swiper/css/navigation";
@@ -13,6 +14,7 @@ import "swiper/css/autoplay";
 
 function Swiper() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { brands, loading, error } = useSelector((state) => state.newBrands);
   useEffect(() => {
     if (error) {
@@ -21,6 +23,9 @@ function Swiper() {
     dispatch(getNewBrands());
   }, [dispatch, error]);
 
+  const navigateToBrand = (id) => {
+    navigate(`/brand/${id}`);
+  };
   return (
     <Box className="slider-container">
       <Slider
@@ -116,7 +121,13 @@ function Swiper() {
         )}
         {brands &&
           brands.map((brand) => (
-            <SwiperSlide className="slide" key={brand._id}>
+            <SwiperSlide
+              className="slide"
+              key={brand._id}
+              onClick={() => {
+                navigateToBrand(brand._id);
+              }}
+            >
               <>
                 <img
                   className="slide-image"

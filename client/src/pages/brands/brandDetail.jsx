@@ -37,6 +37,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearErrors } from "../../redux/actions/brandAction";
 import { getBrandDetail } from "../../redux/actions/brandAction";
 import BrandProoducts from "./brandComponent/BrandProoducts";
+import { useNavigate, useLocation } from "react-router-dom";
+
 const ReadMore = ({ children }) => {
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
@@ -65,22 +67,29 @@ const ReadMore = ({ children }) => {
   );
 };
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 function BrandDetail() {
   const params = useParams();
+  const query = useQuery();
+  const searchQuery = query.get("search");
   const dispatch = useDispatch();
-  const { brandDetail, loading, error } = useSelector(
-    (state) => state.brandDetails
-  );
   const { id } = params;
   const [navbar, setNavbar] = useState(true);
   const [toggle, setToggle] = useState(true);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [page, setPage] = useState(1);
+
+  const { brandDetail, loading, error } = useSelector(
+    (state) => state.brandDetails
+  );
 
   const toggelSideBar = () => {
     setToggle((prev) => !prev);
   };
 
   //category section
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -118,7 +127,7 @@ function BrandDetail() {
           {brandDetail?.backgroundImage && !loading ? (
             <img
               style={{ width: "100%", height: "inherit" }}
-              src={brandDetail?.backgroundImage}
+              src={brandDetail?.backgroundImage.url}
               alt={brandDetail?.brandName}
             />
           ) : (
