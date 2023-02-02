@@ -7,6 +7,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -17,6 +18,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -25,6 +27,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -35,6 +38,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -43,6 +47,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -53,6 +58,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -61,6 +67,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -71,6 +78,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -79,6 +87,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -89,6 +98,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -97,6 +107,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -107,6 +118,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -115,6 +127,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -125,6 +138,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -133,6 +147,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -143,6 +158,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>
@@ -151,6 +167,7 @@ export default function ProductCardLoader() {
         item
         sx={{
           margin: "0px !important",
+          borderRadius: "15px",
           display: "flex",
           alignItems: "start",
         }}
@@ -161,6 +178,7 @@ export default function ProductCardLoader() {
             width: { md: 300, sm: 200, xs: 250 },
             minHeight: "300px",
             margin: "0px !important",
+            borderRadius: "15px",
             padding: "0px !important",
           }}
         ></Skeleton>

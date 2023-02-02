@@ -65,7 +65,7 @@ const productSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
-  productCategory: {
+  category: {
     type: String,
     enum: {
       values: [
@@ -83,6 +83,7 @@ const productSchema = mongoose.Schema({
       ],
       message: "Please select the correct category for this",
     },
+    required: [true, "select a product category"],
   },
   numberOfReviews: {
     type: Number,

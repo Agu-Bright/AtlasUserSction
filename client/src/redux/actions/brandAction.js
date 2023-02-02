@@ -37,22 +37,26 @@ export const getBrandDetail = (id) => async (dispatch) => {
     });
   }
 };
-export const getBrandProducts = (id, searchQuery, page) => async (dispatch) => {
-  try {
-    dispatch({ type: GET_BRAND_PRODUCTS_REQUEST });
-    let link = `/api/v1/brand/brandProduct/${id}?page=${page}`;
-    if (searchQuery) {
-      link = `/api/v1/brand/brandProduct?search=${searchQuery}`;
+export const getBrandProducts =
+  (id, searchQuery, page, category) => async (dispatch) => {
+    try {
+      dispatch({ type: GET_BRAND_PRODUCTS_REQUEST });
+      let link = `/api/v1/brand/brandProduct/${id}?page=${page}`;
+      if (searchQuery) {
+        link = `/api/v1/brand/brandProduct/${id}?search=${searchQuery}`;
+      }
+      if (category) {
+        link = `/api/v1/brand/brandProduct/${id}?category=${category}`;
+      }
+      const { data } = await axios.get(link);
+      dispatch({ type: GET_BRAND_PRODUCTS_SUCCESS, payload: { ...data } });
+    } catch (error) {
+      dispatch({
+        type: GET_BRAND_PRODUCTS_FAIL,
+        payload: error.response.data.Message,
+      });
     }
-    const { data } = await axios.get(link);
-    dispatch({ type: GET_BRAND_PRODUCTS_SUCCESS, payload: { ...data } });
-  } catch (error) {
-    dispatch({
-      type: GET_BRAND_PRODUCTS_FAIL,
-      payload: error.response.data.Message,
-    });
-  }
-};
+  };
 
 //clear Errors
 export const clearErrors = () => async (dispatch) => {

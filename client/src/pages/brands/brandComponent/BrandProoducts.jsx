@@ -32,6 +32,7 @@ function BrandProoducts({
   id,
 }) {
   const [page, setPage] = useState(1);
+  const [category, setCategory] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const query = useQuery();
@@ -47,11 +48,14 @@ function BrandProoducts({
   } = useSelector((state) => state.brandProductReducer);
 
   useEffect(() => {
-    dispatch(getBrandProducts(id, searchQuery, page));
-  }, [dispatch, id, searchQuery, page]);
+    dispatch(getBrandProducts(id, searchQuery, page, category));
+  }, [dispatch, id, searchQuery, page, category]);
 
   const handleChange = (e, value) => {
     setPage(value);
+  };
+  const handleCategorySelect = (category) => {
+    setCategory(category);
   };
 
   return (
@@ -115,14 +119,14 @@ function BrandProoducts({
               <List component="nav" aria-label="secondary mailbox folder">
                 {categories.map((category) => (
                   <ListItemButton
-                    key={1}
-                    selected={selectedIndex === 2}
-                    onClick={(event) => handleListItemClick(event, 2)}
+                    key={category.key}
+                    selected={selectedIndex === category.key}
+                    onClick={() => handleCategorySelect(category.cat)}
                   >
                     {" "}
                     <ListItemText
                       sx={{ fontWeight: "700" }}
-                      primary={category}
+                      primary={category.cat}
                     />
                   </ListItemButton>
                 ))}
@@ -163,7 +167,9 @@ function BrandProoducts({
             }}
           >
             <Pagination
-              count={searchQuery ? searchNumberOfPages : numberOfPages}
+              count={
+                searchQuery || category ? searchNumberOfPages : numberOfPages
+              }
               page={Number(page)}
               onChange={handleChange}
               sx={{
