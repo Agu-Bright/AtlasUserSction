@@ -156,6 +156,24 @@ function BrandProoducts({
               brandProducts.map((product) => (
                 <ProductCard key={product._id} data={product} />
               ))}
+            {brandProducts && brandProducts.length === 0 && (
+              <Box
+                sx={{
+                  padding: "inherit",
+                  margin: "inhert",
+                  width: "inherit",
+                  height: "50vh",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginLeft: "20px",
+                }}
+              >
+                <Typography sx={{ fontWeight: "800", fontSize: "2em" }}>
+                  No Product found
+                </Typography>
+              </Box>
+            )}
           </Grid>
           <Stack
             spacing={2}
