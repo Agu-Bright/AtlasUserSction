@@ -6,7 +6,11 @@ import {
   brandDetailReducer,
   brandProductReducer,
 } from "./reducers/brandReducer";
-import { trendingProductReducer } from "./reducers/productReducer";
+import {
+  trendingProductReducer,
+  allProductsReducer,
+  productDetailReducer,
+} from "./reducers/productReducer";
 import {
   userReducer,
   usersReducer,
@@ -17,6 +21,7 @@ import {
   updateUserReducer,
   allSellersReducer,
 } from "./reducers/userReducer";
+import { cartReducer } from "./reducers/cartReducer";
 
 const reducer = combineReducers({
   //user reducer section
@@ -33,15 +38,29 @@ const reducer = combineReducers({
   newBrands: brandReducer,
   brandDetails: brandDetailReducer,
   brandProductReducer: brandProductReducer,
+
   //product reducer section
   trendingProducts: trendingProductReducer,
+  allProducts: allProductsReducer,
+  productDetail: productDetailReducer,
+  //cart reducer
+  cart: cartReducer,
 });
-let initilaState;
+let initialState = {
+  cart: {
+    cartItems: localStorage.getItem("cartItems")
+      ? [...JSON.parse(localStorage.getItem("cartItems"))]
+      : [],
+    shippingInfo: localStorage.getItem("shippingInfo")
+      ? JSON.parse(localStorage.getItem("shippingInfo"))
+      : {},
+  },
+};
 const middleware = [thunk];
 
 const store = createStore(
   reducer,
-  initilaState,
+  initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
 

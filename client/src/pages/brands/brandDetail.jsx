@@ -67,19 +67,13 @@ const ReadMore = ({ children }) => {
   );
 };
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 function BrandDetail() {
   const params = useParams();
-  const query = useQuery();
-  const searchQuery = query.get("search");
   const dispatch = useDispatch();
   const { id } = params;
   const [navbar, setNavbar] = useState(true);
   const [toggle, setToggle] = useState(true);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  const [page, setPage] = useState(1);
 
   const { brandDetail, loading, error } = useSelector(
     (state) => state.brandDetails

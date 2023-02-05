@@ -37,7 +37,7 @@ const createProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-//get All products =>  /api/v1/product?search=Phsycology&price[gte]=2000&page=1
+//get All products =>  /api/v1/products?search=Phsycology&price[gte]=2000&page=1
 const getAllProducts = catchAsyncErrors(async (req, res, next) => {
   const resperpage = 8;
   const productsCount = await Product.countDocuments({ status: "approved" });

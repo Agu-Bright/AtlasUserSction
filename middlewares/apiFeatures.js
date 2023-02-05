@@ -19,7 +19,7 @@ class ApiFeatures {
     return this;
   };
 
-  //filter by price ==> /api/v1/books?search=Phsycology&price[gte]=2000
+  //filter by price ==> /api/v1/books?search=Phsycology&price[gte]=2000&category=laptops
   filter = () => {
     //queryStr = {search:"Phsycology", limit: 4, page: 1, category: "Engineering", price: [gte: 1], price:[lte: 1000], rating: [get: 3] }
     const queryCopy = { ...this.queryStr };

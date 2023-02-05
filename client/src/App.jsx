@@ -12,15 +12,21 @@ import Signin from "./pages/user/SignIn";
 import UpdatePassword from "./pages/user/updatePassword";
 import ForgotPassword from "./pages/user/forgotPassword";
 import NewPassword from "./pages/user/newPassword";
-
+import Cart from "./pages/cart/cart";
+import ProductDetail from "./pages/product/ProductDetail";
+import "./style.css";
+import "./App.css";
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/brand/:id" element={<BrandDetail />} />
         <Route path="/brands" element={<Brands />} />
+        <Route path="/brand/:id" element={<BrandDetail />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<Signin />} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -6,8 +6,18 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid, Stack, Rating, Box } from "@mui/material";
-
+import { LoadingButton } from "@mui/lab";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart } from "../../redux/actions/cartAction";
 export default function ProductCard({ key, data }) {
+  const dispatch = useDispatch();
+  const [cart, setCart] = useState(false);
+  const { adding } = useSelector((state) => state.cart);
+
+  // const addToCart = () => {
+  //   dispatch(addItemToCart(id, count));
+  //   setCart(true);
+  // };
   return (
     <Grid item sx={{ margin: "0px !important" }} key={key}>
       <Card sx={{ width: { md: 300, sm: 200, xs: 250 } }} component="div">
@@ -54,6 +64,15 @@ export default function ProductCard({ key, data }) {
           <Button size="small" sx={{ color: "white" }}>
             View details
           </Button>
+          {/* <LoadingButton
+                        loading={adding ? true : false}
+                        variant="outlined"
+                        sx={{ "&:focus": { outline: "none" },color: "white"  }}
+                        onClick={addToCart}
+                        disabled={book?.book?.stock === 0}
+                      >
+                        <Typography variant="h5">Add to cart</Typography>
+                      </LoadingButton> */}
           <Button size="small" sx={{ color: "white" }}>
             Add to Cart
           </Button>

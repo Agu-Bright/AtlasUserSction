@@ -1,183 +1,214 @@
-import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const drawerWidth = 240;
+import {
+  Box,
+  Typography,
+  Stack,
+  IconButton,
+  Grid,
+  List,
+  Paper,
+  ListItemButton,
+  Pagination,
+  ListItemText,
+} from "@mui/material";
+import { categories } from "../../utils/stateData";
+import Navbar from "../../components/navbar/Navbar";
+import AppsIcon from "@mui/icons-material/Apps";
+import PrimarySearchAppBar from "../../components/search";
+import ProductCard from "../../components/cardComponent/productCard";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ProductCardLoader from "../../components/cardComponent/productCardSkeleton";
+import { getAllProducts } from "../../redux/actions/productAction";
+import Footer from "../../components/footer/Footer";
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+function BrandProoducts({ id }) {
+  const [toggle, setToggle] = useState(true);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [navbar, setNavbar] = useState(true);
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  })
-);
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const query = useQuery();
+  const searchQuery = query.get("search");
+  const {
+    loading,
+    products,
+    productCount,
+    filteredProductCount,
+    numberOfPages,
+    searchNumberOfPages,
+    error,
+  } = useSelector((state) => state.allProducts);
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
+  useEffect(() => {
+    dispatch(getAllProducts(searchQuery, page, category));
+  }, [dispatch, searchQuery, page, category]);
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
-
-export default function Products() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleChange = (e, value) => {
+    setPage(value);
   };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleCategorySelect = (category) => {
+    setCategory(category);
+  };
+  const toggelSideBar = () => {
+    setToggle((prev) => !prev);
+  };
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
+    <>
+      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+      <Box
         sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
+          height: "auto",
+          paddingTop: { md: "100px", xs: "50px" },
+          paddingBottom: "20px",
         }}
-        variant="persistent"
-        anchor="left"
-        open={open}
       >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
+        <Stack
+          direction="row"
+          sx={{ width: "100%" }}
+          justifyContent="space-evenly"
+        >
+          <Paper
+            elevation={24}
+            sx={{
+              transition: "0.5s",
+              width: `${toggle ? "23%" : "0%"}`,
+              minHeight: "100vh",
+              display: { md: "flex", sm: "flex", xs: "none" },
+              justifyContent: "start",
+            }}
+          >
+            {toggle && (
+              <Box
+                sx={{
+                  transition: "0.5s",
+                  overflow: "hidden",
+                  width: "100%",
+                  margin: "10px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "700",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  Filter By Category
+                </Typography>
+
+                <List component="nav" aria-label="secondary mailbox folder">
+                  {categories.map((category) => (
+                    <ListItemButton
+                      key={category.key}
+                      selected={selectedIndex === category.key}
+                      onClick={() => handleCategorySelect(category.cat)}
+                    >
+                      {" "}
+                      <ListItemText
+                        sx={{ fontWeight: "700" }}
+                        primary={category.cat}
+                      />
+                    </ListItemButton>
+                  ))}
+                </List>
+              </Box>
             )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </Main>
-    </Box>
+          </Paper>
+          <Paper
+            elevation={24}
+            sx={{
+              margin: "0px !important",
+              paddingBottom: "20px",
+              width: {
+                md: `${toggle ? "75%" : "100%"}`,
+                xs: `${"100%"}`,
+              },
+            }}
+          >
+            <Box>
+              <IconButton
+                onClick={() => toggelSideBar()}
+                sx={{
+                  background: "rgb(32, 129, 226)",
+                  margin: "5px",
+                }}
+              >
+                <AppsIcon sx={{ color: "black" }} />
+              </IconButton>
+            </Box>
+            <Grid
+              container
+              rowSpacing={2}
+              columnSpacing={4}
+              sx={{ padding: "15px" }}
+            >
+              {loading && <ProductCardLoader />}
+              {products &&
+                products.map((product) => (
+                  <ProductCard key={product._id} data={product} />
+                ))}
+              {products && products.length === 0 && (
+                <Box
+                  sx={{
+                    padding: "inherit",
+                    margin: "inhert",
+                    width: "inherit",
+                    height: "50vh",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginLeft: "20px",
+                  }}
+                >
+                  <Typography sx={{ fontWeight: "800", fontSize: "2em" }}>
+                    No Product found
+                  </Typography>
+                </Box>
+              )}
+            </Grid>
+            <Stack
+              spacing={2}
+              sx={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Pagination
+                count={
+                  searchQuery || category ? searchNumberOfPages : numberOfPages
+                }
+                page={Number(page)}
+                onChange={handleChange}
+                sx={{
+                  "&:focus": {
+                    outline: "none",
+                  },
+                  color: "blue",
+                }}
+              />
+            </Stack>
+          </Paper>
+        </Stack>
+      </Box>
+      <div className="footer" style={{ oveflow: "hidden" }}>
+        <Footer />
+      </div>
+    </>
   );
 }
+
+export default BrandProoducts;

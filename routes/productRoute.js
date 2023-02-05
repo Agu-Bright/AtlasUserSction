@@ -48,9 +48,9 @@ router.get(
   AdminGetAllProducts
 );
 
-router.get("/books", getAllProducts);
-router.get("/newBooks", getNewProducts);
-router.get("/book/:id", getProduct);
+router.get("/products", getAllProducts);
+router.get("/newProducts", getNewProducts);
+router.get("/product/:id", getProduct);
 
 router.put("/review", authMiddleware, createUpdateProductReview);
 router.get("/reviews", getProductReviews);
