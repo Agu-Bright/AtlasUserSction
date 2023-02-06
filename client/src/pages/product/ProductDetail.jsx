@@ -19,6 +19,14 @@ import { useParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { LoadingButton } from "@mui/lab";
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
+import { Navigation, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import RecommendedProducts from "./RecommendedProducts";
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="warning" elevation={6} ref={ref} {...props} />;
 });
@@ -31,6 +39,7 @@ function ProductDetail() {
   const [state, setState] = useState(true);
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState(false);
+  const [navbar, setNavbar] = useState(true);
 
   const { id } = params;
   const { loading, product, error } = useSelector(
@@ -55,182 +64,97 @@ function ProductDetail() {
     setCart(false);
   };
   return (
-    <div className="container-fluid pb-5">
-      {loading ? (
-        <Container
-          fixed
-          sx={{
-            height: "70vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress />
-        </Container>
-      ) : (
-        <Box sx={{ marginTop: "15vh" }}>
-          {product && (
-            <>
-              <div className="row px-xl-5" style={{ marginTop: "10px" }}>
-                <div className="col-lg-5 mb-30">
-                  <div
-                    id="product-carousel"
-                    className="carousel slide"
-                    data-ride="carousel"
-                  >
-                    <div className="carousel-inner bg-light">
-                      {product?.product?.images.map((item) => (
-                        <div key={item.url} className="carousel-item active">
-                          <img
-                            className="w-100 h-100"
-                            src={item.url}
-                            alt="book detail"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <a
-                      className="carousel-control-prev"
-                      href="#product-carousel"
-                      data-slide="prev"
-                    >
-                      <i className="fa fa-2x fa-angle-left text-dark"></i>
-                    </a>
-                    <a
-                      className="carousel-control-next"
-                      href="#product-carousel"
-                      data-slide="next"
-                    >
-                      <i className="fa fa-2x fa-angle-right text-dark"></i>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="col-lg-7 h-auto mb-30">
-                  <div className="h-100 bg-light p-30">
-                    <h3>{product?.product?.name}</h3>
-                    <Typography>
-                      <strong>Author:</strong> {product?.product?.author}
-                    </Typography>
-                    <Typography>
-                      <strong>Number Of Pages:</strong>{" "}
-                      {product?.product?.pageCount} pages
-                    </Typography>
-                    <Typography>
-                      <strong>Stock:</strong> {product?.product?.stock}
-                    </Typography>
-                    <div className="d-flex mb-3">
-                      <div className="text-primary mr-2">
-                        <Rating
-                          defaultValue={Number(product?.product?.rating)}
-                          precision={0.5}
-                          size="medium"
-                          readOnly
-                        />
-                      </div>
-                      <small className="pt-1">
-                        ({product?.product?.numberOfReviews} reviews)
-                      </small>
-                    </div>
-                    <h3 className="font-weight-semi-bold mb-4">
-                      <span style={{ color: "green" }}>&#8358;</span>
-                      {product?.product?.price}
-                    </h3>
-
-                    <Stack
-                      spacing={2}
-                      sx={{ flexDirection: { xs: "column", md: "row" } }}
-                    >
-                      <ButtonGroup
-                        variant="contained"
-                        orientation="horizontal"
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          boxShadow: 0,
+    <>
+      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+      <Box
+        sx={{
+          height: "auto",
+          paddingTop: { md: "72px", xs: "50px" },
+          backgroundColor: "white",
+          paddingBottom: "20px",
+        }}
+      >
+        {product && (
+          <>
+            <Stack
+              direction={{ md: "row", xs: "column" }}
+              sx={{
+                marginTop: "10px",
+                border: "2px solid blue",
+                width: "100%",
+                padding: "10px",
+              }}
+              justifyContent="space-around"
+            >
+              <Box
+                sx={{
+                  width: { md: "46%", xs: "95%" },
+                  height: "80vh",
+                  borderRadius: "5px",
+                  border: "1px solid",
+                }}
+              >
+                <Swiper
+                  style={{
+                    width: "100%",
+                    height: "inherit",
+                  }}
+                  slidesPerView={1}
+                  modules={[Navigation, A11y]}
+                  navigation
+                  onSwiper={(swiper) => console.log(swiper)}
+                  onSlideChange={() => console.log("slide change")}
+                >
+                  {product?.product?.images.map((item) => (
+                    <SwiperSlide key={item.url}>
+                      <img
+                        src={item.url}
+                        alt="productimage"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "5px",
                         }}
-                      >
-                        <IconButton
-                          color="primary"
-                          sx={{ "&:focus": { outline: "none" } }}
-                          // onClick={decreaseQty}
-                        >
-                          <RemoveIcon />
-                        </IconButton>
-                        <Typography
-                          variant="h4"
-                          sx={{
-                            textAlign: "center",
-                            verticalAlign: "center",
-                            padding: "4px",
-                            border: "0.1px solid gray",
-                          }}
-                        >
-                          {/* {count} */}
-                        </Typography>
-                        <IconButton
-                          color="warning"
-                          sx={{ "&:focus": { outline: "none" } }}
-                          // onClick={increaseQty}
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      </ButtonGroup>
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </Box>
 
-                      <LoadingButton
-                        // loading={adding ? true : false}
-                        variant="outlined"
-                        sx={{ "&:focus": { outline: "none" } }}
-                        // onClick={addToCart}
-                        disabled={product?.product?.stock === 0}
-                      >
-                        <Typography variant="h5">Add to cart</Typography>
-                      </LoadingButton>
-                    </Stack>
-                    <Box
-                      sx={{
-                        boxShadow: 2,
-                        marginTop: "10px",
-                        padding: "5px",
-                        borderRadius: "10px",
+              <Box
+                sx={{
+                  border: "5px solid green",
+                  width: "47%",
+                  maxHeigth: "20vh",
+                }}
+              ></Box>
+            </Stack>
+
+            <div className="row px-xl-5">
+              <div className="col">
+                <div className="bg-light p-30">
+                  <div className="nav nav-tabs mb-4">
+                    <Button
+                      variant={state ? "contained" : ""}
+                      onClick={() => {
+                        toggleView(true);
                       }}
+                      sx={{ "&:focus": { outline: "none" } }}
                     >
-                      <Typography variant="h4" color="primary">
-                        Description
-                      </Typography>
-                      <p className="mb-4">{product?.product?.description}</p>
-                    </Box>
+                      Reviews ({product?.product?.numberOfReviews})
+                    </Button>
+                    <Button
+                      sx={{ "&:focus": { outline: "none" } }}
+                      onClick={() => {
+                        toggleView(false);
+                      }}
+                      variant={!state ? "contained" : ""}
+                    >
+                      Description
+                    </Button>
                   </div>
-                </div>
-              </div>
 
-              <div className="row px-xl-5">
-                <div className="col">
-                  <div className="bg-light p-30">
-                    <div className="nav nav-tabs mb-4">
-                      <Button
-                        variant={state ? "contained" : ""}
-                        onClick={() => {
-                          toggleView(true);
-                        }}
-                        sx={{ "&:focus": { outline: "none" } }}
-                      >
-                        Reviews ({product?.product?.numberOfReviews})
-                      </Button>
-                      <Button
-                        sx={{ "&:focus": { outline: "none" } }}
-                        onClick={() => {
-                          toggleView(false);
-                        }}
-                        variant={!state ? "contained" : ""}
-                      >
-                        Description
-                      </Button>
-                    </div>
-
-                    {/* <div className="tab-content">
+                  {/* <div className="tab-content">
                       {state ? (
                         <Box>
                           <div className="row">
@@ -336,43 +260,46 @@ function ProductDetail() {
                         </Box>
                       )}
                     </div> */}
-                  </div>
                 </div>
-                <Snackbar
-                  open={open}
-                  autoHideDuration={10000}
-                  onClose={handleClose}
-                >
-                  <SnackbarAlert>
-                    <Typography>Out of stock</Typography>
-                  </SnackbarAlert>
-                </Snackbar>
-
-                <Snackbar
-                  open={cart}
-                  autoHideDuration={4000}
-                  onClose={handleClose2}
-                >
-                  <SnackbarAlert2>
-                    <Typography>Item Added to cart</Typography>
-                  </SnackbarAlert2>
-                </Snackbar>
-                <Snackbar
-                  // open={success}
-                  autoHideDuration={4000}
-                  onClose={handleClose2}
-                >
-                  <SnackbarAlert2>
-                    <Typography>Posted</Typography>
-                  </SnackbarAlert2>
-                </Snackbar>
               </div>
-            </>
-          )}
-          {error && <Typography> {error}</Typography>}
-        </Box>
-      )}
-    </div>
+              <Snackbar
+                open={open}
+                autoHideDuration={10000}
+                onClose={handleClose}
+              >
+                <SnackbarAlert>
+                  <Typography>Out of stock</Typography>
+                </SnackbarAlert>
+              </Snackbar>
+
+              <Snackbar
+                open={cart}
+                autoHideDuration={4000}
+                onClose={handleClose2}
+              >
+                <SnackbarAlert2>
+                  <Typography>Item Added to cart</Typography>
+                </SnackbarAlert2>
+              </Snackbar>
+              <Snackbar
+                // open={success}
+                autoHideDuration={4000}
+                onClose={handleClose2}
+              >
+                <SnackbarAlert2>
+                  <Typography>Posted</Typography>
+                </SnackbarAlert2>
+              </Snackbar>
+            </div>
+          </>
+        )}
+        {error && <Typography> {error}</Typography>}
+        <RecommendedProducts id={id} />
+      </Box>
+      <div className="footer" style={{ oveflow: "hidden" }}>
+        <Footer />
+      </div>
+    </>
   );
 }
 

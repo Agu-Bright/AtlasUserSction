@@ -50,7 +50,7 @@ function Trend({ data }) {
               }}
             >
               <Typography sx={{ fontWeight: "25px" }}>
-                {data.productCategory}
+                {data.category}
               </Typography>
             </Box>
           </Stack>

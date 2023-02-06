@@ -10,6 +10,7 @@ import {
   trendingProductReducer,
   allProductsReducer,
   productDetailReducer,
+  recommendedProductReducer,
 } from "./reducers/productReducer";
 import {
   userReducer,
@@ -43,6 +44,7 @@ const reducer = combineReducers({
   trendingProducts: trendingProductReducer,
   allProducts: allProductsReducer,
   productDetail: productDetailReducer,
+  recommendedProducts: recommendedProductReducer,
   //cart reducer
   cart: cartReducer,
 });

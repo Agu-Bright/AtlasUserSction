@@ -90,7 +90,7 @@ const getNewProducts = catchAsyncErrors(async (req, res, next) => {
 const getProduct = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).populate("user");
   // if (!book || book.status !== "approved") {
   //   return next(new ErrorHandler("No Book Found", 404));
   // }

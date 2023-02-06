@@ -16,6 +16,7 @@ import Cart from "./pages/cart/cart";
 import ProductDetail from "./pages/product/ProductDetail";
 import "./style.css";
 import "./App.css";
+
 const App = () => {
   return (
     <Router>

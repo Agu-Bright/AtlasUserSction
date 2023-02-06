@@ -8,6 +8,9 @@ import {
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_FAIL,
+  GET_RECOMMENDED_PRODUCTS_REQUEST,
+  GET_RECOMMENDED_PRODUCTS_SUCCESS,
+  GET_RECOMMENDED_PRODUCTS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -92,6 +95,38 @@ export const productDetailReducer = (state = { product: {} }, action) => {
         product: action.payload,
       };
     case GET_PRODUCT_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const recommendedProductReducer = (
+  state = { brandProducts: null },
+  action
+) => {
+  switch (action.type) {
+    case GET_RECOMMENDED_PRODUCTS_REQUEST:
+      return {
+        loading: true,
+        brandProducts: null,
+      };
+
+    case GET_RECOMMENDED_PRODUCTS_SUCCESS:
+      return {
+        loading: false,
+        products: action.payload.products,
+      };
+    case GET_RECOMMENDED_PRODUCTS_FAIL:
       return {
         loading: false,
         error: action.payload,

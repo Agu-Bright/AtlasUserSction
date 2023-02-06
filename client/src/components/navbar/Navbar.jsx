@@ -55,7 +55,7 @@ function Navbar({ navbar, setNavbar, active }) {
             <a href="/">Brand</a>
           </li>
           <li className="linkItem">
-            <a href="/">Products</a>
+            <a href="/products">Products</a>
           </li>
           <li className="linkItem">
             <a href="/">Orders</a>

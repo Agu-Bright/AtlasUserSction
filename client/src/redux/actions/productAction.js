@@ -9,6 +9,9 @@ import {
   GET_PRODUCT_REQUEST,
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_FAIL,
+  GET_RECOMMENDED_PRODUCTS_REQUEST,
+  GET_RECOMMENDED_PRODUCTS_SUCCESS,
+  GET_RECOMMENDED_PRODUCTS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -34,7 +37,7 @@ export const getAllProducts =
   (searchQuery, page, category) => async (dispatch) => {
     try {
       dispatch({ type: ALL_PRODUCT_REQUEST });
-      let link = `/api/v1/products`;
+      let link = `/api/v1/products?page=${page}`;
       if (searchQuery) {
         link = `/api/v1/products?search=${searchQuery}`;
       }
@@ -64,6 +67,21 @@ export const getProduct = (id) => async (dispatch) => {
     dispatch({
       type: GET_PRODUCT_FAIL,
       payload: error.message,
+    });
+  }
+};
+
+export const getRecommendedProduct = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_RECOMMENDED_PRODUCTS_REQUEST });
+    const { data } = await axios.get(
+      `/api/v1/brand/recommendedProducts?id=${id}`
+    );
+    dispatch({ type: GET_RECOMMENDED_PRODUCTS_SUCCESS, payload: { ...data } });
+  } catch (error) {
+    dispatch({
+      type: GET_RECOMMENDED_PRODUCTS_FAIL,
+      payload: error.response.data.Message,
     });
   }
 };

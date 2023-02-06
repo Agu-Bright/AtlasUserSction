@@ -163,6 +163,12 @@ const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+const getRecommendedBrands = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const products = await Product.find({ user: id });
+  res.status(200).json({ success: "true", products });
+});
+
 //ADMIN ROUTES
 
 module.exports = {
@@ -173,4 +179,5 @@ module.exports = {
   getNewBrands,
   getBrand,
   getBrandProducts,
+  getRecommendedBrands,
 };
