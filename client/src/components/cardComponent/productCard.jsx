@@ -5,11 +5,13 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 import { Grid, Stack, Rating, Box } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../../redux/actions/cartAction";
 export default function ProductCard({ key, data }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [cart, setCart] = useState(false);
   const { adding } = useSelector((state) => state.cart);
@@ -61,7 +63,11 @@ export default function ProductCard({ key, data }) {
           }}
           component="div"
         >
-          <Button size="small" sx={{ color: "white" }}>
+          <Button
+            size="small"
+            sx={{ color: "white" }}
+            onClick={() => navigate(`/product/${data._id}`)}
+          >
             View details
           </Button>
           {/* <LoadingButton

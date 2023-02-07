@@ -65,6 +65,11 @@ const productSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
+  brand: {
+    type: mongoose.Schema.ObjectId,
+    ref: "BrandModel",
+    required: true,
+  },
   category: {
     type: String,
     enum: {

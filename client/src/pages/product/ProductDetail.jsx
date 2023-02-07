@@ -26,7 +26,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import RecommendedProducts from "./RecommendedProducts";
+import RecommendedProducts from "./productComponents/RecommendedProducts";
+import ProductReview from "./productComponents/productReview";
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="warning" elevation={6} ref={ref} {...props} />;
 });
@@ -48,15 +49,18 @@ function ProductDetail() {
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
+
   const toggleView = (view) => {
     setState((prev) => (prev ? false : true));
   };
+
   const handleClose = (e, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
+
   const handleClose2 = (e, reason) => {
     if (reason === "clickaway") {
       return;
@@ -80,24 +84,24 @@ function ProductDetail() {
               direction={{ md: "row", xs: "column" }}
               sx={{
                 marginTop: "10px",
-                border: "2px solid blue",
-                width: "100%",
+                width: { md: "100%", xs: "auto" },
                 padding: "10px",
               }}
               justifyContent="space-around"
             >
               <Box
                 sx={{
-                  width: { md: "46%", xs: "95%" },
+                  width: { md: "46%", xs: "100%" },
                   height: "80vh",
-                  borderRadius: "5px",
-                  border: "1px solid",
+                  borderRadius: "10px",
                 }}
               >
                 <Swiper
                   style={{
                     width: "100%",
                     height: "inherit",
+                    border: "1px solid gray",
+                    borderRadius: "inherit",
                   }}
                   slidesPerView={1}
                   modules={[Navigation, A11y]}
@@ -123,178 +127,126 @@ function ProductDetail() {
 
               <Box
                 sx={{
-                  border: "5px solid green",
-                  width: "47%",
+                  width: { md: "47%", xs: "100%" },
                   maxHeigth: "20vh",
                 }}
-              ></Box>
-            </Stack>
-
-            <div className="row px-xl-5">
-              <div className="col">
-                <div className="bg-light p-30">
-                  <div className="nav nav-tabs mb-4">
-                    <Button
-                      variant={state ? "contained" : ""}
-                      onClick={() => {
-                        toggleView(true);
-                      }}
-                      sx={{ "&:focus": { outline: "none" } }}
-                    >
-                      Reviews ({product?.product?.numberOfReviews})
-                    </Button>
-                    <Button
-                      sx={{ "&:focus": { outline: "none" } }}
-                      onClick={() => {
-                        toggleView(false);
-                      }}
-                      variant={!state ? "contained" : ""}
-                    >
-                      Description
-                    </Button>
+              >
+                <Typography variant="h3">{product?.product?.name}</Typography>
+                <Typography>
+                  <strong>Stock:</strong> {product?.product?.stock}
+                </Typography>
+                <Box className="d-flex mb-3">
+                  <div className="text-primary mr-2">
+                    <Rating
+                      defaultValue={Number(product?.product?.rating)}
+                      precision={0.5}
+                      size="medium"
+                      readOnly
+                    />
                   </div>
+                  <small className="pt-1">
+                    ({product?.product?.numberOfReviews} reviews)
+                  </small>
+                </Box>
+                <h3 className="font-weight-semi-bold mb-4">
+                  <span style={{ color: "green" }}>&#8358;</span>
+                  {product?.product?.price}
+                </h3>
 
-                  {/* <div className="tab-content">
-                      {state ? (
-                        <Box>
-                          <div className="row">
-                            <div className="col-md-6">
-                              {reviews && (
-                                <h4 className="mb-4">
-                                  {`${reviews.length} review(s) for ${book?.book?.name}`}
-                                </h4>
-                              )}
-                              <Box
-                                sx={{
-                                  backgroundColor: "rgb(224, 250, 250)",
-                                  borderRadius: "10px",
-                                  padding: "5px",
-                                  maxHeight: "35vh",
-                                  overflowY: "scroll",
-                                }}
-                              >
-                                {reviews &&
-                                  reviews.map((rev) => (
-                                    <>
-                                      <div className="media mb-4">
-                                        <div className="media-body">
-                                          <h6>
-                                            {rev.name}
-                                            <small> </small>
-                                          </h6>
-                                          <Stack spacing={2}>
-                                            <Rating
-                                              value={rev.rating}
-                                              precision={0.5}
-                                              size="small"
-                                              readOnly
-                                            />
-                                          </Stack>
-                                          <Typography>{rev.comment}</Typography>
-                                        </div>
-                                      </div>
-                                      <Divider />
-                                    </>
-                                  ))}
-                              </Box>
-                            </div>
+                <Stack
+                  spacing={2}
+                  sx={{ flexDirection: { xs: "column", md: "row" } }}
+                >
+                  <ButtonGroup
+                    variant="contained"
+                    orientation="horizontal"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: 0,
+                    }}
+                  >
+                    <IconButton
+                      sx={{ "&:focus": { outline: "none" } }}
+                      // onClick={decreaseQty}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        textAlign: "center",
+                        verticalAlign: "center",
+                        padding: "4px",
+                        border: "0.1px solid gray",
+                      }}
+                    >
+                      1
+                    </Typography>
+                    <IconButton
+                      color="warning"
+                      sx={{ "&:focus": { outline: "none" } }}
+                      // onClick={increaseQty}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </ButtonGroup>
 
-                            {user ? (
-                              <div className="col-md-6">
-                                <h4 className="mb-4">Leave a review</h4>
+                  <LoadingButton
+                    // loading={adding ? true : false}
+                    variant="outlined"
+                    sx={{
+                      "&:focus": { outline: "none" },
+                      background: "rgb(24, 104, 183)",
+                    }}
+                    // onClick={addToCart}
+                    disabled={product?.product?.stock === 0}
+                  >
+                    <Typography variant="h5">Add to cart</Typography>
+                  </LoadingButton>
+                </Stack>
 
-                                <Stack spacing={2}>
-                                  <Rating
-                                    value={rating}
-                                    onChange={handleRating}
-                                    precision={0.5}
-                                    size="small"
-                                  />
-                                </Stack>
-                                <form>
-                                  <div className="form-group">
-                                    <label htmlfor="message">
-                                      Your Review *
-                                    </label>
-                                    <textarea
-                                      id="message"
-                                      cols="30"
-                                      rows="5"
-                                      className="form-control"
-                                      value={comment}
-                                      onChange={(e) =>
-                                        setComment(e.target.value)
-                                      }
-                                    ></textarea>
-                                  </div>
-
-                                  <LoadingButton
-                                    onClick={handlePostReview}
-                                    variant="contained"
-                                    loading={sending ? true : false}
-                                    sx={{
-                                      "&:focus": { outline: "none" },
-                                      width: "30vw",
-                                    }}
-                                  >
-                                    post
-                                  </LoadingButton>
-                                </form>
-                              </div>
-                            ) : (
-                              <Box>
-                                Sign In to leave a review
-                                <Link to="/sign-in">Sign In</Link>
-                              </Box>
-                            )}
-                          </div>
-                        </Box>
-                      ) : (
-                        <Box>
-                          <Typography variant="h4">
-                            Product Description
-                          </Typography>
-                          <Typography variant="body1">
-                            {book?.book?.description}
-                          </Typography>
-                        </Box>
-                      )}
-                    </div> */}
-                </div>
-              </div>
-              <Snackbar
-                open={open}
-                autoHideDuration={10000}
-                onClose={handleClose}
+                <Box
+                  sx={{
+                    marginTop: "10px",
+                    padding: "5px",
+                  }}
+                >
+                  <Typography variant="h6">Description</Typography>
+                  <p className="mb-4">{product?.product?.description}</p>
+                </Box>
+              </Box>
+            </Stack>
+            <ProductReview />
+            <Box
+              sx={{
+                border: "0.1px solid grey",
+                margin: "15px 15px",
+                borderTopRightRadius: "10px",
+                borderTopLeftRadius: "10px",
+              }}
+            >
+              <Box
+                sx={{
+                  padding: "10px 10px",
+                  borderTopRightRadius: "10px",
+                  borderTopLeftRadius: "10px",
+                }}
               >
-                <SnackbarAlert>
-                  <Typography>Out of stock</Typography>
-                </SnackbarAlert>
-              </Snackbar>
-
-              <Snackbar
-                open={cart}
-                autoHideDuration={4000}
-                onClose={handleClose2}
-              >
-                <SnackbarAlert2>
-                  <Typography>Item Added to cart</Typography>
-                </SnackbarAlert2>
-              </Snackbar>
-              <Snackbar
-                // open={success}
-                autoHideDuration={4000}
-                onClose={handleClose2}
-              >
-                <SnackbarAlert2>
-                  <Typography>Posted</Typography>
-                </SnackbarAlert2>
-              </Snackbar>
-            </div>
+                <Typography sx={{ fontWeight: "900" }}>
+                  More From This Brand
+                </Typography>
+                <Divider sx={{ width: "100%", paddingTop: "15px" }} />
+              </Box>
+              <Box sx={{ padding: "20px 20px" }}>
+                <RecommendedProducts id={id} />
+              </Box>
+            </Box>
           </>
         )}
+
         {error && <Typography> {error}</Typography>}
-        <RecommendedProducts id={id} />
       </Box>
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />

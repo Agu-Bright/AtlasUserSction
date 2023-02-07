@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Typography, Skeleton } from "@mui/material";
 import { Navigation, A11y, Autoplay } from "swiper";
 import { Swiper as Slider, SwiperSlide } from "swiper/react";
-import { getNewBrands } from "../../redux/actions/brandAction";
+import { getNewBrands } from "../../../redux/actions/brandAction";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
@@ -17,7 +17,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
-import { getRecommendedProduct } from "../../redux/actions/productAction";
+import { getRecommendedProduct } from "../../../redux/actions/productAction";
+
 function RecommendedProducts({ id }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -130,13 +131,7 @@ function RecommendedProducts({ id }) {
         )}
         {products &&
           products.map((product) => (
-            <SwiperSlide
-              className="slide"
-              key={product._id}
-              onClick={() => {
-                navigateToBrand(product._id);
-              }}
-            >
+            <SwiperSlide className="slide" key={product._id}>
               <Card
                 sx={{ width: { md: 300, sm: 200, xs: 250 } }}
                 component="div"
@@ -181,7 +176,11 @@ function RecommendedProducts({ id }) {
                   }}
                   component="div"
                 >
-                  <Button size="small" sx={{ color: "white" }}>
+                  <Button
+                    size="small"
+                    sx={{ color: "white" }}
+                    onClick={() => navigate(`/product/${product._id}`)}
+                  >
                     View details
                   </Button>
                   {/* <LoadingButton

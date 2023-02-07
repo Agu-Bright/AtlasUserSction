@@ -139,7 +139,7 @@ const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
 
   const brand = await brandModel.findById(id).populate("user");
   if (!brand || brand.status !== "approved") {
-    return next(new ErrorHandler("No Book Found", 404));
+    return next(new ErrorHandler("No product Found", 404));
   }
 
   const user = brand.user._id;
@@ -163,9 +163,17 @@ const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-const getRecommendedBrands = catchAsyncErrors(async (req, res, next) => {
+const getRecommendedProducts = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
-  const products = await Product.find({ user: id });
+  //find the user that owns this product
+  const product = await Product.findById(id).populate("user");
+  console.log(product.user._id);
+  const brand = await brandModel.find({ user: product.user._id });
+  if (!brand) {
+    return next(new ErrorHandler("No product Found", 404));
+  }
+  console.log(brand[0]);
+  const products = await Product.find({ user: brand[0].user });
   res.status(200).json({ success: "true", products });
 });
 
@@ -179,5 +187,5 @@ module.exports = {
   getNewBrands,
   getBrand,
   getBrandProducts,
-  getRecommendedBrands,
+  getRecommendedProducts,
 };
