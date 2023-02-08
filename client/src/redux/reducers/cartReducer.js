@@ -17,12 +17,14 @@ export const cartReducer = (
       };
     case ADD_TO_CART:
       const item = action.payload;
-      const isItemExist = state.cartItems.find((i) => i.book === item.book);
+      const isItemExist = state.cartItems.find(
+        (i) => i.product === item.product
+      );
       if (isItemExist) {
         return {
           ...state,
           cartItems: state.cartItems.map((i) =>
-            i.book === item.book ? item : i
+            i.product === item.product ? item : i
           ),
           adding: false,
         };
@@ -37,7 +39,7 @@ export const cartReducer = (
     case REMOVE_ITEM_CART:
       return {
         ...state,
-        cartItems: state.cartItems.filter((i) => i.book !== action.payload),
+        cartItems: state.cartItems.filter((i) => i.product !== action.payload),
       };
     case SAVE_SHIPPING_INFO:
       return {

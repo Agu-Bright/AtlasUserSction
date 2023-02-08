@@ -28,6 +28,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import RecommendedProducts from "./productComponents/RecommendedProducts";
 import ProductReview from "./productComponents/productReview";
+import { addItemToCart } from "../../redux/actions/cartAction";
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="warning" elevation={6} ref={ref} {...props} />;
 });
@@ -41,6 +42,9 @@ function ProductDetail() {
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState(false);
   const [navbar, setNavbar] = useState(true);
+  const [count, setCount] = useState(1);
+  const { success } = useSelector((state) => state.review);
+  const { adding } = useSelector((state) => state.cart);
 
   const { id } = params;
   const { loading, product, error } = useSelector(
@@ -48,7 +52,7 @@ function ProductDetail() {
   );
   useEffect(() => {
     dispatch(getProduct(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, success]);
 
   const toggleView = (view) => {
     setState((prev) => (prev ? false : true));
@@ -66,6 +70,27 @@ function ProductDetail() {
       return;
     }
     setCart(false);
+  };
+  //handle couner
+  const increaseQty = () => {
+    if (count >= Number(product?.product?.stock)) {
+      setOpen(true);
+      return;
+    } else {
+      const qty = count + 1;
+      setCount(qty);
+    }
+  };
+  const decreaseQty = () => {
+    if (count <= 1) return;
+    const qty = count - 1;
+    setCount(qty);
+  };
+
+  //add product to cart
+  const addToCart = () => {
+    dispatch(addItemToCart(id, count));
+    setCart(true);
   };
   return (
     <>
@@ -169,7 +194,7 @@ function ProductDetail() {
                   >
                     <IconButton
                       sx={{ "&:focus": { outline: "none" } }}
-                      // onClick={decreaseQty}
+                      onClick={decreaseQty}
                     >
                       <RemoveIcon />
                     </IconButton>
@@ -182,25 +207,25 @@ function ProductDetail() {
                         border: "0.1px solid gray",
                       }}
                     >
-                      1
+                      {count}
                     </Typography>
                     <IconButton
                       color="warning"
                       sx={{ "&:focus": { outline: "none" } }}
-                      // onClick={increaseQty}
+                      onClick={increaseQty}
                     >
                       <AddIcon />
                     </IconButton>
                   </ButtonGroup>
 
                   <LoadingButton
-                    // loading={adding ? true : false}
+                    loading={adding ? true : false}
                     variant="outlined"
                     sx={{
                       "&:focus": { outline: "none" },
                       background: "rgb(24, 104, 183)",
                     }}
-                    // onClick={addToCart}
+                    onClick={addToCart}
                     disabled={product?.product?.stock === 0}
                   >
                     <Typography variant="h5">Add to cart</Typography>
@@ -218,7 +243,7 @@ function ProductDetail() {
                 </Box>
               </Box>
             </Stack>
-            <ProductReview />
+            <ProductReview product={product} id={id} />
             <Box
               sx={{
                 border: "0.1px solid grey",
@@ -247,6 +272,27 @@ function ProductDetail() {
         )}
 
         {error && <Typography> {error}</Typography>}
+        <Snackbar
+          open={open}
+          autoHideDuration={10000}
+          onClose={handleClose}
+          sx={{ width: "300px" }}
+        >
+          <SnackbarAlert sx={{ width: "inherit" }}>
+            <Typography>Out of stock</Typography>
+          </SnackbarAlert>
+        </Snackbar>
+
+        <Snackbar open={cart} autoHideDuration={4000} onClose={handleClose2}>
+          <SnackbarAlert2>
+            <Typography>Item Added to cart</Typography>
+          </SnackbarAlert2>
+        </Snackbar>
+        <Snackbar open={success} autoHideDuration={4000} onClose={handleClose2}>
+          <SnackbarAlert2>
+            <Typography>Posted</Typography>
+          </SnackbarAlert2>
+        </Snackbar>
       </Box>
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />

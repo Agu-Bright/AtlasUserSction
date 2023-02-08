@@ -21,7 +21,7 @@ function ProductReview({ product, id }) {
     //   console.log(error);
     //   dispatch(clearErrors());
     // }
-  }, [dispatch, id]);
+  }, [dispatch, id, success]);
   const handleRating = (e, newValue) => {
     setRating(newValue);
   };
@@ -29,12 +29,12 @@ function ProductReview({ product, id }) {
   const toggleView = (view) => {
     setState((prev) => (prev ? false : true));
   };
-  const handlePostReview = async (e) => {
+  const handlePostReview = (e) => {
     e.preventDefault();
     const formData = {
       rating: rating,
       comment: comment,
-      bookId: id,
+      productId: id,
     };
     dispatch(postProductReview(formData));
     setRating(0);
@@ -124,7 +124,7 @@ function ProductReview({ product, id }) {
                       </Stack>
                       <form>
                         <div className="form-group">
-                          <label htmlfor="message">Your Review *</label>
+                          <label htmlFor="message">Your Review *</label>
                           <textarea
                             id="message"
                             cols="30"
@@ -142,6 +142,7 @@ function ProductReview({ product, id }) {
                           sx={{
                             "&:focus": { outline: "none" },
                             width: "30vw",
+                            background: "rgb(24, 104, 183)",
                           }}
                         >
                           post

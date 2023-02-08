@@ -197,7 +197,7 @@ const createUpdateProductReview = catchAsyncErrors(async (req, res, next) => {
 
   const product = await Product.findById(productId);
   //check is product is already reviewed by the current user
-  const isReviewed = book.reviews.find(
+  const isReviewed = product.reviews.find(
     (rev) => rev.user.toString() === req.user._id.toString()
   );
 

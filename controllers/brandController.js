@@ -167,12 +167,10 @@ const getRecommendedProducts = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
   //find the user that owns this product
   const product = await Product.findById(id).populate("user");
-  console.log(product.user._id);
   const brand = await brandModel.find({ user: product.user._id });
   if (!brand) {
     return next(new ErrorHandler("No product Found", 404));
   }
-  console.log(brand[0]);
   const products = await Product.find({ user: brand[0].user });
   res.status(200).json({ success: "true", products });
 });
