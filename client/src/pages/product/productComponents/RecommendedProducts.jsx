@@ -162,8 +162,8 @@ function RecommendedProducts({ id }) {
                     <Typography>({product.numberOfReviews} reviews)</Typography>
                   </Stack>
                   {/* <Typography variant="body2" color="text.secondary">
-            hello
-          </Typography> */}
+                     hello
+                  </Typography> */}
                 </CardContent>
                 <CardActions
                   sx={{

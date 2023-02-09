@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./app.scss";
 import Home from "./pages/home/Home.jsx";
 
@@ -14,10 +14,20 @@ import ForgotPassword from "./pages/user/forgotPassword";
 import NewPassword from "./pages/user/newPassword";
 import Cart from "./pages/cart/cart";
 import ProductDetail from "./pages/product/ProductDetail";
+import ProtectedRoute from "./routes/protectedRoute";
+import Profile from "./pages/user/profile";
+import UpdateProfile from "./pages/user/updateProfile";
+import Shipping from "./pages/cart/shipping";
+import ConfirmOrder from "./pages/cart/ConfirmOrder";
+import { loadUser } from "./redux/actions/userActions";
+import store from "./redux/store";
 import "./style.css";
 import "./App.css";
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Router>
       <Routes>
@@ -34,6 +44,22 @@ const App = () => {
         <Route path="/update-password" element={<UpdatePassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<NewPassword />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/me" element={<Profile />} exact />
+          <Route path="/update-profile" element={<UpdateProfile />} exact />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/confirm" element={<ConfirmOrder />} />
+
+          {/* <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/order/:id" element={<OrderDetails />} />
+            <Route path="/admin/books" element={<BookList />} />
+            <Route path="/admin/newBook" element={<NewBook />} />
+            <Route path="/admin/book/:id" element={<UpdateBook />} />
+            <Route path="/admin/orders" element={<OrdersList />} />
+            <Route path="/admin/order/:id" element={<ProcessOrder />} />
+            <Route path="/admin/users" element={<UsersList />} />
+            <Route path="/admin/sellers" element={<SellersList />} /> */}
+        </Route>
       </Routes>
     </Router>
   );

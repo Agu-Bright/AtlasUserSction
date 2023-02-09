@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Stack, Typography, Box, IconButton, ButtonGroup } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Box,
+  IconButton,
+  ButtonGroup,
+  Badge,
+} from "@mui/material";
 import PrimarySearchAppBar from "../../components/search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import MuiDrawer from "./Drawer";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Navbar({ navbar, setNavbar, active }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { cartItems } = useSelector((state) => state.cart);
 
   // Navbar scroll change background color function
   const changeBackground = () => {
@@ -73,8 +84,18 @@ function Navbar({ navbar, setNavbar, active }) {
           />
         </IconButton>
 
-        <IconButton>
-          <ShoppingCartIcon sx={{ color: "black", fontSize: "1.3em" }} />
+        <IconButton
+          onClick={() => {
+            navigate("/cart");
+          }}
+        >
+          <Badge
+            badgeContent={cartItems ? cartItems.length : "0"}
+            sx={{ color: "rgb(24, 104, 183)" }}
+            color="secondary"
+          >
+            <ShoppingCartIcon sx={{ color: "black", fontSize: "1.3em" }} />
+          </Badge>
         </IconButton>
 
         <IconButton
