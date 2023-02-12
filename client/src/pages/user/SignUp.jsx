@@ -136,9 +136,9 @@ function SignUp() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={user.state}
+              value={user.location}
               label="Age"
-              name="Location"
+              name="location"
               onChange={handleChange}
             >
               {states.map((state) => (

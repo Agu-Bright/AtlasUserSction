@@ -5,6 +5,7 @@ import {
   brandReducer,
   brandDetailReducer,
   brandProductReducer,
+  allBrandsReducer,
 } from "./reducers/brandReducer";
 import {
   trendingProductReducer,
@@ -24,6 +25,14 @@ import {
   updateUserReducer,
   allSellersReducer,
 } from "./reducers/userReducer";
+import {
+  orderReducer,
+  myOrdersReducer,
+  orderDetailsReducer,
+  allOrdersReducer,
+  updateOrdersReducer,
+  deleteOrderReducer,
+} from "./reducers/orderReducer";
 import { cartReducer } from "./reducers/cartReducer";
 
 const reducer = combineReducers({
@@ -41,7 +50,7 @@ const reducer = combineReducers({
   newBrands: brandReducer,
   brandDetails: brandDetailReducer,
   brandProductReducer: brandProductReducer,
-
+  allBrandsReducer: allBrandsReducer,
   //product reducer section
   trendingProducts: trendingProductReducer,
   allProducts: allProductsReducer,
@@ -51,6 +60,14 @@ const reducer = combineReducers({
   reviews: getProductReviewReducer,
   //cart reducer
   cart: cartReducer,
+
+  //order recucer
+  theOrder: orderReducer,
+  myOrders: myOrdersReducer,
+  allOrders: allOrdersReducer,
+  orderDetails: orderDetailsReducer,
+  order: updateOrdersReducer,
+  deleteOrder: deleteOrderReducer,
 });
 let initialState = {
   cart: {

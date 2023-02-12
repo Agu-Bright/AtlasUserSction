@@ -7,6 +7,7 @@ import {
   Box,
   Alert,
   AlertTitle,
+  Paper,
 } from "@mui/material";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -57,88 +58,98 @@ function Signin() {
         marginTop: "15vh",
       }}
     >
-      <Stack
-        direction="column"
-        spacing={1}
-        sx={{
-          boxShadow: { xs: "none", md: 2 },
-          border: { xs: "none", md: "0.1px solid #48e5c2" },
-          padding: "10px",
-          borderRadius: "10px",
-        }}
-      >
-        <Typography variant="h3">Campus Pay Sign In</Typography>
-        {message && (
-          <>
-            <Alert severity="error">
-              <AlertTitle>Error</AlertTitle>
-              <Typography variant="h5">{message}</Typography>
-            </Alert>
-          </>
-        )}
-        <form
-          autoComplete="off"
-          onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
+      <Paper sx={{ borderRadius: "10px", width: { md: "40%", xs: "100%" } }}>
+        <Stack
+          direction="column"
+          spacing={1}
+          sx={{
+            boxShadow: { xs: "none", md: 10 },
+
+            padding: "10px",
+            borderRadius: "10px",
           }}
         >
-          <TextField
-            sx={{ margin: "10px" }}
-            label="Emial Address"
-            name="email"
-            type="text"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <TextField
-            sx={{ margin: "10px" }}
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-
-          <Stack
-            sx={{
+          <div
+            style={{
               display: "flex",
-              justifyContent: "center",
               alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <LoadingButton
-              onClick={handleSubmit}
-              variant="contained"
-              loading={loading ? true : false}
-              sx={{ "&:focus": { outline: "none" }, width: "30vw" }}
-            >
-              Sign In
-            </LoadingButton>
-          </Stack>
-        </form>
+            <Typography variant="h3">Atlas Sign In</Typography>
+          </div>
+          {message && (
+            <>
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                <Typography variant="h5">{message}</Typography>
+              </Alert>
+            </>
+          )}
+          <form
+            autoComplete="off"
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <TextField
+              sx={{ margin: "10px" }}
+              label="Emial Address"
+              name="email"
+              type="text"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
-        <Typography>
-          Don't have an account yet{" "}
-          <Link to="/sign-up" sx={{ cursor: "pointer" }}>
-            {" "}
-            <Typography variant="h6" color="primary">
-              Sign Up
-            </Typography>{" "}
-          </Link>
-          <Link to="/forgot-password" sx={{ cursor: "pointer" }}>
-            {" "}
-            <Typography variant="h6" color="primary">
-              Forgot Password
-            </Typography>{" "}
-          </Link>
-        </Typography>
-      </Stack>
+            <TextField
+              sx={{ margin: "10px" }}
+              label="Password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <Stack
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <LoadingButton
+                onClick={handleSubmit}
+                variant="contained"
+                loading={loading ? true : false}
+                sx={{ "&:focus": { outline: "none" }, width: "100%" }}
+              >
+                Sign In
+              </LoadingButton>
+            </Stack>
+          </form>
+
+          <Typography>
+            Don't have an account{" "}
+            <Link to="/sign-up" sx={{ cursor: "pointer" }}>
+              {" "}
+              <Typography variant="h6" color="secondary">
+                Sign Up
+              </Typography>{" "}
+            </Link>
+            <Link to="/forgot-password" sx={{ cursor: "pointer" }}>
+              {" "}
+              <Typography variant="h6" color="primary">
+                Forgot Password
+              </Typography>{" "}
+            </Link>
+          </Typography>
+        </Stack>
+      </Paper>
     </Box>
   );
 }

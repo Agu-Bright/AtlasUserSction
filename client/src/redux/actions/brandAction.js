@@ -9,6 +9,9 @@ import {
   GET_BRAND_PRODUCTS_REQUEST,
   GET_BRAND_PRODUCTS_SUCCESS,
   GET_BRAND_PRODUCTS_FAIL,
+  ALL_BRAND_REQUEST,
+  ALL_BRAND_SUCCESS,
+  ALL_BRAND_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -53,6 +56,27 @@ export const getBrandProducts =
     } catch (error) {
       dispatch({
         type: GET_BRAND_PRODUCTS_FAIL,
+        payload: error.response.data.Message,
+      });
+    }
+  };
+
+export const getAllBrands =
+  (searchQuery, page, category) => async (dispatch) => {
+    try {
+      dispatch({ type: ALL_BRAND_REQUEST });
+      let link = `/api/v1/brand/brands?page=${page}`;
+      if (searchQuery) {
+        link = `/api/v1/brand/brands?search=${searchQuery}`;
+      }
+      if (category) {
+        link = `/api/v1/brand/brands?category=${category}`;
+      }
+      const { data } = await axios.get(link);
+      dispatch({ type: ALL_BRAND_SUCCESS, payload: { ...data } });
+    } catch (error) {
+      dispatch({
+        type: ALL_BRAND_FAIL,
         payload: error.response.data.Message,
       });
     }

@@ -54,11 +54,8 @@ const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
 //get all brands ==> /api/v1/brand/user/getBrands
 const getAllBrands = catchAsyncErrors(async (req, res, next) => {
   const resperpage = 8;
-  const brandCount = await brandModel.countDocuments({ status: "approved" });
-  const apiFeatures = new ApiFeatures(
-    brandModel.find({ status: "approved" }),
-    req.query
-  )
+  const brandCount = await brandModel.countDocuments();
+  const apiFeatures = new ApiFeatures(brandModel.find(), req.query)
     .search()
     .filter();
 
@@ -66,7 +63,7 @@ const getAllBrands = catchAsyncErrors(async (req, res, next) => {
   let brands = await apiFeatures.query;
   let filteredBrandCount = brands.length;
   const numberOfPages = Math.ceil(brandCount / resperpage);
-  const searchNumberOfPages = Math.ceil(filteredBookCount / resperpage);
+  const searchNumberOfPages = Math.ceil(filteredBrandCount / resperpage);
   res.status(200).json({
     success: true,
     brands,

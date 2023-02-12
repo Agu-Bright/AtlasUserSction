@@ -8,6 +8,9 @@ import {
   GET_BRAND_PRODUCTS_REQUEST,
   GET_BRAND_PRODUCTS_SUCCESS,
   GET_BRAND_PRODUCTS_FAIL,
+  ALL_BRAND_REQUEST,
+  ALL_BRAND_SUCCESS,
+  ALL_BRAND_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -88,6 +91,40 @@ export const brandProductReducer = (
         searchNumberOfPages: action.payload.searchNumberOfPages,
       };
     case GET_BRAND_PRODUCTS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const allBrandsReducer = (state = { brands: null }, action) => {
+  switch (action.type) {
+    case ALL_BRAND_REQUEST:
+      return {
+        loading: true,
+        brands: null,
+      };
+    case ALL_BRAND_SUCCESS:
+      return {
+        loading: false,
+        brands: action.payload.brands,
+        brandCount: action.payload.brandCount,
+        filteredBrandCount: action.payload.filteredBrandCount,
+        numberOfPages: action.payload.numberOfPages,
+        searchNumberOfPages: action.payload.searchNumberOfPages,
+        resperPage: action.payload.resperPage,
+      };
+
+    case ALL_BRAND_FAIL:
       return {
         loading: false,
         error: action.payload,

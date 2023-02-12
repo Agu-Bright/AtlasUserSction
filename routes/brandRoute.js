@@ -18,4 +18,5 @@ router.get("/newBrands", getNewBrands);
 router.get("/brandDetails/:id", getBrand);
 router.get("/brandProduct/:id", getBrandProducts);
 router.get("/recommendedProducts/:id", getRecommendedProducts);
+router.get("/brands", getAllBrands);
 module.exports = router;

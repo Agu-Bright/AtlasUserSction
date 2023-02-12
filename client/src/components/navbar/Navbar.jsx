@@ -6,6 +6,18 @@ import {
   IconButton,
   ButtonGroup,
   Badge,
+  Button,
+  Avatar,
+  Snackbar,
+  Alert,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  ListItemIcon,
+  ListItemAvatar,
+  Chip,
 } from "@mui/material";
 import PrimarySearchAppBar from "../../components/search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -14,12 +26,23 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import MuiDrawer from "./Drawer";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/userActions";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 
 function Navbar({ navbar, setNavbar, active }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [Drawer, setDrawer] = React.useState(false);
+
   const { cartItems } = useSelector((state) => state.cart);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const { user, loading } = useSelector((state) => state.auth);
 
   // Navbar scroll change background color function
   const changeBackground = () => {
@@ -38,6 +61,213 @@ function Navbar({ navbar, setNavbar, active }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleClose = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleCartNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/cart");
+  };
+  const handleBookNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/books");
+  };
+  const handleHomeNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/");
+  };
+  const handleProfileNav = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/me");
+  };
+  const handleSIgnUp = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/sign-up");
+  };
+  const handleSignIn = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/sign-in");
+  };
+  const handleOrderNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/orders/me");
+  };
+  const handleAdminNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/dashboard");
+  };
+  const handleSellerNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/dashboard");
+  };
+  const bookNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/admin/books");
+  };
+  const newBookNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/admin/newBook");
+  };
+  const OrderNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/admin/orders");
+  };
+  const userNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/admin/users");
+  };
+  const sellerNavigate = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/admin/sellers");
+  };
+  const logoutHandler = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    dispatch(logout());
+    navigate("/");
+    setOpen(true);
+  };
+
+  const menuId = "primary-search-account-menu";
+
+  const renderMenu = (
+    <Menu
+      sx={{ padding: "0 !important", margin: "0 !important", width: "100%" }}
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <List sx={{ padding: "0" }}>
+        {user && !loading ? (
+          <>
+            {user?.role === "seller" && (
+              <ListItem disablePadding>
+                <ListItemButton onClick={handleSellerNavigate}>
+                  <ListItemIcon>
+                    <ListItemAvatar>
+                      <Avatar sx={{ backgroundColor: "white" }}>
+                        <DashboardRoundedIcon color="warning" />
+                      </Avatar>
+                    </ListItemAvatar>
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" secondary="seller" />
+                </ListItemButton>
+              </ListItem>
+            )}
+            {user?.role === "admin" && (
+              <ListItem disablePadding>
+                <ListItemButton onClick={handleAdminNavigate}>
+                  <ListItemIcon>
+                    <ListItemAvatar>
+                      <Avatar sx={{ backgroundColor: "white" }}>
+                        <DashboardRoundedIcon color="warning" />
+                      </Avatar>{" "}
+                    </ListItemAvatar>
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" secondary="admin" />
+                </ListItemButton>
+              </ListItem>
+            )}
+            <Divider />
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleProfileNav}>
+                <ListItemIcon>
+                  <ListItemAvatar>
+                    <Avatar alt={user.name} src={user?.avatar?.url} />
+                  </ListItemAvatar>
+                </ListItemIcon>
+                <ListItemText primary={user.name} secondary="view Profile" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem disablePadding onClick={logoutHandler}>
+              <ListItemButton>
+                <Typography color="warning">logout</Typography>
+              </ListItemButton>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleSIgnUp}>
+                <ListItemIcon>
+                  <ListItemAvatar></ListItemAvatar>
+                </ListItemIcon>
+                <ListItemText primary="Sign Up" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleSignIn}>
+                <ListItemIcon>
+                  <ListItemAvatar></ListItemAvatar>
+                </ListItemIcon>
+                <ListItemText primary="Sign In" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+          </>
+        )}
+      </List>
+    </Menu>
+  );
   return (
     <Stack
       direction="row"
@@ -47,6 +277,7 @@ function Navbar({ navbar, setNavbar, active }) {
       <Typography className="logo" sx={{ width: { md: "10%", xs: "20%" } }}>
         Atlas
       </Typography>
+
       <Box
         className="searchBox"
         sx={{
@@ -56,33 +287,71 @@ function Navbar({ navbar, setNavbar, active }) {
       >
         <PrimarySearchAppBar />
       </Box>
-      <Box sx={{ display: { md: "block", xs: "none" } }}>
-        <ul className="link">
+
+      <Box
+        sx={{
+          display: { md: "flex", xs: "none" },
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ul className="link" style={{ width: "100%" }}>
           <li className="linkItem">
             {" "}
             <a href="/">Home</a>{" "}
           </li>
+
           <li className="linkItem">
-            <a href="/">Brand</a>
+            <a href="/brands">Brands</a>
           </li>
+
           <li className="linkItem">
             <a href="/products">Products</a>
           </li>
+
           <li className="linkItem">
             <a href="/">Orders</a>
           </li>
         </ul>
       </Box>
-      <ButtonGroup>
-        <IconButton>
-          <AccountCircleIcon sx={{ color: "black", fontSize: "1.3em" }} />
-        </IconButton>
 
-        <IconButton>
+      <ButtonGroup sx={{ display: "flex", alignItems: "center" }}>
+        {!user && (
+          <IconButton
+            sx={{ "&:focus": { outline: "none" } }}
+            onClick={handleProfileMenuOpen}
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+          >
+            <AccountCircleIcon sx={{ color: "black", fontSize: "1.3em" }} />
+          </IconButton>
+        )}
+
+        {user && !loading && (
+          <Chip
+            // sx={{ display: { md: "block", xs: "none" } }}
+            onClick={handleProfileMenuOpen}
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            avatar={<Avatar alt={user.name} src={user?.avatar?.url} />}
+            label={`${user.name}`}
+            variant="outlined"
+          />
+        )}
+
+        {/* <IconButton
+          sx={{ display: { md: "block", xs: "none" } }}
+          onClick={handleProfileMenuOpen}
+          aria-label="account of current user"
+          aria-controls={menuId}
+          aria-haspopup="true"
+        >
           <AccountBalanceWalletIcon
             sx={{ color: "black", fontSize: "1.3em" }}
           />
-        </IconButton>
+        </IconButton> */}
 
         <IconButton
           onClick={() => {
@@ -106,10 +375,36 @@ function Navbar({ navbar, setNavbar, active }) {
         </IconButton>
       </ButtonGroup>
       <MuiDrawer
-        open={open}
+        open={Drawer}
         close={handleDrawerClose}
         handleClose={handleDrawerClose}
+        bookNav={() => {
+          handleBookNavigate();
+        }}
+        cartNav={() => {
+          handleCartNavigate();
+        }}
+        profileNav={() => {
+          handleProfileNav();
+        }}
+        logOutNav={() => {
+          logoutHandler();
+        }}
+        signUpNav={() => {
+          handleSIgnUp();
+        }}
+        orderNav={() => handleOrderNavigate()}
+        homeNav={() => handleHomeNavigate()}
+        signInNav={() => handleSignIn()}
+        adminNav={() => handleAdminNavigate()}
+        sellerNav={() => handleSellerNavigate()}
+        adminBookNav={() => bookNavigate()}
+        newBookNavigate={() => newBookNavigate()}
+        OrderNavigate={() => OrderNavigate()}
+        userNavigate={() => userNavigate()}
+        sellerNavigate={() => sellerNavigate()}
       />
+      {renderMenu}
     </Stack>
   );
 }

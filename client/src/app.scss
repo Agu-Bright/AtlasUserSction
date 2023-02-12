@@ -42,10 +42,10 @@ body {
     }
     .link {
       width: 30%;
-      height: 48px;
+      height: 100%;
       display: flex;
-      align-items: center;
       list-style-type: none;
+      margin: 0 !important;
 
       .linkItem {
         height: 100%;

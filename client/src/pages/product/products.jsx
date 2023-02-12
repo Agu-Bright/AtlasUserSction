@@ -12,6 +12,8 @@ import {
   ListItemButton,
   Pagination,
   ListItemText,
+  Chip,
+  Divider,
 } from "@mui/material";
 import { categories } from "../../utils/stateData";
 import Navbar from "../../components/navbar/Navbar";
@@ -98,17 +100,29 @@ function BrandProoducts({ id }) {
                   margin: "10px",
                 }}
               >
-                <Typography
-                  sx={{
-                    fontWeight: "700",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
                 >
-                  Filter By Category
-                </Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: "700",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    Filter By Category
+                  </Typography>
+                  <Chip
+                    label="clear category"
+                    onClick={() => setCategory("")}
+                  />
+                </Stack>
 
                 <List component="nav" aria-label="secondary mailbox folder">
+                  <Divider />
+
                   {categories.map((category) => (
                     <ListItemButton
                       key={category.key}
@@ -137,7 +151,12 @@ function BrandProoducts({ id }) {
               },
             }}
           >
-            <Box>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ padding: "0px 10px" }}
+            >
               <IconButton
                 onClick={() => toggelSideBar()}
                 sx={{
@@ -147,7 +166,10 @@ function BrandProoducts({ id }) {
               >
                 <AppsIcon sx={{ color: "black" }} />
               </IconButton>
-            </Box>
+              {!category && <Chip label={"All Products"} />}
+              {category && <Chip label={`${category}`} />}
+            </Stack>
+            <Divider />
             <Grid
               container
               rowSpacing={2}
@@ -172,7 +194,13 @@ function BrandProoducts({ id }) {
                     marginLeft: "20px",
                   }}
                 >
-                  <Typography sx={{ fontWeight: "800", fontSize: "2em" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "800",
+                      fontSize: "2em",
+                      textAlign: "center",
+                    }}
+                  >
                     No Product found
                   </Typography>
                 </Box>

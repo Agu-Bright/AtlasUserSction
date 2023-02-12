@@ -20,6 +20,7 @@ import UpdateProfile from "./pages/user/updateProfile";
 import Shipping from "./pages/cart/shipping";
 import ConfirmOrder from "./pages/cart/ConfirmOrder";
 import { loadUser } from "./redux/actions/userActions";
+import ListOrders from "./pages/orders/ListOrders";
 import store from "./redux/store";
 import "./style.css";
 import "./App.css";
@@ -60,6 +61,10 @@ const App = () => {
             <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/sellers" element={<SellersList />} /> */}
         </Route>
+        <Route path="/orders/me" element={<ListOrders />} />
+        {/* <Route path="/admin/user/:id" element={<UpdateUser />} />
+          <Route path="/payment/verify" element={<Payment />} />
+          <Route path="/me/seller" element={<Seller />} /> */}
       </Routes>
     </Router>
   );

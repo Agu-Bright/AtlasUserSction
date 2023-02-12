@@ -1,8 +1,9 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-
+import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
+import { FormControl } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,15 +51,58 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (search) {
+      const newSearch = search.trim();
+      navigate(`/products?search=${newSearch}`);
+      setSearch("");
+    } else {
+      navigate("/");
+    }
+  };
+
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    console.log(e);
+    if (e.charCode === 13) {
+      //search post
+      e.preventDefault();
+
+      if (search) {
+        const newSearch = search.trim();
+        navigate(`/products?search=${newSearch}`);
+        setSearch("");
+      } else {
+        navigate("/");
+      }
+    }
+  };
   return (
     <Search className="search">
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search Plug, store and customers"
-        inputProps={{ "aria-label": "search" }}
-      />
+      <FormControl onKeyPress={handleKeyPress} onSubmit={handleSearchSubmit}>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          onKeyPress={handleKeyPress}
+          onSubmit={handleSearchSubmit}
+          placeholder="Search Plug, store and customers"
+          name="search"
+          value={search}
+          onChange={handleChange}
+          inputProps={{
+            "aria-label": "search",
+            onkeypress: `${handleKeyPress}`,
+          }}
+        />
+      </FormControl>
     </Search>
   );
 }

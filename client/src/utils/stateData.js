@@ -48,6 +48,13 @@ export const categories = [
   { key: 6, cat: "Toys" },
   { key: 7, cat: "Clothes" },
   { key: 8, cat: "Shoes" },
-  { key: 8, cat: "Food" },
+  { key: 9, cat: "Food" },
   { key: 10, cat: "Others" },
+];
+
+export const brandTypes = [
+  { key: 0, cat: "Plug" },
+  { key: 1, cat: "Store" },
+  { key: 2, cat: "Mall" },
+  { key: 3, cat: "Restaurants" },
 ];
