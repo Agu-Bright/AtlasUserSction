@@ -1,6 +1,7 @@
 const brandModel = require("../model/brandModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
+const brandApiFeatures = require("../middlewares/brandApiFeatures");
 const ApiFeatures = require("../middlewares/apiFeatures");
 const User = require("../model/authModel");
 const Product = require("../model/productModel");
@@ -55,7 +56,7 @@ const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
 const getAllBrands = catchAsyncErrors(async (req, res, next) => {
   const resperpage = 8;
   const brandCount = await brandModel.countDocuments();
-  const apiFeatures = new ApiFeatures(brandModel.find(), req.query)
+  const apiFeatures = new brandApiFeatures(brandModel.find(), req.query)
     .search()
     .filter();
 
@@ -168,8 +169,29 @@ const getRecommendedProducts = catchAsyncErrors(async (req, res, next) => {
   if (!brand) {
     return next(new ErrorHandler("No product Found", 404));
   }
-  const products = await Product.find({ user: brand[0].user });
+  const mainProducts = await Product.find({ user: brand[0].user });
+  const products = mainProducts.filter((item) => item._id === id);
+  console.log(products);
   res.status(200).json({ success: "true", products });
+});
+
+const brandsInYourLocation = catchAsyncErrors(async (req, res, next) => {
+  //get users location
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    return next(new ErrorHandler("User Not found", 404));
+  }
+  const usersLocation = user.location;
+  //find brand in the users location
+  const brandsInLocation = await brandModel.find({ location: usersLocation });
+  if (!brandsInLocation) {
+    return next(new ErrorHandler("No Brand Found", 404));
+  }
+  const resturantsInLocation = brandsInLocation.find(
+    (brand) => brand.brandType === "Restaurants"
+  );
+  //return the brands in the users location
+  res.status(200).json({ brandsInLocation, resturantsInLocation });
 });
 
 //ADMIN ROUTES
@@ -183,4 +205,5 @@ module.exports = {
   getBrand,
   getBrandProducts,
   getRecommendedProducts,
+  brandsInYourLocation,
 };

@@ -15,7 +15,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -35,7 +35,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -55,7 +55,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -75,7 +75,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -95,7 +95,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -115,7 +115,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -135,7 +135,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -155,7 +155,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",
@@ -175,7 +175,7 @@ export default function ProductCardLoader() {
         <Skeleton
           variant="rectangle"
           sx={{
-            width: { md: 300, sm: 200, xs: 250 },
+            width: { md: 300, sm: 200, xs: 300 },
             minHeight: "300px",
             margin: "0px !important",
             borderRadius: "15px",

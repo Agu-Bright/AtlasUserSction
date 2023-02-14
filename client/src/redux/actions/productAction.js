@@ -49,7 +49,9 @@ export const getAllProducts =
         link = `/api/v1/products?search=${searchQuery}`;
       }
       if (category) {
-        link = `/api/v1/products?category=${category}`;
+        link = searchQuery
+          ? `/api/v1/products?search=${searchQuery}&category=${category}`
+          : `/api/v1/products?category=${category}`;
       }
       const { data } = await axios.get(link);
       dispatch({ type: ALL_PRODUCT_SUCCESS, payload: { ...data } });

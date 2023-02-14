@@ -18,7 +18,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
-function MuiDrawer({ open, close, handleClose }) {
+function MuiDrawer({
+  open,
+  close,
+  handleClose,
+  productNav,
+  cartNav,
+  profileNav,
+  logOutNav,
+  signUpNav,
+  orderNav,
+  homeNav,
+  signInNav,
+  brandNav,
+}) {
   return (
     <Drawer anchor="right" open={open} onClose={close}>
       <Box
@@ -71,7 +84,7 @@ function MuiDrawer({ open, close, handleClose }) {
         <Divider />
         <List sx={{ overflow: "scroll" }}>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={homeNav}>
               <ListItemIcon>
                 <ListItemAvatar>
                   <Avatar sx={{ backgroundColor: "white" }}>
@@ -84,7 +97,7 @@ function MuiDrawer({ open, close, handleClose }) {
           </ListItem>
           <Divider />
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={brandNav}>
               <ListItemIcon>
                 <ListItemAvatar>
                   <Avatar sx={{ backgroundColor: "white" }}>
@@ -97,7 +110,7 @@ function MuiDrawer({ open, close, handleClose }) {
           </ListItem>
           <Divider />
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={productNav}>
               <ListItemIcon>
                 <ListItemAvatar>
                   <Avatar sx={{ backgroundColor: "white" }}>
@@ -110,7 +123,7 @@ function MuiDrawer({ open, close, handleClose }) {
           </ListItem>
           <Divider />
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={orderNav}>
               <ListItemIcon>
                 <ListItemAvatar>
                   <Avatar sx={{ backgroundColor: "white" }}>

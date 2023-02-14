@@ -9,7 +9,7 @@ class ApiFeatures {
     const search = this.queryStr.search
       ? {
           //search the product by name
-          name: {
+          brandName: {
             $regex: this.queryStr.search,
             $options: "i",
           },

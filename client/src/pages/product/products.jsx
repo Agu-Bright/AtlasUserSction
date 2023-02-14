@@ -18,16 +18,30 @@ import {
 import { categories } from "../../utils/stateData";
 import Navbar from "../../components/navbar/Navbar";
 import AppsIcon from "@mui/icons-material/Apps";
-import PrimarySearchAppBar from "../../components/search";
 import ProductCard from "../../components/cardComponent/productCard";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCardLoader from "../../components/cardComponent/productCardSkeleton";
 import { getAllProducts } from "../../redux/actions/productAction";
 import Footer from "../../components/footer/Footer";
+import BrandSearch from "../brands/brandComponent/brandSearch";
+import Modal from "@mui/material/Modal";
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 200,
+  height: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  overflowY: "scroll",
+};
 function BrandProoducts({ id }) {
   const [toggle, setToggle] = useState(true);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -66,13 +80,18 @@ function BrandProoducts({ id }) {
     setSelectedIndex(index);
   };
 
+  //modal setup
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
       <Box
         sx={{
           height: "auto",
-          paddingTop: { md: "100px", xs: "50px" },
+          paddingTop: { md: "100px", xs: "60px" },
           paddingBottom: "20px",
         }}
       >
@@ -162,19 +181,44 @@ function BrandProoducts({ id }) {
                 sx={{
                   background: "rgb(32, 129, 226)",
                   margin: "5px",
+                  display: { md: "flex", sm: "flex", xs: "none" },
                 }}
               >
-                <AppsIcon sx={{ color: "black" }} />
+                <AppsIcon
+                  sx={{
+                    color: "black",
+                  }}
+                />
+              </IconButton>
+              <IconButton
+                onClick={handleOpen}
+                sx={{
+                  margin: "5px",
+                  display: { md: "none", sm: "none", xs: "flex" },
+                }}
+              >
+                <AppsIcon
+                  sx={{
+                    color: "black",
+                  }}
+                />
               </IconButton>
               {!category && <Chip label={"All Products"} />}
               {category && <Chip label={`${category}`} />}
             </Stack>
             <Divider />
+            {searchQuery && <BrandSearch searchQuery={searchQuery} />}
+            <Typography
+              sx={{ paddingLeft: "10px", fontWeight: "600", fontSize: "1.5em" }}
+            >
+              Products
+            </Typography>
+
             <Grid
               container
               rowSpacing={2}
               columnSpacing={4}
-              sx={{ padding: "15px" }}
+              sx={{ padding: "0", margin: "0", width: "auto" }}
             >
               {loading && <ProductCardLoader />}
               {products &&
@@ -235,6 +279,43 @@ function BrandProoducts({ id }) {
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <List component="nav" aria-label="secondary mailbox folder">
+            <Typography
+              sx={{
+                fontWeight: "700",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              Filter By Category
+            </Typography>{" "}
+            <Divider />
+            {categories.map((category) => (
+              <ListItemButton
+                key={category.key}
+                selected={selectedIndex === category.key}
+                onClick={() => {
+                  handleCategorySelect(category.cat);
+                  handleClose();
+                }}
+              >
+                {" "}
+                <ListItemText
+                  sx={{ fontWeight: "700" }}
+                  primary={category.cat}
+                />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+      </Modal>
     </>
   );
 }

@@ -81,6 +81,7 @@ function Trending() {
             {loading ? (
               <TrendSkeleton />
             ) : (
+              secondHalf &&
               secondHalf.map((data) => <Trend key={data._id} data={data} />)
             )}
           </List>

@@ -40,6 +40,7 @@ export const getBrandDetail = (id) => async (dispatch) => {
     });
   }
 };
+
 export const getBrandProducts =
   (id, searchQuery, page, category) => async (dispatch) => {
     try {
@@ -70,7 +71,7 @@ export const getAllBrands =
         link = `/api/v1/brand/brands?search=${searchQuery}`;
       }
       if (category) {
-        link = `/api/v1/brand/brands?category=${category}`;
+        link = `/api/v1/brand/brands?brandType=${category}`;
       }
       const { data } = await axios.get(link);
       dispatch({ type: ALL_BRAND_SUCCESS, payload: { ...data } });

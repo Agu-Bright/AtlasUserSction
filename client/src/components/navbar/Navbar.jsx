@@ -31,6 +31,7 @@ import { logout } from "../../redux/actions/userActions";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Navbar({ navbar, setNavbar, active }) {
   const [open, setOpen] = useState(false);
@@ -88,11 +89,17 @@ function Navbar({ navbar, setNavbar, active }) {
     }
     navigate("/cart");
   };
-  const handleBookNavigate = () => {
+  const handleProductNavigate = () => {
     if (Drawer) {
       setDrawer(false);
     }
-    navigate("/books");
+    navigate("/products");
+  };
+  const handleBrandNav = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/brands");
   };
   const handleHomeNavigate = () => {
     if (Drawer) {
@@ -310,7 +317,7 @@ function Navbar({ navbar, setNavbar, active }) {
           </li>
 
           <li className="linkItem">
-            <a href="/">Orders</a>
+            <a href="/orders/me">Orders</a>
           </li>
         </ul>
       </Box>
@@ -338,25 +345,28 @@ function Navbar({ navbar, setNavbar, active }) {
             avatar={<Avatar alt={user.name} src={user?.avatar?.url} />}
             label={`${user.name}`}
             variant="outlined"
+            sx={{ fontSize: "10px" }}
           />
         )}
 
-        {/* <IconButton
-          sx={{ display: { md: "block", xs: "none" } }}
+        <IconButton
+          sx={{
+            display: { md: "none", xs: "block" },
+            "&:focus": { outline: "none" },
+          }}
           onClick={handleProfileMenuOpen}
           aria-label="account of current user"
           aria-controls={menuId}
           aria-haspopup="true"
         >
-          <AccountBalanceWalletIcon
-            sx={{ color: "black", fontSize: "1.3em" }}
-          />
-        </IconButton> */}
+          <SearchIcon sx={{ color: "black", fontSize: "1.3em" }} />
+        </IconButton>
 
         <IconButton
           onClick={() => {
             navigate("/cart");
           }}
+          sx={{ "&:focus": { outline: "none" } }}
         >
           <Badge
             badgeContent={cartItems ? cartItems.length : "0"}
@@ -368,19 +378,20 @@ function Navbar({ navbar, setNavbar, active }) {
         </IconButton>
 
         <IconButton
-          sx={{ display: { md: "none" } }}
+          sx={{ display: { md: "none" }, "&:focus": { outline: "none" } }}
           onClick={() => setOpen(true)}
         >
           <DehazeIcon sx={{ color: "black", fontSize: "1.3em" }} />
         </IconButton>
       </ButtonGroup>
       <MuiDrawer
-        open={Drawer}
+        open={open}
         close={handleDrawerClose}
         handleClose={handleDrawerClose}
-        bookNav={() => {
-          handleBookNavigate();
+        productNav={() => {
+          handleProductNavigate();
         }}
+        brandNav={() => handleBrandNav()}
         cartNav={() => {
           handleCartNavigate();
         }}

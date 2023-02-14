@@ -74,7 +74,7 @@ function BrandProoducts({ id }) {
       <Box
         sx={{
           height: "auto",
-          paddingTop: { md: "100px", xs: "50px" },
+          paddingTop: { md: "100px", xs: "60px" },
           paddingBottom: "20px",
         }}
       >
@@ -173,7 +173,7 @@ function BrandProoducts({ id }) {
               container
               rowSpacing={2}
               columnSpacing={4}
-              sx={{ padding: "15px" }}
+              sx={{ padding: "0", margin: "0", width: "auto" }}
             >
               {loading && <ProductCardLoader />}
               {brands &&

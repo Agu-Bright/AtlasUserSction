@@ -75,6 +75,7 @@ function Cart() {
                 fontSize: { md: "5em", sm: "4em", xs: "2em" },
                 display: "flex",
                 justifyContent: "center",
+                textAlign: "center",
               }}
             >
               Your Cart is Empty

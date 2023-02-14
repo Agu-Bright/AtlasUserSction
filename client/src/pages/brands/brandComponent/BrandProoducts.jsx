@@ -20,6 +20,7 @@ import ProductCard from "../../../components/cardComponent/productCard";
 import { getBrandProducts } from "../../../redux/actions/brandAction";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import BrandProductSearch from "../../../components/brandProductSearch";
 import ProductCardLoader from "../../../components/cardComponent/productCardSkeleton";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -36,7 +37,9 @@ function BrandProoducts({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const query = useQuery();
-  const searchQuery = query.get("search");
+  // const searchQuery = query.get("search");
+
+  const [searchQuery, setSearchQuery] = useState(false);
   const {
     loading,
     brandProducts,
@@ -79,7 +82,11 @@ function BrandProoducts({
           <AppsIcon sx={{ color: "black", width: "30px", height: "30px" }} />
         </IconButton>
         <Box sx={{ width: "75%", padding: "10px" }}>
-          <PrimarySearchAppBar />
+          <BrandProductSearch
+            id={id}
+            dispatch={dispatch}
+            setSearchQuery={setSearchQuery}
+          />
         </Box>
       </Box>
 
@@ -169,7 +176,13 @@ function BrandProoducts({
                   marginLeft: "20px",
                 }}
               >
-                <Typography sx={{ fontWeight: "800", fontSize: "2em" }}>
+                <Typography
+                  sx={{
+                    fontWeight: "800",
+                    fontSize: "2em",
+                    textAlign: "center",
+                  }}
+                >
                   No Product found
                 </Typography>
               </Box>
