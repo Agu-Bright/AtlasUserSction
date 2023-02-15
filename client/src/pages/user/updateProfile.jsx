@@ -11,6 +11,10 @@ import {
   AlertTitle,
   Snackbar,
   CircularProgress,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
@@ -21,6 +25,7 @@ import {
 } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
+import { states } from "../../utils/stateData";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
@@ -36,7 +41,7 @@ function UpdateProfile() {
   const [Message, setMessage] = useState(null);
   const [name, setName] = useState("");
   const [email, setemail] = useState("");
-  const [campus, setCampus] = useState("");
+  const [location, setLocation] = useState("");
   // const [course, setCourse] = useState("");
   const [bank, setBank] = useState("");
   const [accountName, setAccountName] = useState("");
@@ -57,7 +62,7 @@ function UpdateProfile() {
       setName(user?.name);
       setemail(user?.email);
       // setCourse(user?.courseOfStudy);
-      setCampus(user?.campus);
+      setLocation(user?.location);
       setAvatarPreview(user?.avatar?.url);
     }
     if (user.requested) {
@@ -78,7 +83,7 @@ function UpdateProfile() {
     const formData = new FormData();
     formData.set("name", name);
     formData.set("email", email);
-    formData.set("campus", campus);
+    formData.set("campus", location);
     // formData.set("course", course);
     formData.set("avatar", avatar);
 
@@ -156,9 +161,26 @@ function UpdateProfile() {
             label="Campus"
             name="campus"
             type="text"
-            value={campus}
-            onChange={(e) => setCampus(e.target.value)}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
           />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={user.location}
+              label="Age"
+              name="location"
+              onChange={handleChange}
+            >
+              {states.map((state) => (
+                <MenuItem key={state} value={state}>
+                  {state}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           {/* <TextField
             label="Course of Study"
             name="course"

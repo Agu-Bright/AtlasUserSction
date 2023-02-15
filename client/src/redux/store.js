@@ -6,6 +6,7 @@ import {
   brandDetailReducer,
   brandProductReducer,
   allBrandsReducer,
+  brandsInLocationReducer,
 } from "./reducers/brandReducer";
 import {
   trendingProductReducer,
@@ -51,6 +52,7 @@ const reducer = combineReducers({
   brandDetails: brandDetailReducer,
   brandProductReducer: brandProductReducer,
   allBrandsReducer: allBrandsReducer,
+  brandsInLocationReducer: brandsInLocationReducer,
   //product reducer section
   trendingProducts: trendingProductReducer,
   allProducts: allProductsReducer,

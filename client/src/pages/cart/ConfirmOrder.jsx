@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import CheckOutSteps from "./checkOutSteps";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Avatar, Box, Stack } from "@mui/material";
+import { Avatar, Box, Paper, Stack, Button } from "@mui/material";
+import Navbar from "../../components/navbar/Navbar";
 import axios from "axios";
+import Footer from "../../components/footer/Footer";
 function ConfirmOrder() {
+  const [navbar, setNavbar] = useState(true);
+
   const navigate = useNavigate();
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
@@ -56,141 +60,180 @@ function ConfirmOrder() {
     }
   };
   return (
-    <Box sx={{ marginTop: { xs: "10vh", md: "20vh" } }}>
-      <Stack>
-        <CheckOutSteps confirmOrder />
-      </Stack>
-      <div className="container container-fluid" style={{}}>
-        <div className="row d-flex justify-content-between">
-          <div className="col-12 col-lg-8 mt-5 order-confirm">
-            <h3
-              style={{
-                width: "auto",
-                paddingLeft: "6px",
+    <>
+      <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />
 
-                borderLeft: "10px solid #48e5c2",
-                borderBottom: "0.1px solid #48e5c2",
-                borderRadius: "10px",
-                borderBottomRightRadius: "0px",
-              }}
-            >
-              Shipping Info
-            </h3>
-            <p>
-              <b>Name:</b> {user && user.name}
-            </p>
-            <p>
-              <b>Phone:</b> {shippingInfo.phoneNumber}
-            </p>
-            <p className="mb-4">
-              <b>Address:</b>{" "}
-              {`${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.campus}, ${shippingInfo.postalCode}, ${shippingInfo.country}`}
-            </p>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "auto",
+          paddingTop: { md: "100px", xs: "60px" },
+          paddingBottom: "20px",
+        }}
+      >
+        <Paper
+          sx={{
+            marginTop: "20px",
+            width: { md: "50%", xs: "90%" },
+            padding: "20px",
+            boxShadow: 2,
+            borderRadius: "15px",
+          }}
+        >
+          <Stack>
+            <CheckOutSteps confirmOrder />
+          </Stack>
 
-            <hr />
-            <h3
-              style={{
-                width: "auto",
-                paddingLeft: "6px",
+          <Box sx={{ padding: "15px" }}>
+            <Stack direction="column" spacing={5}>
+              <Box sx={{ padding: "10px" }}>
+                <h3
+                  style={{
+                    width: "auto",
+                    paddingLeft: "6px",
 
-                borderLeft: "10px solid #48e5c2",
-                borderBottom: "0.1px solid #48e5c2",
-                borderRadius: "10px",
-                borderBottomRightRadius: "0px",
-              }}
-            >
-              Your Cart items
-            </h3>
+                    borderLeft: "10px solid rgb(24, 104, 183)",
+                    borderBottom: "0.1px solid rgb(24, 104, 183)",
+                    borderRadius: "10px",
+                    borderBottomRightRadius: "0px",
+                  }}
+                >
+                  Shipping Info
+                </h3>
+                <p>
+                  <b>Name:</b> {user && user.name}
+                </p>
+                <p>
+                  <b>Phone:</b> {shippingInfo.phoneNumber}
+                </p>
+                <p className="mb-4">
+                  <b>Address:</b>{" "}
+                  {`${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.campus}, ${shippingInfo.postalCode}, ${shippingInfo.country}`}
+                </p>
 
-            {cartItems.map((item) => (
-              <Box key={item.book}>
                 <hr />
-                <div className="cart-item my-1">
-                  <div className="row">
-                    <div className="col-4 col-lg-2">
-                      <Avatar
-                        alt={item.name}
-                        src={item.image}
-                        sx={{ width: 100, height: 100 }}
-                      />
-                    </div>
+                <h3
+                  style={{
+                    width: "auto",
+                    paddingLeft: "6px",
 
-                    <div className="col-5 col-lg-6">
-                      <Link tp={`/book/${item.book}`}>{item.name}</Link>
-                    </div>
+                    borderLeft: "10px solid rgb(24, 104, 183)",
+                    borderBottom: "0.1px solid rgb(24, 104, 183)",
+                    borderRadius: "10px",
+                    borderBottomRightRadius: "0px",
+                  }}
+                >
+                  Your Cart items
+                </h3>
 
-                    <div className="col-4 col-lg-4 mt-4 mt-lg-0">
-                      <p>
-                        {item.quantity} x{" "}
-                        <span style={{ color: "green" }}>&#8358;</span>
-                        {item.price} ={" "}
-                        <b>
-                          {" "}
-                          <span style={{ color: "green" }}>&#8358;</span>
-                          {item.quantity * item.price}
-                        </b>
-                      </p>
+                {cartItems.map((item) => (
+                  <Box key={item.book}>
+                    <hr />
+                    <div className="cart-item my-1">
+                      <div className="row">
+                        <div className="col-4 col-lg-2">
+                          <Avatar
+                            alt={item.name}
+                            src={item.image}
+                            sx={{ width: 100, height: 100 }}
+                          />
+                        </div>
+
+                        <div className="col-5 col-lg-6">
+                          <Link tp={`/book/${item.book}`}>{item.name}</Link>
+                        </div>
+
+                        <div className="col-4 col-lg-4 mt-4 mt-lg-0">
+                          <p>
+                            {item.quantity} x{" "}
+                            <span style={{ color: "green" }}>&#8358;</span>
+                            {item.price} ={" "}
+                            <b>
+                              {" "}
+                              <span style={{ color: "green" }}>&#8358;</span>
+                              {item.quantity * item.price}
+                            </b>
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <hr />
+                    <hr />
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </div>
 
-          <div className="col-12 col-lg-3 my-4">
-            <div id="order_summary">
-              <h4>Order Summary</h4>
-              <hr />
-              <p>
-                Subtotal:{" "}
-                <span className="order-summary-values">
-                  {" "}
-                  <span style={{ color: "green" }}>&#8358;</span>
-                  {itemsPrice}
-                </span>
-              </p>
-              <p>
-                Shipping:{" "}
-                <span className="order-summary-values">
-                  {" "}
-                  <span style={{ color: "green" }}>&#8358;</span>
-                  {shippingPrice}
-                </span>
-              </p>
-              <p>
-                Tax:{" "}
-                <span className="order-summary-values">
-                  {" "}
-                  <span style={{ color: "green" }}>&#8358;</span>
-                  {taxPrice}
-                </span>
-              </p>
+              <Box sx={{ padding: "10px" }}>
+                <h4>Order Summary</h4>
+                <hr />
+                <p>
+                  Subtotal:{" "}
+                  <span className="order-summary-values">
+                    {" "}
+                    <span style={{ color: "green" }}>&#8358;</span>
+                    {itemsPrice}
+                  </span>
+                </p>
+                <p>
+                  Shipping:{" "}
+                  <span className="order-summary-values">
+                    {" "}
+                    <span style={{ color: "green" }}>&#8358;</span>
+                    {shippingPrice}
+                  </span>
+                </p>
+                <p>
+                  Tax:{" "}
+                  <span className="order-summary-values">
+                    {" "}
+                    <span style={{ color: "green" }}>&#8358;</span>
+                    {taxPrice}
+                  </span>
+                </p>
 
-              <hr />
+                <hr />
 
-              <p>
-                Total:{" "}
-                <span className="order-summary-values">
-                  {" "}
-                  <span style={{ color: "green" }}>&#8358;</span>
-                  {totalPrice}
-                </span>
-              </p>
+                <p>
+                  Total:{" "}
+                  <span className="order-summary-values">
+                    {" "}
+                    <span style={{ color: "green" }}>&#8358;</span>
+                    {totalPrice}
+                  </span>
+                </p>
 
-              <hr />
-              <button
-                onClick={processToPayment}
-                id="checkout_btn"
-                className="btn btn-primary btn-block"
-              >
-                Proceed to Payment
-              </button>
-            </div>
-          </div>
-        </div>
+                <hr />
+                {/* <button
+                  onClick={processToPayment}
+                  id="checkout_btn"
+                  className="btn btn-primary btn-block"
+                >
+                  Proceed to Payment
+                </button> */}
+                <Stack>
+                  <Button
+                    onClick={processToPayment}
+                    color="primary"
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                      "&:focus": { outline: "none" },
+                    }}
+                  >
+                    Proceed to Payment
+                  </Button>
+                </Stack>
+              </Box>
+            </Stack>
+          </Box>
+        </Paper>
+      </Box>
+      <div className="footer" style={{ oveflow: "hidden" }}>
+        <Footer />
       </div>
-    </Box>
+    </>
   );
 }
 

@@ -177,17 +177,22 @@ const getRecommendedProducts = catchAsyncErrors(async (req, res, next) => {
 
 const brandsInYourLocation = catchAsyncErrors(async (req, res, next) => {
   //get users location
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user.id);
   if (!user) {
     return next(new ErrorHandler("User Not found", 404));
   }
   const usersLocation = user.location;
   //find brand in the users location
-  const brandsInLocation = await brandModel.find({ location: usersLocation });
-  if (!brandsInLocation) {
+  const allBrandsInLocation = await brandModel.find({
+    location: usersLocation,
+  });
+  if (!allBrandsInLocation) {
     return next(new ErrorHandler("No Brand Found", 404));
   }
-  const resturantsInLocation = brandsInLocation.find(
+  const brandsInLocation = await allBrandsInLocation.filter(
+    (brand) => brand.brandType === "Store"
+  );
+  const resturantsInLocation = brandsInLocation.filter(
     (brand) => brand.brandType === "Restaurants"
   );
   //return the brands in the users location

@@ -17,7 +17,7 @@ import pepsi from "../../../images/pepsi.jpg";
 import pouch from "../../../images/pouch.jpg";
 import watch from "../../../images/watch.jpg";
 import water from "../../../images/water.jpg";
-function CardSlider() {
+function CardSlider({ data }) {
   return (
     <Box className="slider-container">
       <Slider
@@ -53,30 +53,11 @@ function CardSlider() {
         onSwiper={(swiper) => console.log(swiper)}
         onSlideChange={() => console.log("slide change")}
       >
-        <SwiperSlide className="card-slide">
-          <CardComponent image={bag} name="Bag" />
-        </SwiperSlide>
-        <SwiperSlide className="card-slide">
-          <CardComponent image={pepsi} name="Pepsi" />
-        </SwiperSlide>
-        <SwiperSlide className="card-slide">
-          <CardComponent image={headset} name="headset" />
-        </SwiperSlide>
-        <SwiperSlide className="card-slide">
-          <CardComponent image={pouch} name="pouch" />
-        </SwiperSlide>
-        <SwiperSlide className="card-slide">
-          <CardComponent image={water} name="Water" />
-        </SwiperSlide>
-        <SwiperSlide className="card-slide">
-          <CardComponent image={nike} name="Nike" />
-        </SwiperSlide>
-        <SwiperSlide className="card-slide">
-          <CardComponent image={watch} name="Watch" />
-        </SwiperSlide>
-        <SwiperSlide className="card-slide">
-          <CardComponent image={mouse} name="Mouse" />
-        </SwiperSlide>
+        {data.map((item) => (
+          <SwiperSlide className="card-slide">
+            <CardComponent data={item} />
+          </SwiperSlide>
+        ))}
       </Slider>
     </Box>
   );

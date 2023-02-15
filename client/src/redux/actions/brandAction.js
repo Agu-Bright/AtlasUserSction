@@ -12,6 +12,9 @@ import {
   ALL_BRAND_REQUEST,
   ALL_BRAND_SUCCESS,
   ALL_BRAND_FAIL,
+  BRANDS_IN_LOCATION_REQUEST,
+  BRANDS_IN_LOCATION_SUCCESS,
+  BRANDS_IN_LOCATION_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -82,6 +85,22 @@ export const getAllBrands =
       });
     }
   };
+export const getBrandsInLocation = () => async (dispatch) => {
+  try {
+    dispatch({ type: BRANDS_IN_LOCATION_REQUEST });
+
+    const { data } = await axios.get("api/v1/brand/brandsInLocation", {
+      withCredentials: true,
+      credentials: "include",
+    });
+    dispatch({ type: BRANDS_IN_LOCATION_SUCCESS, payload: { ...data } });
+  } catch (error) {
+    dispatch({
+      type: BRANDS_IN_LOCATION_FAIL,
+      payload: error.response.data.Message,
+    });
+  }
+};
 
 //clear Errors
 export const clearErrors = () => async (dispatch) => {

@@ -11,6 +11,7 @@ import {
   Select,
   InputLabel,
   MenuItem,
+  Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
@@ -64,7 +65,7 @@ function SignUp() {
         justifyContent: "center",
       }}
     >
-      <Box
+      <Paper
         sx={{
           padding: "15px",
           width: "85%",
@@ -193,7 +194,7 @@ function SignUp() {
             </Link>
           </Typography>
         </Stack>
-      </Box>
+      </Paper>
     </Box>
   );
 }

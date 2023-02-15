@@ -22,7 +22,7 @@ export default function ProductCard({ key, data }) {
   // };
   return (
     <Grid item sx={{ margin: "0px !important" }} key={key}>
-      <Card sx={{ width: { md: 250, sm: 200, xs: 300 } }} component="div">
+      <Card sx={{ width: { md: 300, sm: 200, xs: 300 } }} component="div">
         <CardMedia
           component="img"
           alt="green iguana"

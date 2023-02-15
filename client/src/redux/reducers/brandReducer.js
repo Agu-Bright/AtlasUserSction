@@ -11,6 +11,9 @@ import {
   ALL_BRAND_REQUEST,
   ALL_BRAND_SUCCESS,
   ALL_BRAND_FAIL,
+  BRANDS_IN_LOCATION_REQUEST,
+  BRANDS_IN_LOCATION_SUCCESS,
+  BRANDS_IN_LOCATION_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -28,6 +31,39 @@ export const brandReducer = (state = { brands: [] }, action) => {
         brands: action.payload,
       };
     case GET_BRAND_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+export const brandsInLocationReducer = (
+  state = { brandsInLocation: [], resturantsInLocation: [] },
+  action
+) => {
+  switch (action.type) {
+    case BRANDS_IN_LOCATION_REQUEST:
+      return {
+        loading: true,
+        brandsInLocation: [],
+        resturantsInLocation: [],
+      };
+
+    case BRANDS_IN_LOCATION_SUCCESS:
+      return {
+        loading: false,
+        brandsInLocation: action.payload.brandsInLocation,
+        resturantsInLocation: action.payload.resturantsInLocation,
+      };
+    case BRANDS_IN_LOCATION_FAIL:
       return {
         loading: false,
         error: action.payload,
