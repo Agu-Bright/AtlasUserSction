@@ -15,6 +15,8 @@ import {
   Chip,
   Divider,
 } from "@mui/material";
+import Modal from "@mui/material/Modal";
+
 import { getAllBrands } from "../../redux/actions/brandAction";
 import { brandTypes } from "../../utils/stateData";
 import Navbar from "../../components/navbar/Navbar";
@@ -27,6 +29,20 @@ import ProductCardLoader from "../../components/cardComponent/productCardSkeleto
 import { getAllProducts } from "../../redux/actions/productAction";
 import Footer from "../../components/footer/Footer";
 import BrandCard from "../../components/cardComponent/brandCard";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 200,
+  height: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  overflowY: "scroll",
+};
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -67,6 +83,10 @@ function BrandProoducts({ id }) {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
+  //modal setup
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <>
@@ -234,6 +254,40 @@ function BrandProoducts({ id }) {
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <List component="nav" aria-label="secondary mailbox folder">
+            <Typography
+              sx={{
+                fontWeight: "700",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              Filter By Brand Type
+            </Typography>
+            <Divider />
+            {brandTypes.map((type) => (
+              <ListItemButton
+                key={type.key}
+                selected={selectedIndex === type.key}
+                onClick={() => {
+                  handleBrandTypeSelect(type.cat);
+                  handleClose();
+                }}
+              >
+                {" "}
+                <ListItemText sx={{ fontWeight: "900" }} primary={type.cat} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+      </Modal>
     </>
   );
 }

@@ -18,7 +18,11 @@ import {
   ListItemIcon,
   ListItemAvatar,
   Chip,
+  Drawer as SearchDrawer,
 } from "@mui/material";
+import RemoveIcon from "@mui/icons-material/Remove";
+import CloseIcon from "@mui/icons-material/Close";
+
 import PrimarySearchAppBar from "../../components/search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -38,7 +42,7 @@ function Navbar({ navbar, setNavbar, active }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [Drawer, setDrawer] = React.useState(false);
-
+  const [openSearch, setOpenSearch] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -58,6 +62,10 @@ function Navbar({ navbar, setNavbar, active }) {
     changeBackground();
     window.addEventListener("scroll", changeBackground);
   });
+
+  const handleMobileSearch = () => {
+    setOpenSearch(true);
+  };
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -281,7 +289,11 @@ function Navbar({ navbar, setNavbar, active }) {
       className={navbar ? `navbar ${active}` : "navbar"}
       sx={{ height: { md: "72px", xs: "50px" } }}
     >
-      <Typography className="logo" sx={{ width: { md: "10%", xs: "20%" } }}>
+      <Typography
+        onClick={() => navigate("/")}
+        className="logo"
+        sx={{ width: { md: "10%", xs: "20%" }, cursor: "pointer" }}
+      >
         Atlas
       </Typography>
 
@@ -323,6 +335,18 @@ function Navbar({ navbar, setNavbar, active }) {
       </Box>
 
       <ButtonGroup sx={{ display: "flex", alignItems: "center" }}>
+        <IconButton
+          sx={{
+            display: { md: "none", xs: "block" },
+            "&:focus": { outline: "none" },
+          }}
+          onClick={handleMobileSearch}
+          aria-label="account of current user"
+          aria-controls={menuId}
+          aria-haspopup="true"
+        >
+          <SearchIcon sx={{ color: "black", fontSize: "1.3em" }} />
+        </IconButton>
         {!user && (
           <IconButton
             sx={{ "&:focus": { outline: "none" } }}
@@ -348,19 +372,6 @@ function Navbar({ navbar, setNavbar, active }) {
             sx={{ fontSize: "10px" }}
           />
         )}
-
-        <IconButton
-          sx={{
-            display: { md: "none", xs: "block" },
-            "&:focus": { outline: "none" },
-          }}
-          onClick={handleProfileMenuOpen}
-          aria-label="account of current user"
-          aria-controls={menuId}
-          aria-haspopup="true"
-        >
-          <SearchIcon sx={{ color: "black", fontSize: "1.3em" }} />
-        </IconButton>
 
         <IconButton
           onClick={() => {
@@ -415,6 +426,22 @@ function Navbar({ navbar, setNavbar, active }) {
         userNavigate={() => userNavigate()}
         sellerNavigate={() => sellerNavigate()}
       />
+      <SearchDrawer anchor="top" open={openSearch}>
+        <Stack
+          direction="row"
+          justifyContent="space-around"
+          sx={{
+            overFlow: "hidden",
+            padding: "5px ",
+            width: "98%",
+          }}
+        >
+          <PrimarySearchAppBar />
+          <IconButton onClick={() => setOpenSearch(false)}>
+            <CloseIcon sx={{ fontWeight: "900", color: "black" }} />
+          </IconButton>
+        </Stack>
+      </SearchDrawer>
       {renderMenu}
     </Stack>
   );

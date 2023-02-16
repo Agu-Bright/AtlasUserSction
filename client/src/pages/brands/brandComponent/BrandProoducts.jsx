@@ -156,7 +156,12 @@ function BrandProoducts({
             container
             rowSpacing={2}
             columnSpacing={4}
-            sx={{ padding: "15px" }}
+            sx={{
+              margin: "0",
+              padding: "0",
+              width: "auto",
+              overFlow: "hidden",
+            }}
           >
             {loading && <ProductCardLoader />}
             {brandProducts &&

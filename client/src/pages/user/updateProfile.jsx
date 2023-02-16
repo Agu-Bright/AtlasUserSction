@@ -169,7 +169,7 @@ function UpdateProfile() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={user.location}
+              value={location}
               label="Age"
               name="location"
               onChange={handleChange}
@@ -181,13 +181,6 @@ function UpdateProfile() {
               ))}
             </Select>
           </FormControl>
-          {/* <TextField
-            label="Course of Study"
-            name="course"
-            type="text"
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
-          /> */}
 
           {user && user.requested && (
             <>
