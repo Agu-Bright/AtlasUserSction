@@ -25,7 +25,7 @@ import store from "./redux/store";
 import Payment from "./pages/cart/Payment";
 import "./style.css";
 import "./App.css";
-
+import OrderDetails from "./pages/orders/OrderDetails";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -52,8 +52,8 @@ const App = () => {
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/confirm" element={<ConfirmOrder />} />
 
+          <Route path="/order/:id" element={<OrderDetails />} />
           {/* <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/order/:id" element={<OrderDetails />} />
             <Route path="/admin/books" element={<BookList />} />
             <Route path="/admin/newBook" element={<NewBook />} />
             <Route path="/admin/book/:id" element={<UpdateBook />} />

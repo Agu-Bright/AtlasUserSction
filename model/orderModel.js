@@ -11,7 +11,7 @@ const orderSchema = mongoose.Schema({
       required: true,
     },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: true,
     },
     campus: {
@@ -51,7 +51,7 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true,
       },
-      book: {
+      product: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Books",

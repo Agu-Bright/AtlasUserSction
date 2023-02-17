@@ -10,7 +10,7 @@ import { Grid, Stack, Rating, Box } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../../redux/actions/cartAction";
-export default function ProductCard({ key, data }) {
+export default function ProductCard({ key, data, addToCart }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [cart, setCart] = useState(false);
@@ -79,7 +79,11 @@ export default function ProductCard({ key, data }) {
                       >
                         <Typography variant="h5">Add to cart</Typography>
                       </LoadingButton> */}
-          <Button size="small" sx={{ color: "white" }}>
+          <Button
+            size="small"
+            sx={{ color: "white" }}
+            onClick={() => addToCart(data._id)}
+          >
             Add to Cart
           </Button>
         </CardActions>

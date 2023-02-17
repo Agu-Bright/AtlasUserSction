@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import {
@@ -14,6 +14,8 @@ import {
   ListItemText,
   Chip,
   Divider,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { categories } from "../../utils/stateData";
 import Navbar from "../../components/navbar/Navbar";
@@ -26,7 +28,11 @@ import { getAllProducts } from "../../redux/actions/productAction";
 import Footer from "../../components/footer/Footer";
 import BrandSearch from "../brands/brandComponent/brandSearch";
 import Modal from "@mui/material/Modal";
+import { addItemToCart } from "../../redux/actions/cartAction";
 
+const SnackbarAlert2 = forwardRef(function SnackbarAlert(props, ref) {
+  return <Alert severity="success" elevation={6} ref={ref} {...props} />;
+});
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -42,10 +48,12 @@ const style = {
   p: 4,
   overflowY: "scroll",
 };
+
 function BrandProoducts({ id }) {
   const [toggle, setToggle] = useState(true);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [navbar, setNavbar] = useState(true);
+  const [cart, setCart] = useState(false);
 
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
@@ -79,12 +87,21 @@ function BrandProoducts({ id }) {
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
-
+  //add product to cart
+  const addToCart = (id) => {
+    dispatch(addItemToCart(id, 1));
+    setCart(true);
+  };
   //modal setup
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const handleClose2 = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setCart(false);
+  };
   return (
     <>
       <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
@@ -223,7 +240,11 @@ function BrandProoducts({ id }) {
               {loading && <ProductCardLoader />}
               {products &&
                 products.map((product) => (
-                  <ProductCard key={product._id} data={product} />
+                  <ProductCard
+                    key={product._id}
+                    data={product}
+                    addToCart={addToCart}
+                  />
                 ))}
               {products && products.length === 0 && (
                 <Box
@@ -316,6 +337,11 @@ function BrandProoducts({ id }) {
           </List>
         </Box>
       </Modal>
+      <Snackbar open={cart} autoHideDuration={4000} onClose={handleClose2}>
+        <SnackbarAlert2>
+          <Typography>Item Added to cart</Typography>
+        </SnackbarAlert2>
+      </Snackbar>
     </>
   );
 }
