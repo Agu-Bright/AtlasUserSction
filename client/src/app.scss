@@ -19,7 +19,7 @@ body {
     rgba(217, 241, 247, 1) 92%
   );
 
-  /** NAVBAR**/
+  
   .navbar {
     position: fixed;
     width: 97.5%;
@@ -92,7 +92,6 @@ body {
   @media screen and (max-width: 480px) {
   }
 
-  /** HEADER TOPIC AND SLIDER **/
   .body {
     width: 100%;
     height: auto;
@@ -169,7 +168,6 @@ body {
         }
       }
     }
-    /**CARD CONTAINER**/
     .card-container {
       padding: 30px 16px;
       background-color: white;
