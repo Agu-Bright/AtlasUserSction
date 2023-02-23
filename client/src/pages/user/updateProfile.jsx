@@ -15,6 +15,7 @@ import {
   Select,
   InputLabel,
   MenuItem,
+  Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
@@ -26,7 +27,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
 import { states } from "../../utils/stateData";
-
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
 });
@@ -52,6 +54,7 @@ function UpdateProfile() {
     "/images/default_Avater.png"
   );
   // const [showPassword, setShowPassword] = useState(false);
+  const [navbar, setNavbar] = useState(true);
 
   useEffect(() => {
     if (error) {
@@ -109,182 +112,194 @@ function UpdateProfile() {
   };
 
   return (
-    <Box
-      sx={{
-        height: "50vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "60vh",
-        marginBottom: "40vh",
-      }}
-    >
-      {loading ? (
-        <Container
-          fixed
+    <>
+      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+
+      <Box
+        sx={{
+          height: "auto",
+          paddingTop: { md: "100px", xs: "80px" },
+          paddingBottom: "20px",
+        }}
+      >
+        <Box
           sx={{
-            height: "70vh",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            width: "100%",
+            height: "100%",
           }}
         >
-          <CircularProgress />
-        </Container>
-      ) : (
-        <Stack direction="column" spacing={1}>
-          <Typography variant="h3">Update Profile</Typography>
-          {Message && (
-            <>
-              <Alert severity="error">
-                <AlertTitle>Error</AlertTitle>
-                <Typography>{Message}</Typography>
-              </Alert>
-            </>
-          )}
-          <TextField
-            label="name"
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <TextField
-            label="Emial Address"
-            name="email"
-            type="text"
-            value={email}
-            onChange={(e) => setemail(e.target.value)}
-          />
-          <TextField
-            label="Campus"
-            name="campus"
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Location</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={location}
-              label="Age"
-              name="location"
-              onChange={handleChange}
+          {loading ? (
+            <Container
+              fixed
+              sx={{
+                height: "70vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              {states.map((state) => (
-                <MenuItem key={state} value={state}>
-                  {state}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          {user && user.requested && (
-            <>
-              <TextField
-                sx={{ margin: "10px" }}
-                label="Bank Name"
-                name="bank"
-                type="text"
-                value={bank}
-                onChange={handleChange}
-                required
-              />
-
-              <TextField
-                sx={{ margin: "10px" }}
-                label="Account Number"
-                type="text"
-                name="accountNumber"
-                value={accountNumber}
-                onChange={handleChange}
-                required
-              />
-              <TextField
-                sx={{ margin: "10px" }}
-                label="Account Name"
-                type="text"
-                name="accountName"
-                value={accountName}
-                onChange={handleChange}
-                required
-              />
-              <TextField
-                sx={{ margin: "10px" }}
-                label="Phone Number"
-                type="text"
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={handleChange}
-                required
-              />
-            </>
-          )}
-          <Stack direction="row" spacing={2}>
-            <label htmlFor="avatar_upload">Avatar</label>
-            <div className="d-flex align-items-center">
-              <div>
-                <figure className="avatar mr-3 item-rtl">
-                  <img
-                    src={avatarPreview}
-                    className="rounded-circle"
-                    alt="avatar"
-                  />
-                </figure>
-              </div>
-              <div className="custom-file">
-                <input
-                  type="file"
-                  name="avatar"
-                  className="custom-file-input"
-                  id="customFile"
-                  accept="images/*"
-                  onChange={handleChange}
+              <CircularProgress />
+            </Container>
+          ) : (
+            <Paper sx={{ padding: "15px" }}>
+              <Stack direction="column" spacing={1}>
+                <Typography variant="h3">Update Profile</Typography>
+                {Message && (
+                  <>
+                    <Alert severity="error">
+                      <AlertTitle>Error</AlertTitle>
+                      <Typography>{Message}</Typography>
+                    </Alert>
+                  </>
+                )}
+                <TextField
+                  label="name"
+                  type="text"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
-                <label className="custom-file-label" htmlFor="customFile">
-                  Choose Avatar
-                </label>
-              </div>
-            </div>
-          </Stack>
-          <Stack
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <LoadingButton
-              onClick={handleSubmit}
-              variant="contained"
-              loading={updating ? true : false}
-              sx={{ "&:focus": { outline: "none" }, width: "30vw" }}
-            >
-              Update Profile
-            </LoadingButton>
-          </Stack>
 
-          <Typography>
-            Already have an account{" "}
-            <Link to="/sign-in" sx={{ cursor: "pointer" }}>
-              {" "}
-              <Typography variant="h5" color="primary">
-                SIgn In
-              </Typography>{" "}
-            </Link>
-          </Typography>
+                <TextField
+                  label="Emial Address"
+                  name="email"
+                  type="text"
+                  value={email}
+                  onChange={(e) => setemail(e.target.value)}
+                />
+                <TextField
+                  label="Campus"
+                  name="campus"
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Location
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={location}
+                    label="Age"
+                    name="location"
+                    onChange={handleChange}
+                  >
+                    {states.map((state) => (
+                      <MenuItem key={state} value={state}>
+                        {state}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-          <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-            <SnackbarAlert>
-              <Typography>profile updated</Typography>
-            </SnackbarAlert>
-          </Snackbar>
-        </Stack>
-      )}
-    </Box>
+                {user && user.requested && (
+                  <>
+                    <TextField
+                      sx={{ margin: "10px" }}
+                      label="Bank Name"
+                      name="bank"
+                      type="text"
+                      value={bank}
+                      onChange={handleChange}
+                      required
+                    />
+
+                    <TextField
+                      sx={{ margin: "10px" }}
+                      label="Account Number"
+                      type="text"
+                      name="accountNumber"
+                      value={accountNumber}
+                      onChange={handleChange}
+                      required
+                    />
+                    <TextField
+                      sx={{ margin: "10px" }}
+                      label="Account Name"
+                      type="text"
+                      name="accountName"
+                      value={accountName}
+                      onChange={handleChange}
+                      required
+                    />
+                    <TextField
+                      sx={{ margin: "10px" }}
+                      label="Phone Number"
+                      type="text"
+                      name="phoneNumber"
+                      value={phoneNumber}
+                      onChange={handleChange}
+                      required
+                    />
+                  </>
+                )}
+                <Stack direction="row" spacing={2} sx={{ padding: "10px 0px" }}>
+                  <label htmlFor="avatar_upload">Avatar</label>
+                  <div className="d-flex align-items-center">
+                    <div>
+                      <figure className="avatar mr-3 item-rtl">
+                        <img
+                          src={avatarPreview}
+                          className="rounded-circle"
+                          alt="avatar"
+                        />
+                      </figure>
+                    </div>
+                    <div className="custom-file">
+                      <input
+                        type="file"
+                        name="avatar"
+                        className="custom-file-input"
+                        id="customFile"
+                        accept="images/*"
+                        onChange={handleChange}
+                      />
+                      <label className="custom-file-label" htmlFor="customFile">
+                        Choose Avatar
+                      </label>
+                    </div>
+                  </div>
+                </Stack>
+                <Stack
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <LoadingButton
+                    onClick={handleSubmit}
+                    variant="contained"
+                    loading={updating ? true : false}
+                    sx={{ "&:focus": { outline: "none" }, width: "30vw" }}
+                  >
+                    Update Profile
+                  </LoadingButton>
+                </Stack>
+
+                <Snackbar
+                  open={open}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                >
+                  <SnackbarAlert>
+                    <Typography>profile updated</Typography>
+                  </SnackbarAlert>
+                </Snackbar>
+              </Stack>
+            </Paper>
+          )}
+        </Box>
+      </Box>
+      <div className="footer" style={{ oveflow: "hidden" }}>
+        <Footer />
+      </div>
+    </>
   );
 }
 

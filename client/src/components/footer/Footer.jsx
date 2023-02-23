@@ -52,7 +52,7 @@ function Footer() {
             }}
           >
             Join our mailing list to stay in the loop with our newest feature
-            releases, brands, and products and Resturants for navigating Ahia.
+            releases, brands, and products and Resturants for navigating Atlas.
           </Typography>
           <Stack
             className="form-input"
@@ -151,7 +151,7 @@ function Footer() {
           }}
         >
           <Typography variant="h5" color="white" className="topic">
-            Ahia
+            Atlas
           </Typography>
           <Typography
             variant="body2"

@@ -26,6 +26,7 @@ import Payment from "./pages/cart/Payment";
 import "./style.css";
 import "./App.css";
 import OrderDetails from "./pages/orders/OrderDetails";
+import HomeAd from "./pages/adminPages/homeAd/HomeAd";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -33,6 +34,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        {/* <Route path="/" element={<HomeAd />} /> */}
         <Route path="/" element={<Home />} />
         <Route path="/brands" element={<Brands />} />
         <Route path="/brand/:id" element={<BrandDetail />} />

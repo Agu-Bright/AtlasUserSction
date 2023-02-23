@@ -77,6 +77,7 @@ export default function BrandCard({ key, data }) {
                 marginLeft: "80px",
                 width: "auto",
                 overflowX: "hidden",
+                fontSize: "12px",
               }}
             >
               {data.brandName}

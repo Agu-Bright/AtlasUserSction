@@ -169,9 +169,7 @@ const getRecommendedProducts = catchAsyncErrors(async (req, res, next) => {
   if (!brand) {
     return next(new ErrorHandler("No product Found", 404));
   }
-  const mainProducts = await Product.find({ user: brand[0].user });
-  const products = mainProducts.filter((item) => item._id === id);
-  console.log(products);
+  const products = await Product.find({ user: brand[0].user });
   res.status(200).json({ success: "true", products });
 });
 

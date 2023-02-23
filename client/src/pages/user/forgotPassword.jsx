@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
 import {
   Typography,
   Stack,
@@ -10,6 +11,7 @@ import {
   AlertTitle,
   Snackbar,
   Link,
+  Paper,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { forgotPassword, clearErrors } from "../../redux/actions/userActions";
@@ -22,6 +24,7 @@ const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
 function ForgotPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [navbar, setNavbar] = useState(true);
 
   // const { user, loading } = useSelector((state) => state.auth);
   const { error, message, sending } = useSelector(
@@ -59,69 +62,92 @@ function ForgotPassword() {
     setOpen(false);
   };
   return (
-    <Box
-      sx={{
-        height: "50vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "15vh",
-      }}
-    >
-      <Stack
-        direction="column"
-        spacing={1}
+    <>
+      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+
+      <Box
         sx={{
-          boxShadow: 2,
-          border: "0.1px solid #48e5c2",
-          padding: "10px",
-          borderRadius: "10px",
+          height: "auto",
+          paddingTop: { md: "100px", xs: "60px" },
+          paddingBottom: "20px",
         }}
       >
-        <Typography variant="h3">Forgot Password</Typography>
-        {Message && (
-          <>
-            <Alert severity="error">
-              <AlertTitle>Error</AlertTitle>
-              <Typography>{Message}</Typography>
-            </Alert>
-          </>
-        )}
-        <TextField
-          label="Email"
-          type="text"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <Stack
+        <Box
           sx={{
+            height: "70vh",
             display: "flex",
-            justifyContent: "center",
             alignItems: "center",
+            justifyContent: "center",
+            marginTop: "15vh",
           }}
         >
-          <LoadingButton
-            onClick={handleSubmit}
-            variant="contained"
-            loading={sending ? true : false}
-            sx={{ "&:focus": { outline: "none" } }}
+          <Paper
+            sx={{ borderRadius: "10px", width: { md: "40%", xs: "100%" } }}
           >
-            Email Me a reset Link
-          </LoadingButton>
-          <Typography sx={{ marginTop: "10px" }}>
-            Go Back To <Link href="/sign-in">Sign In Page</Link>{" "}
-          </Typography>
-        </Stack>
+            <Stack
+              direction="column"
+              spacing={1}
+              sx={{
+                boxShadow: 2,
+                border: "0.1px solid #48e5c2",
+                padding: "10px",
+                borderRadius: "10px",
+              }}
+            >
+              <Typography variant="h3">Forgot Password</Typography>
+              {Message && (
+                <>
+                  <Alert severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                    <Typography>{Message}</Typography>
+                  </Alert>
+                </>
+              )}
+              <TextField
+                label="Email"
+                type="text"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-        <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
-          <SnackbarAlert>
-            <Typography variant="h4">{message}</Typography>
-          </SnackbarAlert>
-        </Snackbar>
-      </Stack>
-    </Box>
+              <Stack
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <LoadingButton
+                  onClick={handleSubmit}
+                  variant="contained"
+                  loading={sending ? true : false}
+                  sx={{ "&:focus": { outline: "none" } }}
+                >
+                  Email Me a reset Link
+                </LoadingButton>
+                <Typography sx={{ marginTop: "10px" }}>
+                  Go Back To <Link href="/sign-in">Sign In Page</Link>{" "}
+                </Typography>
+              </Stack>
+
+              <Snackbar
+                open={open}
+                autoHideDuration={10000}
+                onClose={handleClose}
+              >
+                <SnackbarAlert>
+                  <Typography variant="h4">{message}</Typography>
+                </SnackbarAlert>
+              </Snackbar>
+            </Stack>
+          </Paper>
+        </Box>
+      </Box>
+      <div className="footer" style={{ oveflow: "hidden" }}>
+        <Footer />
+      </div>
+    </>
   );
 }
 

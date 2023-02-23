@@ -1,5 +1,5 @@
-import { Box, Divider, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { Box, Divider, Typography, Chip, Skeleton } from "@mui/material";
 import Footer from "../../components/footer/Footer";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
@@ -18,7 +18,7 @@ function Home() {
   const [navbar, setNavbar] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, brandsInLocation, resturantsInLocation } = useSelector(
+  const { brandsInLocation, resturantsInLocation } = useSelector(
     (state) => state.brandsInLocationReducer
   );
   const { user } = useSelector((state) => state.auth);
@@ -66,26 +66,39 @@ function Home() {
             {brandsInLocation && user && (
               <CardSlider data={brandsInLocation} />
             )}{" "}
+            {brandsInLocation && brandsInLocation.length === 0 && (
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  border: "0.2px solid grey",
+                  lineHeight: "1.5em",
+                  padding: "20px 0px",
+                  borderRadius: "11px",
+                }}
+              >
+                <span style={{ fontSize: "1.1em", fontWeight: "200" }}>
+                  No Stores in your location
+                </span>
+              </Typography>
+            )}{" "}
             {!user && (
               <Typography
                 sx={{
                   textAlign: "center",
-
+                  border: "0.2px solid grey",
                   lineHeight: "1.5em",
+                  padding: "20px 0px",
+                  borderRadius: "11px",
                 }}
               >
-                <span
+                <Chip
                   onClick={() => navigate("/sign-up")}
-                  style={{
-                    fontSize: "2em",
-                    cursor: "pointer",
-                    color: "rgb(24, 104, 183)",
-                    fontWeight: "800",
-                  }}
-                >
-                  SignUp
-                </span>{" "}
-                <span style={{ fontSize: "1.3em", fontWeight: "700" }}>
+                  label="Sign Up"
+                  variant="outlined"
+                  sx={{ fontSize: "10px", margin: "5px" }}
+                />
+
+                <span style={{ fontSize: "1.1em", fontWeight: "200" }}>
                   to view Stores in your location
                 </span>
               </Typography>
@@ -101,26 +114,40 @@ function Home() {
             {resturantsInLocation && user && (
               <CardSlider data={resturantsInLocation} />
             )}
+            {resturantsInLocation && resturantsInLocation.length === 0 && (
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  border: "0.2px solid grey",
+                  lineHeight: "1.5em",
+                  padding: "20px 0px",
+                  borderRadius: "11px",
+                }}
+              >
+                <span style={{ fontSize: "1.1em", fontWeight: "200" }}>
+                  No Resturant in your location
+                </span>
+              </Typography>
+            )}
+
             {!user && (
               <Typography
                 sx={{
                   textAlign: "center",
-
+                  border: "0.2px solid grey",
                   lineHeight: "1.5em",
+                  padding: "20px 0px",
+                  borderRadius: "11px",
                 }}
               >
-                <span
+                <Chip
                   onClick={() => navigate("/sign-up")}
-                  style={{
-                    fontSize: "2em",
-                    cursor: "pointer",
-                    color: "rgb(24, 104, 183)",
-                    fontWeight: "800",
-                  }}
-                >
-                  SignUp
-                </span>{" "}
-                <span style={{ fontSize: "1.3em", fontWeight: "700" }}>
+                  label="Sign Up"
+                  variant="outlined"
+                  sx={{ fontSize: "10px", margin: "5px" }}
+                />
+
+                <span style={{ fontSize: "1.1em", fontWeight: "200" }}>
                   to view Resturants in your location
                 </span>
               </Typography>

@@ -193,7 +193,14 @@ function BrandProoducts({ id }) {
               container
               rowSpacing={2}
               columnSpacing={4}
-              sx={{ padding: "0", margin: "0", width: "auto" }}
+              sx={{
+                padding: "0",
+                margin: "0",
+                width: "auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
               {loading && <ProductCardLoader />}
               {brands &&
@@ -232,6 +239,7 @@ function BrandProoducts({ id }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                marginTop: "12px",
               }}
             >
               <Pagination

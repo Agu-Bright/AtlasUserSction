@@ -13,9 +13,10 @@ import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 
 function Swiper() {
+  // const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { brands, loading, error } = useSelector((state) => state.newBrands);
+  const { loading, brands, error } = useSelector((state) => state.newBrands);
   useEffect(() => {
     if (error) {
       console.log("error");
@@ -31,21 +32,33 @@ function Swiper() {
       <Slider
         breakpoints={{
           // when window width is >= 320px
-          320: {
+          200: {
             slidesPerView: 1,
             spaceBetween: 20,
           },
           400: {
-            slidesPerView: 2,
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          460: {
+            slidesPerView: 1,
             spaceBetween: 20,
           },
           // when window width is >= 480px
-          480: {
-            slidesPerView: 3,
+          500: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          600: {
+            slidesPerView: 2,
             spaceBetween: 10,
           },
           // when window width is >= 640px
           700: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },
+          1000: {
             slidesPerView: 4,
             spaceBetween: 10,
           },

@@ -9,11 +9,14 @@ import {
   Alert,
   AlertTitle,
   Snackbar,
+  Paper,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { updatePassword, clearErrors } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { UPDATE_PASSWORD_RESET } from "../../redux/constants/userConstants";
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
@@ -58,66 +61,99 @@ function UpdatePassword() {
     }
     setOpen(false);
   };
+  const [navbar, setNavbar] = useState(true);
+
   return (
-    <Box
-      sx={{
-        height: "50vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "15vh",
-      }}
-    >
-      <Stack direction="column" spacing={1}>
-        <Typography variant="h3">Update Profile</Typography>
-        {Message && (
-          <>
-            <Alert severity="error">
-              <AlertTitle>Error</AlertTitle>
-              <Typography>{Message}</Typography>
-            </Alert>
-          </>
-        )}
-        <TextField
-          label="oldPassword"
-          type="text"
-          name="oldPassword"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-        />
-
-        <TextField
-          label="newPassword "
-          name="newPassword"
-          type="text"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-
-        <Stack
+    <>
+      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+      <Box
+        sx={{
+          height: "auto",
+          paddingTop: { md: "100px", xs: "60px" },
+          paddingBottom: "20px",
+        }}
+      >
+        <Box
           sx={{
+            height: "70vh",
             display: "flex",
-            justifyContent: "center",
             alignItems: "center",
+            justifyContent: "center",
+            marginTop: "15vh",
           }}
         >
-          <LoadingButton
-            onClick={handleSubmit}
-            variant="contained"
-            loading={updating ? true : false}
-            sx={{ "&:focus": { outline: "none" }, width: "30vw" }}
+          <Paper
+            sx={{ borderRadius: "10px", width: { md: "40%", xs: "100%" } }}
           >
-            Update Profile
-          </LoadingButton>
-        </Stack>
+            <Stack
+              direction="column"
+              spacing={1}
+              sx={{
+                boxShadow: { xs: "none", md: 10 },
 
-        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-          <SnackbarAlert>
-            <Typography>Password Updated Seccess</Typography>
-          </SnackbarAlert>
-        </Snackbar>
-      </Stack>
-    </Box>
+                padding: "10px",
+                borderRadius: "10px",
+              }}
+            >
+              <Typography variant="h3">Update Password</Typography>
+              {Message && (
+                <>
+                  <Alert severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                    <Typography>{Message}</Typography>
+                  </Alert>
+                </>
+              )}
+              <TextField
+                label="oldPassword"
+                type="text"
+                name="oldPassword"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+
+              <TextField
+                label="newPassword "
+                name="newPassword"
+                type="text"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+
+              <Stack
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <LoadingButton
+                  onClick={handleSubmit}
+                  variant="contained"
+                  loading={updating ? true : false}
+                  sx={{ "&:focus": { outline: "none" }, width: "30vw" }}
+                >
+                  Update Password
+                </LoadingButton>
+              </Stack>
+
+              <Snackbar
+                open={open}
+                autoHideDuration={4000}
+                onClose={handleClose}
+              >
+                <SnackbarAlert>
+                  <Typography>Password Updated Seccess</Typography>
+                </SnackbarAlert>
+              </Snackbar>
+            </Stack>
+          </Paper>
+        </Box>
+      </Box>
+      <div className="footer" style={{ oveflow: "hidden" }}>
+        <Footer />
+      </div>
+    </>
   );
 }
 

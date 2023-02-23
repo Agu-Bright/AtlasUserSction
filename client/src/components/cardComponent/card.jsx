@@ -12,7 +12,7 @@ export default function CardComponent({ data }) {
   const navigate = useNavigate();
   return (
     <Card
-      sx={{ width: { md: 250, sm: 200, xs: 290 } }}
+      sx={{ width: { md: "100%", sm: "100%", xs: "100%" } }}
       component="div"
       onClick={() => navigate(`/brand/${data._id}`)}
     >
@@ -30,6 +30,7 @@ export default function CardComponent({ data }) {
               width: "inherit",
               borderRadius: "0px",
               height: "150px",
+              overflow: "hidden",
             }}
           >
             {data.brandName}
@@ -60,7 +61,8 @@ export default function CardComponent({ data }) {
               justifySelf: "flex-end",
               marginLeft: "80px",
               width: "auto",
-              overflowX: "hidden",
+              overflowY: "scroll",
+              height: "26px",
             }}
           >
             {data.brandName}

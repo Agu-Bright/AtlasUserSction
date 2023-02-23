@@ -39,7 +39,7 @@ function Trending() {
             <Typography
               sx={{ color: " rgb(112, 122, 131)", fontWeight: "600" }}
             >
-              Sellers
+              Products
             </Typography>
             <Typography
               sx={{ color: " rgb(112, 122, 131)", fontWeight: "600" }}
@@ -69,7 +69,7 @@ function Trending() {
             <Typography
               sx={{ color: " rgb(112, 122, 131)", fontWeight: "600" }}
             >
-              Sellers
+              Products
             </Typography>
             <Typography
               sx={{ color: " rgb(112, 122, 131)", fontWeight: "600" }}

@@ -1,9 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar, Box, Stack, Typography, ListItem } from "@mui/material";
 function Trend({ data }) {
+  const navigate = useNavigate();
   return (
     <>
       <ListItem
+        onClick={() => navigate(`/product/${data._id}`)}
         sx={{
           paddingLeft: "0px",
           paddingRight: "0px",

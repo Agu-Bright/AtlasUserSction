@@ -154,7 +154,7 @@ const brandSchema = mongoose.Schema({
   verified: { type: Boolean, default: false },
   status: {
     type: String,
-    default: "approved",
+    default: "unApproved",
   },
   createdAt: {
     type: Date,
