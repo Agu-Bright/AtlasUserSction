@@ -58,6 +58,7 @@ const brandSchema = mongoose.Schema({
       true,
       "Please give a detailed description of what your brand is about",
     ],
+    maxlength: [1000, "Brand description cannot exceed 1000 characters"],
   },
   certificate: {
     public_id: {

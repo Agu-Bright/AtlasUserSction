@@ -15,6 +15,7 @@ import {
   BRANDS_IN_LOCATION_REQUEST,
   BRANDS_IN_LOCATION_SUCCESS,
   BRANDS_IN_LOCATION_FAIL,
+  SAVE_CREATE_BRAND_INFO,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -100,6 +101,13 @@ export const getBrandsInLocation = () => async (dispatch) => {
       payload: error.response.data.Message,
     });
   }
+};
+
+//seller point actions
+export const saveBrandInfo = (data) => async (dispatch, getState) => {
+  dispatch({ type: SAVE_CREATE_BRAND_INFO, payload: data });
+
+  localStorage.setItem("createBrandInfo", JSON.stringify(data));
 };
 
 //clear Errors

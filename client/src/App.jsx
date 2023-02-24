@@ -27,6 +27,8 @@ import "./style.css";
 import "./App.css";
 import OrderDetails from "./pages/orders/OrderDetails";
 import HomeAd from "./pages/adminPages/homeAd/HomeAd";
+import BrandName from "./pages/adminPages/createBrand/BrandName";
+import BrandDetails from "./pages/adminPages/createBrand/BrandDetails";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -35,7 +37,7 @@ const App = () => {
     <Router>
       <Routes>
         {/* <Route path="/" element={<HomeAd />} /> */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomeAd />} />
         <Route path="/brands" element={<Brands />} />
         <Route path="/brand/:id" element={<BrandDetail />} />
         <Route path="/products" element={<Products />} />
@@ -48,6 +50,9 @@ const App = () => {
         <Route path="/update-password" element={<UpdatePassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<NewPassword />} />
+
+        <Route path="/brandName" element={<BrandName />} />
+        <Route path="/brandDetails" element={<BrandDetails />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/me" element={<Profile />} exact />
           <Route path="/update-profile" element={<UpdateProfile />} exact />

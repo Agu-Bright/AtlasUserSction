@@ -7,15 +7,11 @@ import {
   ButtonGroup,
   IconButton,
   Skeleton,
+  ListItemText,
+  ListItemButton,
+  List,
 } from "@mui/material";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
 import Navbar from "../../components/navbar/Navbar";
-import water from "../../images/water.jpg";
-import pepsi from "../../images/pepsi.jpg";
-
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -25,7 +21,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import ProductCard from "../../components/cardComponent/productCard";
 import Footer from "../../components/footer/Footer";
 import PrimarySearchAppBar from "../../components/search";
-
+import Modal from "@mui/material/Modal";
 import { useParams } from "react-router-dom";
 import { categories } from "../../utils/stateData";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,7 +29,18 @@ import { clearErrors } from "../../redux/actions/brandAction";
 import { getBrandDetail } from "../../redux/actions/brandAction";
 import BrandProoducts from "./brandComponent/BrandProoducts";
 import { useNavigate, useLocation } from "react-router-dom";
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 200,
+  height: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  overflowY: "scroll",
+};
 const ReadMore = ({ children }) => {
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
@@ -69,6 +76,7 @@ function BrandDetail() {
   const [navbar, setNavbar] = useState(true);
   const [toggle, setToggle] = useState(true);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [brandType, setBrandType] = useState("");
 
   const { brandDetail, loading, error } = useSelector(
     (state) => state.brandDetails
@@ -89,6 +97,13 @@ function BrandDetail() {
   }, [dispatch, id]);
   brandDetail ? console.log(brandDetail) : console.log("waiting");
 
+  //modal setup
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleBrandTypeSelect = (brandType) => {
+    setBrandType(brandType);
+  };
   return (
     <>
       <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
@@ -310,6 +325,7 @@ function BrandDetail() {
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
+      
     </>
   );
 }

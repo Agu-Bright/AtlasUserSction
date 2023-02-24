@@ -7,6 +7,7 @@ import {
   brandProductReducer,
   allBrandsReducer,
   brandsInLocationReducer,
+  createBrandReducer,
 } from "./reducers/brandReducer";
 import {
   trendingProductReducer,
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   brandProductReducer: brandProductReducer,
   allBrandsReducer: allBrandsReducer,
   brandsInLocationReducer: brandsInLocationReducer,
+  createBrand: createBrandReducer,
   //product reducer section
   trendingProducts: trendingProductReducer,
   allProducts: allProductsReducer,
@@ -79,6 +81,11 @@ let initialState = {
     shippingInfo: localStorage.getItem("shippingInfo")
       ? JSON.parse(localStorage.getItem("shippingInfo"))
       : {},
+  },
+  createBrand: {
+    createBrandInfo: localStorage.getItem("createBrandInfo")
+      ? [...JSON.parse(localStorage.getItem("createBrandInfo"))]
+      : [],
   },
 };
 const middleware = [thunk];

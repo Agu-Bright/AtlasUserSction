@@ -14,6 +14,7 @@ import {
   BRANDS_IN_LOCATION_REQUEST,
   BRANDS_IN_LOCATION_SUCCESS,
   BRANDS_IN_LOCATION_FAIL,
+  SAVE_CREATE_BRAND_INFO,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -169,6 +170,19 @@ export const allBrandsReducer = (state = { brands: null }, action) => {
       return {
         ...state,
         error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const createBrandReducer = (state = { createBrandInfo: {} }, action) => {
+  switch (action.type) {
+    case SAVE_CREATE_BRAND_INFO:
+      return {
+        ...state,
+        createBrandInfo: action.payload,
       };
 
     default:
