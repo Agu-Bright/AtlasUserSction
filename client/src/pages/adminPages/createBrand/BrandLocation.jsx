@@ -6,31 +6,39 @@ import {
   Button,
   Stack,
   Paper,
-  Divider,
   FormControl,
   Typography,
-  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import CreateBrandSteps from "./CreateBrandSteps";
 import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import { saveBrandInfo } from "../../../redux/actions/brandAction";
-function BrandDetails() {
+import { states } from "../../../utils/stateData";
+
+function BrandLocation() {
   const [navbar, setNavbar] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { createBrandInfo } = useSelector((state) => state.createBrand);
-  const [brandName, setBrandName] = useState(createBrandInfo?.brandName);
+  //   const { createBrandInfo } = useSelector((state) => state.createBrand);
+  const [brandLocation, setBrandLocation] = useState("");
+  const data = localStorage.getItem("createBrandInfo");
+  const { brandName, brandDetails, brandType } = JSON.parse(data);
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
       saveBrandInfo({
         brandName,
+        brandDetails,
+        brandType,
+        brandLocation,
       })
     );
-    navigate("/brandDetails");
+    navigate("/personal");
   };
   return (
     <>
@@ -61,23 +69,27 @@ function BrandDetails() {
             >
               Atlas
             </Typography>
-            <CreateBrandSteps brandName />
+            <CreateBrandSteps location />
             <Stack
               direction="column"
               sx={{ padding: "5px", marginTop: "15px" }}
             >
-              <FormControl onSubmit={submitHandler} sx={{ padding: "8px" }}>
-                <Divider />
-                <Stack direction="column" spacing={2}>
-                  <TextField
-                    label="Brand Name"
-                    type="text"
-                    name="brandname"
-                    value={brandName}
-                    onChange={(e) => setBrandName(e.target.value)}
-                    required
-                  />
-                </Stack>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Location</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={brandLocation}
+                  label="Location"
+                  name="location"
+                  onChange={(e) => setBrandLocation(e.target.value)}
+                >
+                  {states.map((state) => (
+                    <MenuItem key={state} value={state}>
+                      {state}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
             </Stack>
           </div>
@@ -116,4 +128,4 @@ function BrandDetails() {
   );
 }
 
-export default BrandDetails;
+export default BrandLocation;

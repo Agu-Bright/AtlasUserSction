@@ -25,10 +25,14 @@ import store from "./redux/store";
 import Payment from "./pages/cart/Payment";
 import "./style.css";
 import "./App.css";
+import FirstDetaili from "./pages/adminPages/createBrand/FirstDetail";
 import OrderDetails from "./pages/orders/OrderDetails";
 import HomeAd from "./pages/adminPages/homeAd/HomeAd";
 import BrandName from "./pages/adminPages/createBrand/BrandName";
 import BrandDetails from "./pages/adminPages/createBrand/BrandDetails";
+import BrandType from "./pages/adminPages/createBrand/BrandType";
+import BrandLocation from "./pages/adminPages/createBrand/BrandLocation";
+
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -51,8 +55,11 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<NewPassword />} />
 
+        <Route path="/firstDetails" element={<FirstDetaili />} />
         <Route path="/brandName" element={<BrandName />} />
         <Route path="/brandDetails" element={<BrandDetails />} />
+        <Route path="/brandType" element={<BrandType />} />
+        <Route path="/brandLocation" element={<BrandLocation />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/me" element={<Profile />} exact />
           <Route path="/update-profile" element={<UpdateProfile />} exact />

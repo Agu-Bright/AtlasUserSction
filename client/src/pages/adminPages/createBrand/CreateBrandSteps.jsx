@@ -1,6 +1,7 @@
 import { Typography, LinearProgress, Box } from "@mui/material";
 import React from "react";
 function CreateBrandSteps({
+  fistStep,
   brandName,
   brandType,
   brandDetails,
@@ -10,14 +11,17 @@ function CreateBrandSteps({
   return (
     <>
       <Box>
-        {brandName && (
+        {fistStep && (
           <LinearProgress variant="determinate" value={10} color="primary" />
         )}
-        {brandType && (
+        {brandName && (
           <LinearProgress variant="determinate" value={20} color="primary" />
         )}
-        {brandDetails && (
+        {brandType && (
           <LinearProgress variant="determinate" value={60} color="primary" />
+        )}
+        {brandDetails && (
+          <LinearProgress variant="determinate" value={20} color="primary" />
         )}
         {location && (
           <LinearProgress variant="determinate" value={80} color="primary" />
@@ -26,6 +30,28 @@ function CreateBrandSteps({
           <LinearProgress variant="determinate" value={100} color="primary" />
         )}
       </Box>
+      {fistStep && (
+        <Box sx={{ margin: "25px 0px" }}>
+          <Typography
+            sx={{
+              textAlign: "start",
+              fontWeight: "550",
+              fontSize: "1.1em",
+            }}
+          >
+            Lets get started. Which of these best describes you?
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "50",
+              margin: "0",
+              padding: "0",
+            }}
+          >
+            We will help you setup based on your bussiness needs
+          </Typography>
+        </Box>
+      )}
       {brandName && (
         <Typography
           sx={{
@@ -65,16 +91,18 @@ function CreateBrandSteps({
       {location && (
         <Typography
           sx={{
-            textAlign: "center",
+            textAlign: "start",
             fontWeight: "600",
             fontSize: "1.5em",
           }}
         >
           Brand Location
-          <p>Your brand location will help us locate customers around you</p>
+          <p style={{ fontWeight: "50", fontSize: "15px" }}>
+            Your brand location will help us locate customers around you
+          </p>
         </Typography>
       )}
-      {location && (
+      {personal && (
         <Typography
           sx={{
             textAlign: "center",

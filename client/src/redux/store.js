@@ -84,8 +84,8 @@ let initialState = {
   },
   createBrand: {
     createBrandInfo: localStorage.getItem("createBrandInfo")
-      ? [...JSON.parse(localStorage.getItem("createBrandInfo"))]
-      : [],
+      ? { ...JSON.parse(localStorage.getItem("createBrandInfo")) }
+      : {},
   },
 };
 const middleware = [thunk];

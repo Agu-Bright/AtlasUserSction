@@ -105,6 +105,7 @@ export const getBrandsInLocation = () => async (dispatch) => {
 
 //seller point actions
 export const saveBrandInfo = (data) => async (dispatch, getState) => {
+  console.log("hello");
   dispatch({ type: SAVE_CREATE_BRAND_INFO, payload: data });
 
   localStorage.setItem("createBrandInfo", JSON.stringify(data));

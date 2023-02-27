@@ -21,17 +21,31 @@ function BrandDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { createBrandInfo } = useSelector((state) => state.createBrand);
-  const [brandName, setBrandName] = useState(createBrandInfo?.brandName);
+  const [bank, setBank] = useState("");
+  const [accountName, setAccountName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const data = localStorage.getItem("createBrandInfo");
+  const { brandName, brandDetails, brandType, brandLocation } =
+    JSON.parse(data);
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
       saveBrandInfo({
         brandName,
+        brandDetails,
+        brandType,
+        brandLocation,
+        bank,
+        accountName,
+        accountNumber,
+        phoneNumber,
       })
     );
     navigate("/brandDetails");
   };
+
   return (
     <>
       <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />
@@ -70,11 +84,40 @@ function BrandDetails() {
                 <Divider />
                 <Stack direction="column" spacing={2}>
                   <TextField
-                    label="Brand Name"
+                    sx={{ margin: "10px" }}
+                    label="Bank Name"
+                    name="bank"
                     type="text"
-                    name="brandname"
-                    value={brandName}
-                    onChange={(e) => setBrandName(e.target.value)}
+                    value={bank}
+                    onChange={(e) => setBank(e.target.value)}
+                    required
+                  />
+
+                  <TextField
+                    sx={{ margin: "10px" }}
+                    label="Account Number"
+                    type="text"
+                    name="accountNumber"
+                    value={accountNumber}
+                    onChange={(e) => setAccountNumber(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    sx={{ margin: "10px" }}
+                    label="Account Name"
+                    type="text"
+                    name="accountName"
+                    value={accountName}
+                    onChange={(e) => setAccountName(e.target.value)}
+                    required
+                  />
+                  <TextField
+                    sx={{ margin: "10px" }}
+                    label="Phone Number"
+                    type="text"
+                    name="phoneNumber"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                     required
                   />
                 </Stack>

@@ -10,28 +10,51 @@ import {
   FormControl,
   Typography,
   TextField,
+  Radio,
+  FormControlLabel,
 } from "@mui/material";
 import CreateBrandSteps from "./CreateBrandSteps";
 import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import { saveBrandInfo } from "../../../redux/actions/brandAction";
-function BrandDetails() {
+import "../../../app.scss";
+function BrandType() {
   const [navbar, setNavbar] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { createBrandInfo } = useSelector((state) => state.createBrand);
-  const [brandName, setBrandName] = useState(createBrandInfo?.brandName);
+  const [selectedValue, setSelectedValue] = React.useState(
+    createBrandInfo.brandType
+  );
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
 
+  const data = localStorage.getItem("createBrandInfo");
+  const { brandName, brandDetails } = JSON.parse(data);
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
       saveBrandInfo({
         brandName,
+        brandDetails,
+        brandType: selectedValue,
       })
     );
-    navigate("/brandDetails");
+    navigate("/brandLocation");
   };
+  //   const handleBrandDetails = (e) => {
+  //     setBrandType(e.target.value);
+  //   };
+  const controlProps = (item) => ({
+    checked: selectedValue === item,
+    onChange: handleChange,
+    value: item,
+    name: "color-radio-button-demo",
+    inputProps: { "aria-label": item },
+    color: "secondary",
+  });
   return (
     <>
       <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />
@@ -61,27 +84,50 @@ function BrandDetails() {
             >
               Atlas
             </Typography>
-            <CreateBrandSteps brandName />
-            <Stack
-              direction="column"
-              sx={{ padding: "5px", marginTop: "15px" }}
+            <CreateBrandSteps brandType />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "10px 0px",
+              }}
             >
-              <FormControl onSubmit={submitHandler} sx={{ padding: "8px" }}>
-                <Divider />
-                <Stack direction="column" spacing={2}>
-                  <TextField
-                    label="Brand Name"
-                    type="text"
-                    name="brandname"
-                    value={brandName}
-                    onChange={(e) => setBrandName(e.target.value)}
-                    required
+              <div className="parent" style={{ width: "100%" }}>
+                <div className="div1">
+                  <FormControlLabel
+                    value="Plug"
+                    control={<Radio {...controlProps("Plug")} />}
+                    label="Plug"
                   />
-                </Stack>
-              </FormControl>
-            </Stack>
+                </div>
+                <div className="div2">
+                  {" "}
+                  <FormControlLabel
+                    value="Store"
+                    control={<Radio {...controlProps("Store")} />}
+                    label="Store"
+                  />
+                </div>
+                <div className="div3">
+                  {" "}
+                  <FormControlLabel
+                    value="Mall"
+                    control={<Radio {...controlProps("Mall")} />}
+                    label="Mall"
+                  />
+                </div>
+                <div className="div4">
+                  {" "}
+                  <FormControlLabel
+                    value="Restaurants"
+                    control={<Radio {...controlProps("Restaurants")} />}
+                    label="Restaurants"
+                  />
+                </div>
+              </div>
+            </Box>
           </div>
-
           <Stack
             alignItems="flex-end"
             justifyContent="space-between"
@@ -89,7 +135,7 @@ function BrandDetails() {
             sx={{ padding: "0px 20px" }}
           >
             <Button
-              onClick={() => navigate("/firstDetails")}
+              onClick={() => navigate("/brandDetails")}
               color="primary"
               type="submit"
               variant="outlined"
@@ -116,4 +162,4 @@ function BrandDetails() {
   );
 }
 
-export default BrandDetails;
+export default BrandType;

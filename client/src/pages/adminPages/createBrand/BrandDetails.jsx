@@ -11,6 +11,7 @@ import {
   Typography,
   TextField,
 } from "@mui/material";
+import Textarea from "@mui/joy/Textarea";
 import CreateBrandSteps from "./CreateBrandSteps";
 import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
@@ -25,15 +26,20 @@ function BrandDetails() {
   const [brandDetails, setBrandDetails] = useState(
     createBrandInfo?.brandDetails
   );
-
+  const data = localStorage.getItem("createBrandInfo");
+  const { brandName } = JSON.parse(data);
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
       saveBrandInfo({
+        brandName,
         brandDetails,
       })
     );
-    navigate("/confirm");
+    navigate("/brandType");
+  };
+  const handleBrandDetails = (e) => {
+    setBrandDetails(e.target.value);
   };
   return (
     <>
@@ -73,18 +79,34 @@ function BrandDetails() {
                 <Divider />
                 <Stack direction="column" spacing={2}>
                   <TextField
-                    label="Brand Details"
-                    type="text"
-                    name="brandDetails"
+                    id="outlined-multiline-static"
+                    label="Multiline"
+                    multiline
+                    rows={4}
+                    color="primary"
+                    placeholder="Brand Description"
                     value={brandDetails}
-                    onChange={(e) => setBrandDetails(e.target.value)}
-                    required
+                    onChange={handleBrandDetails}
                   />
                 </Stack>
               </FormControl>
             </Stack>
           </div>
-          <Stack alignItems="flex-end">
+          <Stack
+            alignItems="flex-end"
+            justifyContent="space-between"
+            direction="row"
+            sx={{ padding: "0px 20px" }}
+          >
+            <Button
+              onClick={() => navigate("/brandName")}
+              color="primary"
+              type="submit"
+              variant="outlined"
+              sx={{ "&:focus": { outline: "none" }, width: "30%" }}
+            >
+              Previous
+            </Button>
             <Button
               onClick={submitHandler}
               color="primary"

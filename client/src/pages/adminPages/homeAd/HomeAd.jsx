@@ -1,6 +1,8 @@
 import React from "react";
 import { Box, Typography, Button, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 export default function HomeAd() {
+  const navigate = useNavigate();
   return (
     <>
       <Box
@@ -68,6 +70,7 @@ export default function HomeAd() {
               margin: "5px",
             }}
             size="large"
+            onClick={() => navigate("/firstDetails")}
           >
             Get Started
           </Button>

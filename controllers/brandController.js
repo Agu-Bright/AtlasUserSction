@@ -12,20 +12,8 @@ const cloudinary = require("cloudinary");
 //User Create a brand ==> /api/v1/brand/useer/createBrand [POST]
 const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
   const brandData = {
-    brandName: req.body.brandName,
-    brandType: req.body.brandType,
-    brandProductCategory: req.body.brandProductCategory,
-    brandDetail: req.body.brandDetail,
-    location: req.body.location,
-    bank: req.body.bank,
-    accountName: req.body.accountName,
-    accountNumber: req.body.accountNumber,
-    phoneNumber: req.body.phoneNumber,
+    ...req.body,
     user: req.user._id,
-    brandLogo: {
-      public_id: req.body.brandLogo.public_id,
-      url: req.body.brandLogo.url,
-    },
   };
 
   // const result = await cloudinary.v2.uploader.upload(req.body.logo, {
@@ -34,20 +22,26 @@ const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
   //   crop: "scale",
   // });
   //update user to seller
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user._id);
   if (!user) {
     return next(new ErrorHandler("You must Sign In to create this brand"), 404);
   }
-  await User.findByIdAndUpdate(
-    req.user.id,
-    { ...user, role: "seller" },
-    { new: true, runvalidator: true, useFindAndModify: false }
-  );
 
   const brand = await brandModel.create({
     ...brandData,
     // BrandLogo: { public_id: result?.public_id, url: result?.secure_url },
   });
+  const data = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      name: user.name,
+      email: user.email,
+      location: user.location,
+      role: "seller",
+    },
+    { new: true, runvalidator: true, useFindAndModify: false }
+  );
+  console.log(data);
 
   res.status(200).json({ success: true, brand });
 });
