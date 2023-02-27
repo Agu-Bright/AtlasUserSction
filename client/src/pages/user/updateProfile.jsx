@@ -49,6 +49,7 @@ function UpdateProfile() {
   const [accountName, setAccountName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(
     "/images/default_Avater.png"

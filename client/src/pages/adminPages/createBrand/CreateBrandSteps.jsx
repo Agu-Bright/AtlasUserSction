@@ -105,15 +105,15 @@ function CreateBrandSteps({
       {personal && (
         <Typography
           sx={{
-            textAlign: "center",
+            textAlign: "start",
             fontWeight: "600",
             fontSize: "1.5em",
           }}
         >
           Personal Information
-          <p>
+          <p style={{ fontWeight: "50", fontSize: "15px" }}>
             We need these personal information for payment when an order have
-            been placed in your store{" "}
+            been placed in your brand{" "}
           </p>
         </Typography>
       )}

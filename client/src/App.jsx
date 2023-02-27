@@ -32,7 +32,7 @@ import BrandName from "./pages/adminPages/createBrand/BrandName";
 import BrandDetails from "./pages/adminPages/createBrand/BrandDetails";
 import BrandType from "./pages/adminPages/createBrand/BrandType";
 import BrandLocation from "./pages/adminPages/createBrand/BrandLocation";
-
+import Personal from "./pages/adminPages/createBrand/personal";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -60,6 +60,7 @@ const App = () => {
         <Route path="/brandDetails" element={<BrandDetails />} />
         <Route path="/brandType" element={<BrandType />} />
         <Route path="/brandLocation" element={<BrandLocation />} />
+        <Route path="/personal" element={<Personal />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/me" element={<Profile />} exact />
           <Route path="/update-profile" element={<UpdateProfile />} exact />

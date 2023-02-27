@@ -15,7 +15,7 @@ import CreateBrandSteps from "./CreateBrandSteps";
 import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import { saveBrandInfo } from "../../../redux/actions/brandAction";
-function BrandDetails() {
+function Personal() {
   const [navbar, setNavbar] = useState(true);
 
   const dispatch = useDispatch();
@@ -43,7 +43,6 @@ function BrandDetails() {
         phoneNumber,
       })
     );
-    navigate("/brandDetails");
   };
 
   return (
@@ -56,13 +55,14 @@ function BrandDetails() {
           justifyContent: "center",
           width: "100%",
           height: "60vh",
-          paddingTop: { md: "100px", xs: "60px" },
+          paddingTop: { md: "200px", xs: "150px" },
           paddingBottom: "20px",
+          marginBottom: "70px",
         }}
       >
         <Paper
           sx={{
-            marginTop: "20px",
+            margin: "50px 0px",
             width: { md: "40%", xs: "90%" },
             padding: "20px",
             boxShadow: 2,
@@ -75,53 +75,44 @@ function BrandDetails() {
             >
               Atlas
             </Typography>
-            <CreateBrandSteps brandName />
-            <Stack
-              direction="column"
-              sx={{ padding: "5px", marginTop: "15px" }}
-            >
-              <FormControl onSubmit={submitHandler} sx={{ padding: "8px" }}>
-                <Divider />
-                <Stack direction="column" spacing={2}>
-                  <TextField
-                    sx={{ margin: "10px" }}
-                    label="Bank Name"
-                    name="bank"
-                    type="text"
-                    value={bank}
-                    onChange={(e) => setBank(e.target.value)}
-                    required
-                  />
+            <CreateBrandSteps personal />
 
-                  <TextField
-                    sx={{ margin: "10px" }}
-                    label="Account Number"
-                    type="text"
-                    name="accountNumber"
-                    value={accountNumber}
-                    onChange={(e) => setAccountNumber(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    sx={{ margin: "10px" }}
-                    label="Account Name"
-                    type="text"
-                    name="accountName"
-                    value={accountName}
-                    onChange={(e) => setAccountName(e.target.value)}
-                    required
-                  />
-                  <TextField
-                    sx={{ margin: "10px" }}
-                    label="Phone Number"
-                    type="text"
-                    name="phoneNumber"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    required
-                  />
-                </Stack>
-              </FormControl>
+            <Stack direction="column" spacing={2}>
+              <TextField
+                label="Bank Name"
+                name="bank"
+                type="text"
+                value={bank}
+                onChange={(e) => setBank(e.target.value)}
+                required
+              />
+              <TextField
+                sx={{ margin: "10px" }}
+                label="Account Number"
+                type="text"
+                name="accountNumber"
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                required
+              />
+              <TextField
+                sx={{ margin: "10px" }}
+                label="Account Name"
+                type="text"
+                name="accountName"
+                value={accountName}
+                onChange={(e) => setAccountName(e.target.value)}
+                required
+              />
+              <TextField
+                sx={{ margin: "10px" }}
+                label="Phone Number"
+                type="text"
+                name="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                required
+              />
             </Stack>
           </div>
 
@@ -129,10 +120,10 @@ function BrandDetails() {
             alignItems="flex-end"
             justifyContent="space-between"
             direction="row"
-            sx={{ padding: "0px 20px" }}
+            sx={{ padding: "0px 20px", margin: "9px 0px" }}
           >
             <Button
-              onClick={() => navigate("/firstDetails")}
+              onClick={() => navigate("/brandLocation")}
               color="primary"
               type="submit"
               variant="outlined"
@@ -147,16 +138,19 @@ function BrandDetails() {
               variant="contained"
               sx={{ "&:focus": { outline: "none" }, width: "30%" }}
             >
-              Next
+              create brand
             </Button>
           </Stack>
         </Paper>
       </Box>
-      <div className="footer" style={{ oveflow: "hidden" }}>
+      <div
+        className="footer"
+        style={{ oveflow: "hidden", marginTop: { md: "50px", xs: "70px" } }}
+      >
         <Footer />
       </div>
     </>
   );
 }
 
-export default BrandDetails;
+export default Personal;
