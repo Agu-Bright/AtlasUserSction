@@ -97,10 +97,6 @@ function BrandDetail() {
   }, [dispatch, id]);
   brandDetail ? console.log(brandDetail) : console.log("waiting");
 
-  //modal setup
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const handleBrandTypeSelect = (brandType) => {
     setBrandType(brandType);
   };
@@ -325,7 +321,6 @@ function BrandDetail() {
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
-      
     </>
   );
 }

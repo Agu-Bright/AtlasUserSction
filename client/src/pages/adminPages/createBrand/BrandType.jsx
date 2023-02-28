@@ -6,10 +6,7 @@ import {
   Button,
   Stack,
   Paper,
-  Divider,
-  FormControl,
   Typography,
-  TextField,
   Radio,
   FormControlLabel,
 } from "@mui/material";
@@ -32,21 +29,18 @@ function BrandType() {
   };
 
   const data = localStorage.getItem("createBrandInfo");
-  const { brandName, brandDetails } = JSON.parse(data);
+  const { brandName, brandDetail } = JSON.parse(data);
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
       saveBrandInfo({
         brandName,
-        brandDetails,
+        brandDetail,
         brandType: selectedValue,
       })
     );
     navigate("/brandLocation");
   };
-  //   const handleBrandDetails = (e) => {
-  //     setBrandType(e.target.value);
-  //   };
   const controlProps = (item) => ({
     checked: selectedValue === item,
     onChange: handleChange,

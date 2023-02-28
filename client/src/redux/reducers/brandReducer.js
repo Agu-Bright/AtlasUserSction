@@ -1,4 +1,7 @@
 import {
+  CREATE_BRAND_REQUEST,
+  CREATE_BRAND_SUCCESS,
+  CREATE_BRAND_FAIL,
   GET_BRAND_REQUEST,
   GET_BRAND_SUCCESS,
   GET_BRAND_FAIL,
@@ -17,6 +20,35 @@ import {
   SAVE_CREATE_BRAND_INFO,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
+
+export const createBrand = (state = { brand: null }, action) => {
+  switch (action.type) {
+    case CREATE_BRAND_REQUEST:
+      return {
+        loading: true,
+        brand: null,
+      };
+
+    case CREATE_BRAND_SUCCESS:
+      return {
+        loading: false,
+        brand: action.payload,
+      };
+    case CREATE_BRAND_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
 
 export const brandReducer = (state = { brands: [] }, action) => {
   switch (action.type) {

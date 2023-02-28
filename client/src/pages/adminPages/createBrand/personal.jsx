@@ -6,11 +6,14 @@ import {
   Button,
   Stack,
   Paper,
-  Divider,
-  FormControl,
   Typography,
   TextField,
+  CircularProgress,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
+// import { createBrand } from "../../../redux/actions/brandAction";
+import { createBrand } from "../../../redux/actions/brandAction";
 import CreateBrandSteps from "./CreateBrandSteps";
 import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
@@ -21,22 +24,37 @@ function Personal() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { createBrandInfo } = useSelector((state) => state.createBrand);
-  const [bank, setBank] = useState("");
-  const [accountName, setAccountName] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [bank, setBank] = useState(createBrandInfo.bank);
+  const [accountName, setAccountName] = useState(createBrandInfo.accountName);
+  const [accountNumber, setAccountNumber] = useState(
+    createBrandInfo.accountNumber
+  );
+  const [phoneNumber, setPhoneNumber] = useState(
+    createBrandInfo.setPhoneNumber
+  );
   const data = localStorage.getItem("createBrandInfo");
-  const { brandName, brandDetails, brandType, brandLocation } =
-    JSON.parse(data);
-
+  const { brandName, brandDetail, brandType, location } = JSON.parse(data);
+  const { loading, brand, error } = useSelector((state) => state.brand);
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
       saveBrandInfo({
         brandName,
-        brandDetails,
+        brandDetail,
         brandType,
-        brandLocation,
+        location,
+        bank,
+        accountName,
+        accountNumber,
+        phoneNumber,
+      })
+    );
+    dispatch(
+      createBrand({
+        brandName,
+        brandDetail,
+        brandType,
+        location,
         bank,
         accountName,
         accountNumber,
@@ -76,44 +94,63 @@ function Personal() {
               Atlas
             </Typography>
             <CreateBrandSteps personal />
-
-            <Stack direction="column" spacing={2}>
-              <TextField
-                label="Bank Name"
-                name="bank"
-                type="text"
-                value={bank}
-                onChange={(e) => setBank(e.target.value)}
-                required
-              />
-              <TextField
-                sx={{ margin: "10px" }}
-                label="Account Number"
-                type="text"
-                name="accountNumber"
-                value={accountNumber}
-                onChange={(e) => setAccountNumber(e.target.value)}
-                required
-              />
-              <TextField
-                sx={{ margin: "10px" }}
-                label="Account Name"
-                type="text"
-                name="accountName"
-                value={accountName}
-                onChange={(e) => setAccountName(e.target.value)}
-                required
-              />
-              <TextField
-                sx={{ margin: "10px" }}
-                label="Phone Number"
-                type="text"
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                required
-              />
-            </Stack>
+            {loading ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "30px 0px",
+                }}
+              >
+                <CircularProgress size={90} />
+              </Box>
+            ) : (
+              <Stack direction="column" spacing={2} sx={{ margin: "9px 0px" }}>
+                <TextField
+                  label="Bank Name"
+                  name="bank"
+                  type="text"
+                  value={bank}
+                  onChange={(e) => setBank(e.target.value)}
+                  required
+                />
+                <TextField
+                  sx={{ margin: "10px" }}
+                  label="Account Number"
+                  type="text"
+                  name="accountNumber"
+                  value={accountNumber}
+                  onChange={(e) => setAccountNumber(e.target.value)}
+                  required
+                />
+                <TextField
+                  sx={{ margin: "10px" }}
+                  label="Account Name"
+                  type="text"
+                  name="accountName"
+                  value={accountName}
+                  onChange={(e) => setAccountName(e.target.value)}
+                  required
+                />
+                <TextField
+                  sx={{ margin: "10px" }}
+                  label="Phone Number"
+                  type="text"
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
+                />
+              </Stack>
+            )}
+            {error && (
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                {error}
+              </Alert>
+            )}
           </div>
 
           <Stack
@@ -137,8 +174,9 @@ function Personal() {
               type="submit"
               variant="contained"
               sx={{ "&:focus": { outline: "none" }, width: "30%" }}
+              disabled={loading ? true : false}
             >
-              create brand
+              submit
             </Button>
           </Stack>
         </Paper>

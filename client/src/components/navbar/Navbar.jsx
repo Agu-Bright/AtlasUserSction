@@ -37,7 +37,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SearchIcon from "@mui/icons-material/Search";
 
-function Navbar({ navbar, setNavbar, active }) {
+function Navbar({ navbar, setNavbar, active, background, border }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -287,7 +287,12 @@ function Navbar({ navbar, setNavbar, active }) {
     <Stack
       direction="row"
       className={navbar ? `navbar ${active}` : "navbar"}
-      sx={{ height: { md: "72px", xs: "50px" } }}
+      sx={{
+        height: { md: "10vh" },
+        zIndex: "999",
+        background: background,
+        borderBottom: border ? ".2px solid " : "",
+      }}
     >
       <Typography
         onClick={() => navigate("/")}

@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  CREATE_BRAND_REQUEST,
+  CREATE_BRAND_SUCCESS,
+  CREATE_BRAND_FAIL,
   GET_BRAND_REQUEST,
   GET_BRAND_SUCCESS,
   GET_BRAND_FAIL,
@@ -19,6 +22,25 @@ import {
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
+export const createBrand = (formData) => async (dispatch) => {
+  try {
+    dispatch({ type: CREATE_BRAND_REQUEST });
+    const { data } = await axios.post(
+      "/api/v1/brand/user/createBrand",
+      formData,
+      {
+        withCredentials: true,
+        credentials: "include",
+      }
+    );
+    dispatch({ type: CREATE_BRAND_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({
+      type: CREATE_BRAND_FAIL,
+      payload: error.response.data.Message,
+    });
+  }
+};
 export const getNewBrands = () => async (dispatch) => {
   try {
     dispatch({ type: GET_BRAND_REQUEST });

@@ -19,17 +19,7 @@ function FirstDetaili() {
   const [state, setState] = useState();
   //   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { createBrandInfo } = useSelector((state) => state.createBrand);
 
-  //   const submitHandler = (e) => {
-  //     e.preventDefault();
-  //     dispatch(
-  //       saveBrandInfo({
-  //         brandName,
-  //       })
-  //     );
-  //     navigate("/brandDetails");
-  //   };
   return (
     <>
       <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />

@@ -23,9 +23,7 @@ function BrandDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { createBrandInfo } = useSelector((state) => state.createBrand);
-  const [brandDetails, setBrandDetails] = useState(
-    createBrandInfo?.brandDetails
-  );
+  const [brandDetail, setBrandDetails] = useState(createBrandInfo?.brandDetail);
   const data = localStorage.getItem("createBrandInfo");
   const { brandName } = JSON.parse(data);
   const submitHandler = (e) => {
@@ -33,7 +31,7 @@ function BrandDetails() {
     dispatch(
       saveBrandInfo({
         brandName,
-        brandDetails,
+        brandDetail,
       })
     );
     navigate("/brandType");
@@ -80,12 +78,12 @@ function BrandDetails() {
                 <Stack direction="column" spacing={2}>
                   <TextField
                     id="outlined-multiline-static"
-                    label="Multiline"
+                    label="Brand Description"
                     multiline
                     rows={4}
                     color="primary"
                     placeholder="Brand Description"
-                    value={brandDetails}
+                    value={brandDetail}
                     onChange={handleBrandDetails}
                   />
                 </Stack>

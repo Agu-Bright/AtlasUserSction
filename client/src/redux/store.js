@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { highlightReducer } from "./reducers/highlightReducer";
 import {
   brandReducer,
   brandDetailReducer,
@@ -8,6 +9,7 @@ import {
   allBrandsReducer,
   brandsInLocationReducer,
   createBrandReducer,
+  createBrand,
 } from "./reducers/brandReducer";
 import {
   trendingProductReducer,
@@ -55,6 +57,7 @@ const reducer = combineReducers({
   allBrandsReducer: allBrandsReducer,
   brandsInLocationReducer: brandsInLocationReducer,
   createBrand: createBrandReducer,
+  brand: createBrand,
   //product reducer section
   trendingProducts: trendingProductReducer,
   allProducts: allProductsReducer,
@@ -72,6 +75,8 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   order: updateOrdersReducer,
   deleteOrder: deleteOrderReducer,
+
+  highlight: highlightReducer,
 });
 let initialState = {
   cart: {

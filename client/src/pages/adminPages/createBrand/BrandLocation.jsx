@@ -23,19 +23,19 @@ function BrandLocation() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //   const { createBrandInfo } = useSelector((state) => state.createBrand);
-  const [brandLocation, setBrandLocation] = useState("");
+  const { createBrandInfo } = useSelector((state) => state.createBrand);
+  const [location, setBrandLocation] = useState(createBrandInfo.location);
   const data = localStorage.getItem("createBrandInfo");
-  const { brandName, brandDetails, brandType } = JSON.parse(data);
+  const { brandName, brandDetail, brandType } = JSON.parse(data);
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
       saveBrandInfo({
         brandName,
-        brandDetails,
+        brandDetail,
         brandType,
-        brandLocation,
+        location,
       })
     );
     navigate("/personal");
@@ -79,7 +79,7 @@ function BrandLocation() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={brandLocation}
+                  value={location}
                   label="Location"
                   name="location"
                   onChange={(e) => setBrandLocation(e.target.value)}
@@ -101,7 +101,7 @@ function BrandLocation() {
             sx={{ padding: "0px 20px" }}
           >
             <Button
-              onClick={() => navigate("/firstDetails")}
+              onClick={() => navigate("/brandType")}
               color="primary"
               type="submit"
               variant="outlined"

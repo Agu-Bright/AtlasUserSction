@@ -33,6 +33,8 @@ import BrandDetails from "./pages/adminPages/createBrand/BrandDetails";
 import BrandType from "./pages/adminPages/createBrand/BrandType";
 import BrandLocation from "./pages/adminPages/createBrand/BrandLocation";
 import Personal from "./pages/adminPages/createBrand/personal";
+import Dashboard from "./pages/adminPages/dashboard";
+import SellerProtected from "./routes/sellerProtedtedRoute";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -55,12 +57,14 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<NewPassword />} />
 
-        <Route path="/firstDetails" element={<FirstDetaili />} />
-        <Route path="/brandName" element={<BrandName />} />
-        <Route path="/brandDetails" element={<BrandDetails />} />
-        <Route path="/brandType" element={<BrandType />} />
-        <Route path="/brandLocation" element={<BrandLocation />} />
-        <Route path="/personal" element={<Personal />} />
+        <Route element={<SellerProtected />}>
+          <Route path="/firstDetails" element={<FirstDetaili />} />
+          <Route path="/brandName" element={<BrandName />} />
+          <Route path="/brandDetails" element={<BrandDetails />} />
+          <Route path="/brandType" element={<BrandType />} />
+          <Route path="/brandLocation" element={<BrandLocation />} />
+          <Route path="/personal" element={<Personal />} />
+        </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/me" element={<Profile />} exact />
           <Route path="/update-profile" element={<UpdateProfile />} exact />
@@ -68,8 +72,8 @@ const App = () => {
           <Route path="/confirm" element={<ConfirmOrder />} />
 
           <Route path="/order/:id" element={<OrderDetails />} />
-          {/* <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin/books" element={<BookList />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/admin/books" element={<BookList />} />
             <Route path="/admin/newBook" element={<NewBook />} />
             <Route path="/admin/book/:id" element={<UpdateBook />} />
             <Route path="/admin/orders" element={<OrdersList />} />
