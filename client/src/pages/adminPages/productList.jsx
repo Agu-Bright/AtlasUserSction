@@ -99,7 +99,7 @@ function ProductList() {
         product.price,
         product.stock,
         <>
-          <Link to={`/admin/book/${product._id}`}>
+          <Link to={`/admin/product/${product._id}`}>
             <IconButton sx={{ "&:focus": { outline: "none" } }}>
               <EditIcon color="primary" />
             </IconButton>
@@ -121,6 +121,7 @@ function ProductList() {
 
   const options = {
     filterType: "checkbox",
+    responsive: "standard",
   };
   return (
     <>

@@ -144,7 +144,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
     }
 
     //we will have to prevent the seller from updating his book through this endpoint, this is a vulnerability, will be taken care of soon
-    const update = await Books.findByIdAndUpdate(id, req.body, {
+    const update = await Product.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidator: true,
       useFindAndModify: true,

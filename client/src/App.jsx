@@ -38,6 +38,7 @@ import SellerProtected from "./routes/sellerProtedtedRoute";
 import CreateProduct from "./pages/adminPages/createProduct";
 import { getMyBrand } from "./redux/actions/brandAction";
 import ProductList from "./pages/adminPages/productList";
+import UpdateProduct from "./pages/adminPages/AdminProductDetail";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -81,8 +82,8 @@ const App = () => {
 
           <Route path="/productList" element={<ProductList />} />
 
+          <Route path="/admin/product/:id" element={<UpdateProduct />} />
           {/* 
-            <Route path="/admin/book/:id" element={<UpdateBook />} />
             <Route path="/admin/orders" element={<OrdersList />} />
             <Route path="/admin/order/:id" element={<ProcessOrder />} />
             <Route path="/admin/users" element={<UsersList />} />

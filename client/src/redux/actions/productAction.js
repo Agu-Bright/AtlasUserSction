@@ -201,10 +201,10 @@ export const deleteProduct = (id) => async (dispatch) => {
   }
 };
 
-export const updateBook = (id, formData) => async (dispatch) => {
+export const updateProduct = (id, formData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCTS_REQUEST });
-    const { data } = await axios.put(`/api/v1/admin/book/${id}`, formData, {
+    const { data } = await axios.put(`/api/v1/admin/product/${id}`, formData, {
       withCredentials: true,
       credentials: "include",
     });

@@ -86,21 +86,16 @@ export default function PrimarySearchAppBar() {
   };
   return (
     <Search className="search">
-      <FormControl onKeyPress={handleKeyPress} onSubmit={handleSearchSubmit}>
+      <FormControl onSubmit={handleSearchSubmit}>
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
-          onKeyPress={handleKeyPress}
           onSubmit={handleSearchSubmit}
           placeholder="Search Plug, store and customers"
           name="search"
           value={search}
           onChange={handleChange}
-          inputProps={{
-            "aria-label": "search",
-            onkeypress: `${handleKeyPress}`,
-          }}
         />
       </FormControl>
     </Search>

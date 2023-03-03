@@ -207,6 +207,8 @@ function CreateProduct() {
                   sx={{
                     width: { md: "70%", sm: "100%", xs: "100%" },
                     padding: "12px 10px",
+                    boxShadow: 20,
+                    borderRadius: "15px",
                   }}
                 >
                   {errorMessage && (
