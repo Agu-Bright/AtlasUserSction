@@ -10,6 +10,7 @@ import {
   brandsInLocationReducer,
   createBrandReducer,
   createBrand,
+  myBrandReducer,
 } from "./reducers/brandReducer";
 import {
   trendingProductReducer,
@@ -18,6 +19,8 @@ import {
   recommendedProductReducer,
   productReviewReducer,
   getProductReviewReducer,
+  createProductReducer,
+  deleteProductReducer,
 } from "./reducers/productReducer";
 import {
   userReducer,
@@ -51,6 +54,7 @@ const reducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
 
   //Brand reduser section
+  myBrand: myBrandReducer,
   newBrands: brandReducer,
   brandDetails: brandDetailReducer,
   brandProductReducer: brandProductReducer,
@@ -59,12 +63,14 @@ const reducer = combineReducers({
   createBrand: createBrandReducer,
   brand: createBrand,
   //product reducer section
+  createProduct: createProductReducer,
   trendingProducts: trendingProductReducer,
   allProducts: allProductsReducer,
   productDetail: productDetailReducer,
   recommendedProducts: recommendedProductReducer,
   review: productReviewReducer,
   reviews: getProductReviewReducer,
+  deleteProduct: deleteProductReducer,
   //cart reducer
   cart: cartReducer,
 

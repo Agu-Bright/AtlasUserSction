@@ -31,6 +31,7 @@ const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
     ...brandData,
     // BrandLogo: { public_id: result?.public_id, url: result?.secure_url },
   });
+  //update user
   const data = await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -41,7 +42,6 @@ const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
     },
     { new: true, runvalidator: true, useFindAndModify: false }
   );
-  console.log(data);
 
   res.status(200).json({ success: true, brand });
 });
@@ -192,6 +192,12 @@ const brandsInYourLocation = catchAsyncErrors(async (req, res, next) => {
 });
 
 //ADMIN ROUTES
+const getMyBrand = catchAsyncErrors(async (req, res, next) => {
+  //find the brand with theuserId
+  const user = req.user._id;
+  const [brand] = await brandModel.find({ user: user });
+  res.status(200).json({ success: true, brand });
+});
 
 module.exports = {
   userCreateBrand,
@@ -203,4 +209,5 @@ module.exports = {
   getBrandProducts,
   getRecommendedProducts,
   brandsInYourLocation,
+  getMyBrand,
 };

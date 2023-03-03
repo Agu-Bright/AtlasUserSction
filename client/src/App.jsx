@@ -35,9 +35,13 @@ import BrandLocation from "./pages/adminPages/createBrand/BrandLocation";
 import Personal from "./pages/adminPages/createBrand/personal";
 import Dashboard from "./pages/adminPages/dashboard";
 import SellerProtected from "./routes/sellerProtedtedRoute";
+import CreateProduct from "./pages/adminPages/createProduct";
+import { getMyBrand } from "./redux/actions/brandAction";
+import ProductList from "./pages/adminPages/productList";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
+    store.dispatch(getMyBrand());
   }, []);
   return (
     <Router>
@@ -73,8 +77,11 @@ const App = () => {
 
           <Route path="/order/:id" element={<OrderDetails />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/admin/books" element={<BookList />} />
-            <Route path="/admin/newBook" element={<NewBook />} />
+          <Route path="/newProduct" element={<CreateProduct />} />
+
+          <Route path="/productList" element={<ProductList />} />
+
+          {/* 
             <Route path="/admin/book/:id" element={<UpdateBook />} />
             <Route path="/admin/orders" element={<OrdersList />} />
             <Route path="/admin/order/:id" element={<ProcessOrder />} />

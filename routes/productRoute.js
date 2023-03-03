@@ -21,28 +21,28 @@ const {
 router.get("/trendingProducts", getTrendingProducts);
 
 router.post(
-  "/admin/createBook",
+  "/admin/createProduct",
   authMiddleware,
   authorizeRoles("admin", "seller"),
   createProduct
 );
 
 router.delete(
-  "/admin/book/:id",
+  "/admin/product/:id",
   authMiddleware,
   authorizeRoles("admin", "seller"),
   deleteProduct
 );
 
 router.put(
-  "/admin/book/:id",
+  "/admin/product/:id",
   authMiddleware,
   authorizeRoles("admin", "seller"),
   updateProduct
 );
 
 router.get(
-  "/admin/books",
+  "/admin/products",
   authMiddleware,
   authorizeRoles("admin", "seller"),
   AdminGetAllProducts

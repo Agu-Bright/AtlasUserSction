@@ -12,7 +12,6 @@ import { Grid, Stack, Rating, Box, Avatar, IconButton } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../../redux/actions/cartAction";
-import bag from "../../images/bag.jpg";
 export default function BrandCard({ key, data }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,13 +29,13 @@ export default function BrandCard({ key, data }) {
         component="div"
         onClick={() => navigate(`/brand/${data._id}`)}
       >
-        {data.backgroundImage ? (
+        {data?.backgroundImage ? (
           <CardMedia
             component="img"
             alt={data.brandName}
             height="150"
             image={
-              data?.backgroundImage ? data?.backgroundImage.url : <Avatar />
+              data?.backgroundImage ? data?.backgroundImage?.url : <Avatar />
             }
           />
         ) : (
@@ -60,7 +59,7 @@ export default function BrandCard({ key, data }) {
             sx={{ position: "relative" }}
           >
             <Avatar
-              src={data?.brandLogo.url}
+              src={data?.brandLogo?.url}
               sx={{
                 borderRadius: "10px",
                 width: "60px",

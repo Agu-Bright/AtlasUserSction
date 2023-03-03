@@ -6,6 +6,9 @@ import {
   GET_BRAND_REQUEST,
   GET_BRAND_SUCCESS,
   GET_BRAND_FAIL,
+  GET_MYBRAND_REQUEST,
+  GET_MYBRAND_SUCCESS,
+  GET_MYBRAND_FAIL,
   GET_BRAND_DETAIL_REQUEST,
   GET_BRAND_DETAIL_SUCCESS,
   GET_BRAND_DETAIL_FAIL,
@@ -37,6 +40,21 @@ export const createBrand = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CREATE_BRAND_FAIL,
+      payload: error.response.data.Message,
+    });
+  }
+};
+export const getMyBrand = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_MYBRAND_REQUEST });
+    const { data } = await axios.get("/api/v1/brand/myBrand", {
+      withCredentials: true,
+      credentials: "include",
+    });
+    dispatch({ type: GET_MYBRAND_SUCCESS, payload: data.brand });
+  } catch (error) {
+    dispatch({
+      type: GET_MYBRAND_FAIL,
       payload: error.response.data.Message,
     });
   }

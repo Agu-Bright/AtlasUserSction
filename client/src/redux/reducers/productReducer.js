@@ -18,8 +18,112 @@ import {
   GET_REVIEW_REQUEST,
   GET_REVIEW_SUCCESS,
   GET_REVIEW_FAIL,
+  CREATE_PRODUCTS_REQUEST,
+  CREATE_PRODUCTS_SUCCESS,
+  CREATE_PRODUCTS_FAIL,
+  CREATE_PRODUCTS_RESET,
+  ADMIN_GET_PRODUCTS_REQUEST,
+  ADMIN_GET_PRODUCTS_SUCCESS,
+  ADMIN_GET_PRODUCTS_FAIL,
+  // NEW_PRODUCTS_REQUEST,
+  // NEW_PRODUCTS_SUCCESS,
+  // NEW_PRODUCTS_FAIL,
+  DELETE_PRODUCTS_REQUEST,
+  DELETE_PRODUCTS_SUCCESS,
+  DELETE_PRODUCTS_FAIL,
+  DELETE_PRODUCTS_RESET,
+  UPDATE_PRODUCTS_REQUEST,
+  UPDATE_PRODUCTS_SUCCESS,
+  UPDATE_PRODUCTS_FAIL,
+  UPDATE_PRODUCTS_RESET,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
+
+export const createProductReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case CREATE_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CREATE_PRODUCTS_SUCCESS:
+      return {
+        loading: false,
+        success: action.payload.success,
+        product: action.payload.book,
+      };
+    case CREATE_PRODUCTS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CREATE_PRODUCTS_RESET:
+      return {
+        ...state,
+        success: false,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const deleteProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_PRODUCTS_REQUEST:
+    case UPDATE_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        deleting: true,
+        reset: false,
+      };
+    case DELETE_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        deleting: false,
+        isDeleted: action.payload,
+      };
+
+    case UPDATE_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        deleting: false,
+        isUpdated: action.payload,
+      };
+    case DELETE_PRODUCTS_FAIL:
+    case UPDATE_PRODUCTS_FAIL:
+      return {
+        deleting: false,
+        error: action.payload,
+      };
+    case DELETE_PRODUCTS_RESET:
+      return {
+        ...state,
+        isDeleted: false,
+        reset: true,
+      };
+    case UPDATE_PRODUCTS_RESET:
+      return {
+        ...state,
+        isUpdated: false,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
 
 export const trendingProductReducer = (
   state = { firstHalf: [], secondHalf: [] },
@@ -58,6 +162,7 @@ export const trendingProductReducer = (
 export const allProductsReducer = (state = { products: null }, action) => {
   switch (action.type) {
     case ALL_PRODUCT_REQUEST:
+    case ADMIN_GET_PRODUCTS_REQUEST:
       return {
         loading: true,
         products: null,
@@ -72,8 +177,14 @@ export const allProductsReducer = (state = { products: null }, action) => {
         searchNumberOfPages: action.payload.searchNumberOfPages,
         resperPage: action.payload.resperPage,
       };
+    case ADMIN_GET_PRODUCTS_SUCCESS:
+      return {
+        loading: false,
+        products: action.payload,
+      };
 
     case ALL_PRODUCT_FAIL:
+    case ADMIN_GET_PRODUCTS_FAIL:
       return {
         loading: false,
         error: action.payload,

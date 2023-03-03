@@ -6,28 +6,27 @@ const cloudinary = require("cloudinary");
 
 //create product POST ==> /api/v1/create_product/
 const createProduct = catchAsyncErrors(async (req, res, next) => {
-  // console.log(req.body);
-  // let images = [];
-  // if (typeof req.body.images === "string") {
-  //   images.push(req.body.images);
-  // } else {
-  //   images = req.body.images;
-  // }
-  // let imagesLinks = [];
-  // for (let i = 0; i < images.length; i++) {
-  //   const result = await cloudinary.v2.uploader.upload(images[i], {
-  //     folder: "products",
-  //   });
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+  let imagesLinks = [];
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "products",
+    });
 
-  //   imagesLinks.push({
-  //     public_id: result.public_id,
-  //     url: result.secure_url,
-  //   });
-  // }
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
 
   const product = {
     ...req.body,
-    // images: imagesLinks,
+    images: imagesLinks,
     user: req.user._id,
   };
   const newProduct = await Product.create(product);
@@ -161,7 +160,7 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
 const deleteProduct = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
   //the user should be able to delete the product, if he is the creator ar he is the admin
-  const sellersProduct = await Books.findById(id);
+  const sellersProduct = await Product.findById(id);
 
   if (!sellersProduct) {
     return next(new ErrorHandler("product not found", 404));
@@ -171,7 +170,7 @@ const deleteProduct = catchAsyncErrors(async (req, res, next) => {
     req.user._id.toString() === sellersProduct.user.toString() ||
     req.user.role === "admin"
   ) {
-    await Products.findByIdAndRemove(id);
+    await Product.findByIdAndRemove(id);
     //deleting image from the cloudinary
     for (let i = 0; i < sellersProduct.images.length; i++) {
       const result = await cloudinary.v2.uploader.destroy(

@@ -5,6 +5,9 @@ import {
   GET_BRAND_REQUEST,
   GET_BRAND_SUCCESS,
   GET_BRAND_FAIL,
+  GET_MYBRAND_REQUEST,
+  GET_MYBRAND_SUCCESS,
+  GET_MYBRAND_FAIL,
   GET_BRAND_DETAIL_REQUEST,
   GET_BRAND_DETAIL_SUCCESS,
   GET_BRAND_DETAIL_FAIL,
@@ -64,6 +67,34 @@ export const brandReducer = (state = { brands: [] }, action) => {
         brands: action.payload,
       };
     case GET_BRAND_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+export const myBrandReducer = (state = { brand: null }, action) => {
+  switch (action.type) {
+    case GET_MYBRAND_REQUEST:
+      return {
+        loading: true,
+        brand: null,
+      };
+
+    case GET_MYBRAND_SUCCESS:
+      return {
+        loading: false,
+        brand: action.payload,
+      };
+    case GET_MYBRAND_FAIL:
       return {
         loading: false,
         error: action.payload,
