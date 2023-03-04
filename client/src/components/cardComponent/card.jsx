@@ -45,7 +45,7 @@ export default function CardComponent({ data }) {
           sx={{ position: "relative" }}
         >
           <Avatar
-            src={data?.brandLogo.url}
+            src={data?.brandLogo?.url}
             sx={{
               borderRadius: "10px",
               width: "60px",

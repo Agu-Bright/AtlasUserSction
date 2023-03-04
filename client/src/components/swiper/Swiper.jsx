@@ -144,7 +144,7 @@ function Swiper() {
               <>
                 <img
                   className="slide-image"
-                  src={brand.brandLogo.url}
+                  src={brand?.brandLogo?.url}
                   alt={brand.brandName}
                 />{" "}
                 <span className="brand-title">

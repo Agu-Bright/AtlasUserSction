@@ -68,6 +68,7 @@ function SidebarDrawer({ open, close }) {
                 background: orders ? "rgb(24, 104, 183)" : "",
                 color: orders ? "white" : "",
               }}
+              onClick={() => navigate("/orderList")}
             >
               <ListItemIcon>
                 <BookmarkBorderIcon />

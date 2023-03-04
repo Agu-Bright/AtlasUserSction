@@ -10,7 +10,7 @@ const SellerProtected = ({ redirectPath = "/sign-in", children }) => {
   if (!user) {
     return <Navigate to={redirectPath} replace />;
   }
-  if (user.role === "seller") {
+  if (user.role === "seller" || user.role === "admin") {
     return <Navigate to="/dashboard" replace />;
   }
 

@@ -4,14 +4,11 @@ import {
   Typography,
   Stack,
   IconButton,
-  Grid,
-  List,
-  Paper,
-  ListItemButton,
-  Pagination,
-  ListItemText,
-  Divider,
+  Button,
+  Modal,
+  CircularProgress,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import Navbar from "../../components/navbar/Navbar";
@@ -23,26 +20,107 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArticleIcon from "@mui/icons-material/Article";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import {
-  SET_DASHBOARD,
-  SET_CUSTOMERS,
-  SET_ORDERS,
-  SET_PRODUCTS,
-} from "../../redux/reducers/highlightReducer";
+import { SET_DASHBOARD } from "../../redux/reducers/highlightReducer";
 import SidebarDrawer from "../../components/navbar/SidebarBrawer";
+import EditIcon from "@mui/icons-material/Edit";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Container } from "@mui/system";
+
+import {
+  allOrders,
+  clearErrors,
+  deleteOrder,
+} from "../../redux/actions/orderAction";
+import MUIDataTable from "mui-datatables";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: 200, md: 400 },
+  bgcolor: "background.paper",
+  border: "2px solid green",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+};
 function Dashboard() {
   const [state, setState] = useState(true);
   const dispatch = useDispatch();
   const [navbar, setNavbar] = useState(true);
   const [open, setOpen] = useState(false);
+  const { loading, error, orders } = useSelector((state) => state.allOrders);
+  const { isDeleted, reset } = useSelector((state) => state.deleteOrder);
+  const { user } = useSelector((state) => state.auth);
+  const [openM, setOpenM] = useState(false);
+  const handleOpenM = () => setOpenM(true);
+  const handleCloseM = () => setOpenM(false);
+
+  const [orderId, setOrderId] = useState();
   useEffect(() => {
     dispatch({ type: SET_DASHBOARD });
   });
+  useEffect(() => {
+    dispatch(allOrders());
+
+    if (error) {
+      console.log(error);
+      dispatch(clearErrors());
+    }
+    if (isDeleted) {
+      console.log("deleted");
+    }
+  }, [dispatch, error, isDeleted]);
+  const handleDelete = (id) => {
+    dispatch(deleteOrder(id));
+  };
   const toggle = () => {
     setState((prev) => !prev);
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const columns = ["Order Id", "No of Items", "Amount", "Status", "Actions"];
+  const data = [];
+  orders &&
+    orders.map((order) =>
+      data.push([
+        order._id,
+        order.orderItems.length,
+
+        <span style={{ color: "green" }}>&#8358;{order.itemsPrice}</span>,
+
+        order.orderStatus && String(order.orderStatus).includes("Delivered") ? (
+          <p style={{ color: "green" }}>{order.orderStatus}</p>
+        ) : (
+          <p style={{ color: "red" }}>{order.orderStatus}</p>
+        ),
+        <>
+          <Link to={`/order/${order._id}`}>
+            <IconButton sx={{ "&:focus": { outline: "none" } }}>
+              <EditIcon color="primary" />
+            </IconButton>
+          </Link>
+          {user && user.role === "admin" && (
+            <IconButton
+              color="error"
+              sx={{ "&:focus": { outline: "none" } }}
+              onClick={() => {
+                setOrderId(order._id);
+                handleOpenM();
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
+        </>,
+      ])
+    );
+
+  const options = {
+    filterType: "checkbox",
+    responsive: "standard",
   };
   return (
     <>
@@ -314,7 +392,131 @@ function Dashboard() {
                     </Box>
                   </Stack>
                 </Box>
+                <Box
+                  sx={{
+                    width: { md: "25%", sm: "90%", xs: "90%" },
+                    height: { md: "150px", sm: "200px", xs: "200px" },
+                    borderRadius: "10px",
+                    boxShadow: 5,
+                    background: "#cb28df",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontWeight: "50",
+                      fontSize: "1.3em",
+                      color: "white",
+                      padding: "3px",
+                    }}
+                  >
+                    Out of Stock
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    sx={{
+                      padding: "10px 10px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ProductionQuantityLimitsIcon
+                      sx={{ fontSize: "90px", opacity: ".5", color: "white" }}
+                    />
+                    <Box>
+                      <Typography
+                        sx={{
+                          fontWeight: "600",
+                          fontSize: "1.3em",
+                          color: "white",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        &#8358;20000
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Box>
               </Stack>
+              <Box sx={{ padding: "12px" }}>
+                {loading ? (
+                  <Container
+                    fixed
+                    sx={{
+                      height: "60vh",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress color="warning" size="small" />
+                  </Container>
+                ) : (
+                  <>
+                    <Box
+                      sx={{
+                        width: "auto",
+                        overflowX: "scroll",
+                        padding: "12px",
+                      }}
+                    >
+                      <MUIDataTable
+                        title={"New Orders"}
+                        data={data}
+                        columns={columns}
+                        options={options}
+                      />
+                    </Box>
+
+                    {/* <Snackbar
+                  open={isDeleted}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                >
+                  <SnackbarAlert>
+                    <Typography>Deleted</Typography>
+                  </SnackbarAlert>
+                </Snackbar> */}
+                    <Modal
+                      open={openM}
+                      onClose={handleCloseM}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <Typography
+                          id="modal-modal-title"
+                          variant="h6"
+                          component="h2"
+                        >
+                          Delete Order
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                          Are you sure you wan't to delete this order?
+                        </Typography>
+                        <Stack>
+                          <Button
+                            sx={{ "&:focus": { outline: "none" } }}
+                            onClick={() => setOpenM(false)}
+                          >
+                            cancel
+                          </Button>
+                          <Button
+                            sx={{ "&:focus": { outline: "none" } }}
+                            onClick={() => {
+                              handleDelete(orderId);
+                              setOpenM(false);
+                            }}
+                          >
+                            Yes
+                          </Button>
+                        </Stack>
+                      </Box>
+                    </Modal>
+                  </>
+                )}
+              </Box>
             </Box>
           </Box>
         </Stack>

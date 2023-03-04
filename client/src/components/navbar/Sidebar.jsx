@@ -7,6 +7,7 @@ import {
   ListItemText,
   Button,
   Stack,
+  Divider,
 } from "@mui/material";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
@@ -55,6 +56,7 @@ function Sidebar() {
             <ListItemText primary="Dashboard" secondary={user?.role} />
           </ListItemButton>
         </ListItem>
+        <Divider />
         <ListItem
           sx={{
             marginTop: "5px",
@@ -68,6 +70,7 @@ function Sidebar() {
               background: orders ? "rgb(24, 104, 183)" : "",
               color: orders ? "white" : "",
             }}
+            onClick={() => navigate("/orderList")}
           >
             <ListItemIcon>
               <BookmarkBorderIcon />
@@ -75,7 +78,7 @@ function Sidebar() {
             <ListItemText primary="Orders" />
           </ListItemButton>
         </ListItem>
-
+        <Divider />
         <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <ListItem
@@ -106,11 +109,17 @@ function Sidebar() {
             </ListItem>
           </AccordionSummary>
           <AccordionDetails>
-            <Stack spacing={2} direction="column" sx={{ alignItems: "start" }}>
+            <Stack
+              spacing={2}
+              direction="column"
+              sx={{ alignItems: "start", margin: "0px", padding: "0px" }}
+            >
               <ListItem
                 sx={{
                   marginTop: "5px",
                   cursor: "pointer",
+                  margin: "0px",
+                  padding: "0px",
                 }}
               >
                 <ListItemButton
@@ -135,6 +144,8 @@ function Sidebar() {
                 sx={{
                   marginTop: "5px",
                   cursor: "pointer",
+                  margin: "0px",
+                  padding: "0px",
                 }}
               >
                 <ListItemButton
@@ -158,6 +169,7 @@ function Sidebar() {
             </Stack>
           </AccordionDetails>
         </Accordion>
+        <Divider />
         <ListItem
           sx={{
             marginTop: "5px",
@@ -178,6 +190,7 @@ function Sidebar() {
             <ListItemText primary="Customers" />
           </ListItemButton>
         </ListItem>
+        <Divider />
         <ListItem
           sx={{
             marginTop: "5px",
@@ -197,6 +210,7 @@ function Sidebar() {
             <ListItemText primary="My Brand" />
           </ListItemButton>
         </ListItem>
+        <Divider />
       </List>
     </div>
   );

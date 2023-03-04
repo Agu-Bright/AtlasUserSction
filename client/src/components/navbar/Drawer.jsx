@@ -17,7 +17,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import CloseIcon from "@mui/icons-material/Close";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-
+import { useSelector } from "react-redux";
 function MuiDrawer({
   open,
   close,
@@ -31,7 +31,9 @@ function MuiDrawer({
   homeNav,
   signInNav,
   brandNav,
+  dashboard,
 }) {
+  const { user } = useSelector((state) => state.auth);
   return (
     <Drawer anchor="right" open={open} onClose={close}>
       <Box
@@ -135,6 +137,25 @@ function MuiDrawer({
             </ListItemButton>
           </ListItem>
           <Divider />
+          {user && user.role !== "user" && (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton onClick={dashboard}>
+                  <ListItemIcon>
+                    <ListItemAvatar>
+                      <Avatar sx={{ backgroundColor: "white" }}>
+                        <ShoppingCartCheckoutIcon sx={{ color: "black" }} />
+                      </Avatar>
+                    </ListItemAvatar>
+                  </ListItemIcon>
+                  <Typography sx={{ fontWeight: "800" }}>
+                    {user.role}
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+            </>
+          )}
         </List>
       </Box>
     </Drawer>

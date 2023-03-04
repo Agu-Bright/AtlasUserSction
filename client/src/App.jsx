@@ -39,6 +39,7 @@ import CreateProduct from "./pages/adminPages/createProduct";
 import { getMyBrand } from "./redux/actions/brandAction";
 import ProductList from "./pages/adminPages/productList";
 import UpdateProduct from "./pages/adminPages/AdminProductDetail";
+import OrdersList from "./pages/adminPages/OrderList";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -48,7 +49,7 @@ const App = () => {
     <Router>
       <Routes>
         {/* <Route path="/" element={<HomeAd />} /> */}
-        <Route path="/" element={<HomeAd />} />
+        <Route path="/" element={<Home />} />
         <Route path="/brands" element={<Brands />} />
         <Route path="/brand/:id" element={<BrandDetail />} />
         <Route path="/products" element={<Products />} />
@@ -63,6 +64,7 @@ const App = () => {
         <Route path="/password/reset/:token" element={<NewPassword />} />
 
         <Route element={<SellerProtected />}>
+          <Route path="/landingPage" element={<HomeAd />} />
           <Route path="/firstDetails" element={<FirstDetaili />} />
           <Route path="/brandName" element={<BrandName />} />
           <Route path="/brandDetails" element={<BrandDetails />} />
@@ -75,16 +77,13 @@ const App = () => {
           <Route path="/update-profile" element={<UpdateProfile />} exact />
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/confirm" element={<ConfirmOrder />} />
-
           <Route path="/order/:id" element={<OrderDetails />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/newProduct" element={<CreateProduct />} />
-
           <Route path="/productList" element={<ProductList />} />
-
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
+          <Route path="orderList" element={<OrdersList />} />
           {/* 
-            <Route path="/admin/orders" element={<OrdersList />} />
             <Route path="/admin/order/:id" element={<ProcessOrder />} />
             <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/sellers" element={<SellersList />} /> */}

@@ -181,6 +181,12 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
     }
     navigate("/admin/sellers");
   };
+  const dashboardNav = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/dashboard");
+  };
   const logoutHandler = () => {
     if (Drawer) {
       setDrawer(false);
@@ -212,34 +218,22 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
       <List sx={{ padding: "0" }}>
         {user && !loading ? (
           <>
-            {user?.role === "seller" && (
-              <ListItem disablePadding>
-                <ListItemButton onClick={handleSellerNavigate}>
-                  <ListItemIcon>
-                    <ListItemAvatar>
-                      <Avatar sx={{ backgroundColor: "white" }}>
-                        <DashboardRoundedIcon color="warning" />
-                      </Avatar>
-                    </ListItemAvatar>
-                  </ListItemIcon>
-                  <ListItemText primary="Dashboard" secondary="seller" />
-                </ListItemButton>
-              </ListItem>
-            )}
-            {user?.role === "admin" && (
-              <ListItem disablePadding>
-                <ListItemButton onClick={handleAdminNavigate}>
-                  <ListItemIcon>
-                    <ListItemAvatar>
-                      <Avatar sx={{ backgroundColor: "white" }}>
-                        <DashboardRoundedIcon color="warning" />
-                      </Avatar>{" "}
-                    </ListItemAvatar>
-                  </ListItemIcon>
-                  <ListItemText primary="Dashboard" secondary="admin" />
-                </ListItemButton>
-              </ListItem>
-            )}
+            {user?.role === "seller" ||
+              (user.role === "admin" && (
+                <ListItem disablePadding>
+                  <ListItemButton onClick={dashboardNav}>
+                    <ListItemIcon>
+                      <ListItemAvatar>
+                        <Avatar sx={{ backgroundColor: "white" }}>
+                          <DashboardRoundedIcon color="warning" />
+                        </Avatar>
+                      </ListItemAvatar>
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard" secondary={user.role} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+
             <Divider />
             <ListItem disablePadding>
               <ListItemButton onClick={handleProfileNav}>
@@ -252,6 +246,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
               </ListItemButton>
             </ListItem>
             <Divider />
+
             <ListItem disablePadding onClick={logoutHandler}>
               <ListItemButton>
                 <Typography color="warning">logout</Typography>
@@ -420,6 +415,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
         signUpNav={() => {
           handleSIgnUp();
         }}
+        dashboard={() => dashboardNav()}
         orderNav={() => handleOrderNavigate()}
         homeNav={() => handleHomeNavigate()}
         signInNav={() => handleSignIn()}

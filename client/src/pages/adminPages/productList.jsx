@@ -23,9 +23,7 @@ import {
   adminGetProducts,
   deleteProduct,
 } from "../../redux/actions/productAction";
-import { Container } from "@mui/system";
-import { MDBDataTable } from "mdbreact";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Sidebar from "../../components/navbar/Sidebar";
@@ -202,6 +200,8 @@ function ProductList() {
                   sx={{
                     width: "auto",
                     overflowX: "scroll",
+                    brderRadius: "12px",
+                    padding: "20px",
                   }}
                 >
                   <MUIDataTable
