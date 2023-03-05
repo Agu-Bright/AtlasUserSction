@@ -18,11 +18,6 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   allOrders,
-//   clearErrors,
-//   deleteOrder,
-// } from "../../redux/actions/orderAction";
 import {
   allOrders,
   clearErrors,
@@ -92,7 +87,7 @@ function OrdersList() {
 
   useEffect(() => {
     dispatch({ type: SET_ORDERS });
-  });
+  }, []);
   // const handleClose = (e, reason) => {
   //   if (reason === "clickaway") {
   //     return;

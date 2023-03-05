@@ -40,6 +40,7 @@ import { getMyBrand } from "./redux/actions/brandAction";
 import ProductList from "./pages/adminPages/productList";
 import UpdateProduct from "./pages/adminPages/AdminProductDetail";
 import OrdersList from "./pages/adminPages/OrderList";
+import ProcessOrder from "./pages/adminPages/ProcessOrder";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -83,8 +84,8 @@ const App = () => {
           <Route path="/productList" element={<ProductList />} />
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
           <Route path="orderList" element={<OrdersList />} />
+          <Route path="/admin/order/:id" element={<ProcessOrder />} />
           {/* 
-            <Route path="/admin/order/:id" element={<ProcessOrder />} />
             <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/sellers" element={<SellersList />} /> */}
         </Route>

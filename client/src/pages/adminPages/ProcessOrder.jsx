@@ -2,16 +2,24 @@ import React, { useEffect, useState, forwardRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Container } from "@mui/system";
-// import { MDBDataTable } from "mdbreact";
-// import AcUnitIcon from "@mui/icons-material/AcUnit";
-// import DeleteIcon from "@mui/icons-material/Delete";
-import Sidebar from "./Sidebar";
+import Sidebar from "../../components/navbar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import SidebarDrawer from "../../components/navbar/SidebarBrawer";
+import ArticleIcon from "@mui/icons-material/Article";
 import {
   CircularProgress,
   Typography,
   Alert,
   Snackbar,
   Stack,
+  Box,
+  IconButton,
+  Button,
+  Modal,
+  Divider,
+  Avatar,
 } from "@mui/material";
 import {
   updateOrder,
@@ -19,6 +27,7 @@ import {
   clearErrors,
 } from "../../redux/actions/orderAction";
 import { LoadingButton } from "@mui/lab";
+import { SET_ORDERS } from "../../redux/reducers/highlightReducer";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
@@ -27,7 +36,8 @@ const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
 function ProcessOrder() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [navbar, setNavbar] = useState(true);
+  const [state, setState] = useState(true);
   const { id } = useParams();
   const { loading, order } = useSelector((state) => state.orderDetails);
 
@@ -76,7 +86,12 @@ function ProcessOrder() {
     }
     setOpen(false);
   };
-
+  useEffect(() => {
+    dispatch({ type: SET_ORDERS });
+  }, []);
+  const toggle = () => {
+    setState((prev) => !prev);
+  };
   const updateOrderHandler = (id) => {
     const formData = new FormData();
     formData.set("status", status);
@@ -90,152 +105,335 @@ function ProcessOrder() {
   // const orderStatusHandler = (e) => {
   //   setStatus(e.target.value);
   // };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
   return (
     <>
-      <div className="row">
-        <div className="col-12 col-md-2">
-          <Sidebar />
-        </div>
-        <div className="col-12 col-md-10" style={{ marginTop: "15vh" }}>
-          <>
-            {loading ? (
-              <Container
-                fixed
-                sx={{
-                  height: "60vh",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress color="warning" size="small" />
-              </Container>
-            ) : (
-              <div className="row d-flex justify-content-around">
-                <div className="col-12 col-lg-7 order-details">
-                  <h1 className="my-5">Order #{order && order._id}</h1>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        background="white"
+        border={true}
+      />
+      <Box
+        sx={{
+          paddingTop: { md: "12.2vh", xs: "9vh" },
+          backgroundColor: "white",
+          margin: "0px !important",
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            height: "inherit",
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              borderRight: "0.1px solid gray",
+              width: "20%",
+              display: { md: state ? "block" : "none", sm: "none", xs: "none" },
+            }}
+          >
+            {" "}
+            <Sidebar />
+          </Box>
+          <Box
+            className="dashboard-main"
+            sx={{
+              width: "100%",
+              overflowY: "scroll",
+              paddingRight: "10px",
+              height: "100vh",
+            }}
+          >
+            <Box sx={{ width: "100%", margin: "0", padding: "0" }}>
+              <>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton
+                    sx={{
+                      margin: "5px",
+                      "&:focus": {
+                        outline: "none",
+                      },
+                      display: { md: "block", ms: "none", xs: "none" },
+                    }}
+                    onClick={toggle}
+                  >
+                    {state ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}
+                  </IconButton>
+                  <IconButton
+                    sx={{
+                      margin: "5px",
+                      "&:focus": {
+                        outline: "none",
+                      },
+                      display: { md: "none", sm: "block", xs: "block" },
+                    }}
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                  >
+                    <ArticleIcon sx={{ fontSize: "1.2em" }} />
+                  </IconButton>
+                  <Typography sx={{ fontWeight: "600", fontSize: "1.3em" }}>
+                    Process Order
+                  </Typography>
+                </Box>
 
-                  <h4 className="mb-4">Shipping Info</h4>
-                  <p>
-                    <b>Name:</b> {user && user.name}
-                  </p>
-                  <p>
-                    <b>Phone:</b> {shippingInfo && shippingInfo.phoneNumber}
-                  </p>
-                  <p className="mb-4">
-                    <b>Address:</b>
-                    {shippingDetails}
-                  </p>
-                  <p>
-                    <b>Amount:</b> {itemsPrice && itemsPrice}
-                  </p>
+                <Box
+                  sx={{
+                    marginTop: { md: "", sm: "10px", xs: "10px" },
+                    padding: { md: "15px", sm: "0px", xs: "0px" },
+                    width: { md: "98%", ms: "100%", xs: "100%" },
+                    display: { md: "flex", sm: "flex", xs: "flex" },
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <>
+                    {loading ? (
+                      <Container
+                        fixed
+                        sx={{
+                          height: "60vh",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <CircularProgress color="warning" size="small" />
+                      </Container>
+                    ) : (
+                      <Stack
+                        direction={{ md: "row", sm: "row", xs: "column" }}
+                        justifyContent="space-between"
+                        sx={{ width: "100%" }}
+                      >
+                        <Box sx={{ width: { md: "49%", xs: "100%" } }}>
+                          <Typography variant="h5">
+                            Order ID : {order && order._id}
+                          </Typography>
+                          <Stack
+                            direction="column"
+                            spacing={0.5}
+                            sx={{
+                              marginTop: "15px",
+                              padding: "10px",
+                              boxShadow: 5,
+                            }}
+                          >
+                            <Typography variant="h5">Shipping Info</Typography>
+                            <Typography>
+                              <b>Name: </b> {user && user.name}
+                            </Typography>
+                            <Typography>
+                              <b>phone: </b>{" "}
+                              {shippingInfo && shippingInfo.phoneNumber}
+                            </Typography>
+                            <Typography>
+                              <b>Address: </b>
+                              {shippingDetails}
+                            </Typography>
+                            <Typography>
+                              <b>Amount:</b> &#8358;{itemsPrice && itemsPrice}
+                            </Typography>
 
-                  <hr />
+                            <Divider />
 
-                  <h4 className="my-4">Payment</h4>
-                  <p className="greenColor">
-                    <b>{paymentInfo && paymentInfo.status}</b>
-                  </p>
+                            <Typography>
+                              <b> Payment : </b>
 
-                  <h4 className="my-4">Reference ID</h4>
-                  <p className="greenColor">
-                    <b>{paymentInfo && paymentInfo.id}</b>
-                  </p>
+                              {paymentInfo &&
+                                paymentInfo.status === "success" && (
+                                  <Typography
+                                    sx={{
+                                      display: "inline-block",
+                                      padding: "5px",
+                                      fontSize: "0.8em",
+                                      borderRadius: "15px",
+                                      background: "#87d287",
+                                    }}
+                                  >
+                                    {paymentInfo && paymentInfo.status}
+                                  </Typography>
+                                )}
+                              {paymentInfo &&
+                                paymentInfo.status !== "success" && (
+                                  <Typography
+                                    sx={{
+                                      display: "inline-block",
+                                      padding: "5px",
+                                      fontSize: "0.8em",
+                                      borderRadius: "15px",
+                                      background: "#f3855a",
+                                    }}
+                                  >
+                                    {paymentInfo && paymentInfo.status}
+                                  </Typography>
+                                )}
+                            </Typography>
 
-                  <h4 className="my-4">Order Status:</h4>
-                  <p className="greenColor">
-                    <b>{orderStatus && orderStatus}</b>
-                  </p>
+                            <Typography>
+                              <b> Reference ID :</b>
+                              {paymentInfo && paymentInfo.id}
+                            </Typography>
 
-                  <h4 className="my-4">Order Items:</h4>
+                            <Typography>
+                              <b>Order Status: </b>
+                              {orderStatus && orderStatus === "success" && (
+                                <Typography
+                                  sx={{
+                                    display: "inline-block",
+                                    padding: "5px",
+                                    fontSize: "0.8em",
+                                    borderRadius: "15px",
+                                    background: "#87d287",
+                                  }}
+                                >
+                                  {orderStatus && orderStatus}
+                                </Typography>
+                              )}
+                              {orderStatus && orderStatus !== "success" && (
+                                <Typography
+                                  sx={{
+                                    display: "inline-block",
+                                    padding: "5px",
+                                    fontSize: "0.8em",
+                                    borderRadius: "15px",
+                                    background: "#f3855a",
+                                  }}
+                                >
+                                  {orderStatus && orderStatus}
+                                </Typography>
+                              )}
+                            </Typography>
 
-                  <hr />
-                  {orderItems &&
-                    orderItems.map((item) => (
-                      <div key={item.book} className="cart-item my-1">
-                        <div className="row my-5">
-                          <div className="col-4 col-lg-2">
-                            <img
-                              src={item.image}
-                              alt="Laptop"
-                              height="45"
-                              width="65"
-                            />
-                          </div>
+                            <Divider />
+                            <Typography variant="h5">Order Items:</Typography>
 
-                          <div className="col-5 col-lg-5">
-                            <a href={`/book/${item.book}`}>{item.name}</a>
-                          </div>
+                            <Box>
+                              {orderItems &&
+                                orderItems.map((item) => (
+                                  <>
+                                    <Stack
+                                      key={item.product}
+                                      direction="row"
+                                      justifyContent="space-between"
+                                      alignItems="center"
+                                      sx={{ padding: "10px 10px" }}
+                                    >
+                                      {" "}
+                                      <Avatar
+                                        src={item.image}
+                                        alt={item.name}
+                                      />
+                                      <Typography
+                                        sx={{
+                                          textAlign: "start",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() =>
+                                          navigate`/product/${item.product}`()
+                                        }
+                                      >
+                                        {item.name}
+                                      </Typography>
+                                      <Typography
+                                        sx={{
+                                          textAlign: "start",
+                                        }}
+                                      >
+                                        &#8358;{item.price}
+                                      </Typography>
+                                      {/* <div className="col-4 col-lg-3 mt-4 mt-lg-0">
+                                      <p>{`${item.quantity} Piece(s)`}</p>
+                                      {User._id === item.seller && (
+                                        <Typography>
+                                          <Alert
+                                            icon={false}
+                                            severity="warning"
+                                          >
+                                            Your order{" "}
+                                          </Alert>
+                                        </Typography>
+                                      )}
+                                    </div> */}
+                                    </Stack>
+                                    <Divider />
+                                  </>
+                                ))}
+                            </Box>
+                            <hr />
+                          </Stack>
+                        </Box>
 
-                          <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                            <span style={{ color: "green" }}>
-                              &#8358;{item.price}
-                            </span>
-                            {/* <p>${item.price}</p> */}
-                          </div>
+                        <Box
+                          sx={{
+                            width: { md: "49%", xs: "100%" },
+                          }}
+                        >
+                          <Typography variant="h5">update Order</Typography>
+                          <Box
+                            sx={{
+                              marginTop: "15px",
+                              padding: "10px",
+                              boxShadow: 5,
+                            }}
+                          >
+                            <Typography>Status</Typography>
 
-                          <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                            <p>{`${item.quantity} Piece(s)`}</p>
-                            {User._id === item.seller && (
-                              <Typography>
-                                <Alert icon={false} severity="warning">
-                                  Your order{" "}
-                                </Alert>
-                              </Typography>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                            <div className="form-group">
+                              <select
+                                className="form-control"
+                                name="status"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                              >
+                                <option value="Processing">Processing</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                              </select>
+                            </div>
 
-                  <hr />
-                </div>
+                            <Stack>
+                              <LoadingButton
+                                id="login_button"
+                                type="submit"
+                                color="primary"
+                                variant="contained"
+                                loading={updating ? true : false}
+                                sx={{ "&:focus": { outline: "none" } }}
+                                onClick={() => updateOrderHandler(order._id)}
+                              >
+                                UPDATE ORDER
+                              </LoadingButton>
 
-                <div className="col-12 col-lg-3 mt-5">
-                  <h4 className="my-4">Status</h4>
-
-                  <div className="form-group">
-                    <select
-                      className="form-control"
-                      name="status"
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                    >
-                      <option value="Processing">Processing</option>
-                      <option value="Shipped">Shipped</option>
-                      <option value="Delivered">Delivered</option>
-                    </select>
-                  </div>
-
-                  <Stack>
-                    <LoadingButton
-                      id="login_button"
-                      type="submit"
-                      color="primary"
-                      variant="contained"
-                      loading={updating ? true : false}
-                      sx={{ "&:focus": { outline: "none" } }}
-                      onClick={() => updateOrderHandler(order._id)}
-                    >
-                      UPDATE ORDER
-                    </LoadingButton>
-
-                    <Snackbar
-                      open={open}
-                      autoHideDuration={4000}
-                      onClose={handleClose}
-                    >
-                      <SnackbarAlert>
-                        <Typography>updated</Typography>
-                      </SnackbarAlert>
-                    </Snackbar>
-                  </Stack>
-                </div>
-              </div>
-            )}
-          </>
-        </div>
-      </div>
+                              <Snackbar
+                                open={open}
+                                autoHideDuration={4000}
+                                onClose={handleClose}
+                              >
+                                <SnackbarAlert>
+                                  <Typography>updated</Typography>
+                                </SnackbarAlert>
+                              </Snackbar>
+                            </Stack>
+                          </Box>
+                        </Box>
+                      </Stack>
+                    )}
+                  </>
+                </Box>
+              </>
+            </Box>
+          </Box>
+        </Stack>
+        <SidebarDrawer open={open} close={handleDrawerClose} />
+      </Box>
     </>
   );
 }

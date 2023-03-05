@@ -218,21 +218,34 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
       <List sx={{ padding: "0" }}>
         {user && !loading ? (
           <>
-            {user?.role === "seller" ||
-              (user.role === "admin" && (
-                <ListItem disablePadding>
-                  <ListItemButton onClick={dashboardNav}>
-                    <ListItemIcon>
-                      <ListItemAvatar>
-                        <Avatar sx={{ backgroundColor: "white" }}>
-                          <DashboardRoundedIcon color="warning" />
-                        </Avatar>
-                      </ListItemAvatar>
-                    </ListItemIcon>
-                    <ListItemText primary="Dashboard" secondary={user.role} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
+            {user?.role === "seller" && (
+              <ListItem disablePadding>
+                <ListItemButton onClick={dashboardNav}>
+                  <ListItemIcon>
+                    <ListItemAvatar>
+                      <Avatar sx={{ backgroundColor: "white" }}>
+                        <DashboardRoundedIcon color="warning" />
+                      </Avatar>
+                    </ListItemAvatar>
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" secondary={user.role} />
+                </ListItemButton>
+              </ListItem>
+            )}
+            {user?.role === "admin" && (
+              <ListItem disablePadding>
+                <ListItemButton onClick={dashboardNav}>
+                  <ListItemIcon>
+                    <ListItemAvatar>
+                      <Avatar sx={{ backgroundColor: "white" }}>
+                        <DashboardRoundedIcon color="warning" />
+                      </Avatar>
+                    </ListItemAvatar>
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" secondary={user.role} />
+                </ListItemButton>
+              </ListItem>
+            )}
 
             <Divider />
             <ListItem disablePadding>

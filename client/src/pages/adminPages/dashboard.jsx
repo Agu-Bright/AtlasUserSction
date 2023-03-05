@@ -18,6 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArticleIcon from "@mui/icons-material/Article";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import { SET_DASHBOARD } from "../../redux/reducers/highlightReducer";
@@ -32,7 +33,10 @@ import {
   clearErrors,
   deleteOrder,
 } from "../../redux/actions/orderAction";
+import { allUsers } from "../../redux/actions/userActions";
 import MUIDataTable from "mui-datatables";
+// import { allUsers } from "../../../redux/actions/userActions";
+import { adminGetProducts } from "../../redux/actions/productAction";
 const style = {
   position: "absolute",
   top: "50%",
@@ -46,24 +50,30 @@ const style = {
   p: 4,
 };
 function Dashboard() {
-  const [state, setState] = useState(true);
   const dispatch = useDispatch();
+
+  const [state, setState] = useState(true);
   const [navbar, setNavbar] = useState(true);
   const [open, setOpen] = useState(false);
-  const { loading, error, orders } = useSelector((state) => state.allOrders);
+  const [openM, setOpenM] = useState(false);
+  const [orderId, setOrderId] = useState();
+  const { loading, error, orders, totalAmount } = useSelector(
+    (state) => state.allOrders
+  );
+  const { products } = useSelector((state) => state.allProducts);
   const { isDeleted, reset } = useSelector((state) => state.deleteOrder);
   const { user } = useSelector((state) => state.auth);
-  const [openM, setOpenM] = useState(false);
-  const handleOpenM = () => setOpenM(true);
-  const handleCloseM = () => setOpenM(false);
+  const { users } = useSelector((state) => state.allUsers);
 
-  const [orderId, setOrderId] = useState();
+  let outOfStock = 0;
+  products &&
+    products.forEach((product) => {
+      if (product.stock === 0) outOfStock += 1;
+    });
   useEffect(() => {
     dispatch({ type: SET_DASHBOARD });
-  });
+  }, []);
   useEffect(() => {
-    dispatch(allOrders());
-
     if (error) {
       console.log(error);
       dispatch(clearErrors());
@@ -72,6 +82,13 @@ function Dashboard() {
       console.log("deleted");
     }
   }, [dispatch, error, isDeleted]);
+  useEffect(() => {
+    dispatch(adminGetProducts());
+    dispatch(allOrders());
+    dispatch(allUsers());
+  }, [dispatch]);
+  const handleOpenM = () => setOpenM(true);
+  const handleCloseM = () => setOpenM(false);
   const handleDelete = (id) => {
     dispatch(deleteOrder(id));
   };
@@ -97,7 +114,7 @@ function Dashboard() {
           <p style={{ color: "red" }}>{order.orderStatus}</p>
         ),
         <>
-          <Link to={`/order/${order._id}`}>
+          <Link to={`/admin/order/${order._id}`}>
             <IconButton sx={{ "&:focus": { outline: "none" } }}>
               <EditIcon color="primary" />
             </IconButton>
@@ -213,7 +230,6 @@ function Dashboard() {
                     width: { md: "25%", sm: "90%", xs: "90%" },
                     height: { md: "150px", sm: "200px", xs: "200px" },
                     borderRadius: "10px",
-                    boxShadow: 5,
                     background: "#2eb8f6",
                   }}
                 >
@@ -242,14 +258,14 @@ function Dashboard() {
                     <Box>
                       <Typography
                         sx={{
-                          fontWeight: "600",
+                          fontWeight: "200",
                           fontSize: "1.3em",
                           color: "white",
                           display: "flex",
                           flexDirection: "column",
                         }}
                       >
-                        &#8358;20000
+                        &#8358;{totalAmount}
                       </Typography>
                     </Box>
                   </Stack>
@@ -259,13 +275,12 @@ function Dashboard() {
                     width: { md: "25%", sm: "90%", xs: "90%" },
                     height: { md: "150px", sm: "200px", xs: "200px" },
                     borderRadius: "10px",
-                    boxShadow: 5,
                     background: "#f62e4d",
                   }}
                 >
                   <Typography
                     sx={{
-                      fontWeight: "50",
+                      fontWeight: "20",
                       fontSize: "1.3em",
                       color: "white",
                       padding: "3px",
@@ -288,14 +303,14 @@ function Dashboard() {
                     <Box>
                       <Typography
                         sx={{
-                          fontWeight: "600",
+                          fontWeight: "200",
                           fontSize: "1.3em",
                           color: "white",
                           display: "flex",
                           flexDirection: "column",
                         }}
                       >
-                        &#8358;20000
+                        {orders && orders.length}
                       </Typography>
                     </Box>
                   </Stack>
@@ -305,13 +320,12 @@ function Dashboard() {
                     width: { md: "25%", sm: "90%", xs: "90%" },
                     height: { md: "150px", sm: "200px", xs: "200px" },
                     borderRadius: "10px",
-                    boxShadow: 5,
                     background: "#28df93",
                   }}
                 >
                   <Typography
                     sx={{
-                      fontWeight: "50",
+                      fontWeight: "20",
                       fontSize: "1.3em",
                       color: "white",
                       padding: "3px",
@@ -334,14 +348,14 @@ function Dashboard() {
                     <Box>
                       <Typography
                         sx={{
-                          fontWeight: "600",
+                          fontWeight: "200",
                           fontSize: "1.3em",
                           color: "white",
                           display: "flex",
                           flexDirection: "column",
                         }}
                       >
-                        &#8358;20000
+                        {products && <b>{products.length}</b>}
                       </Typography>
                     </Box>
                   </Stack>
@@ -351,13 +365,12 @@ function Dashboard() {
                     width: { md: "25%", sm: "90%", xs: "90%" },
                     height: { md: "150px", sm: "200px", xs: "200px" },
                     borderRadius: "10px",
-                    boxShadow: 5,
                     background: "#cb28df",
                   }}
                 >
                   <Typography
                     sx={{
-                      fontWeight: "50",
+                      fontWeight: "20",
                       fontSize: "1.3em",
                       color: "white",
                       padding: "3px",
@@ -380,66 +393,69 @@ function Dashboard() {
                     <Box>
                       <Typography
                         sx={{
-                          fontWeight: "600",
+                          fontWeight: "200",
                           fontSize: "1.3em",
                           color: "white",
                           display: "flex",
                           flexDirection: "column",
                         }}
                       >
-                        &#8358;20000
+                        {outOfStock}
                       </Typography>
                     </Box>
                   </Stack>
                 </Box>
-                <Box
-                  sx={{
-                    width: { md: "25%", sm: "90%", xs: "90%" },
-                    height: { md: "150px", sm: "200px", xs: "200px" },
-                    borderRadius: "10px",
-                    boxShadow: 5,
-                    background: "#cb28df",
-                  }}
-                >
-                  <Typography
+
+                {user && user.role === "admin" && (
+                  <Box
                     sx={{
-                      fontWeight: "50",
-                      fontSize: "1.3em",
-                      color: "white",
-                      padding: "3px",
+                      width: { md: "25%", sm: "90%", xs: "90%" },
+                      height: { md: "150px", sm: "200px", xs: "200px" },
+                      borderRadius: "10px",
+                      background: "#cc9900",
                     }}
                   >
-                    Out of Stock
-                  </Typography>
-                  <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    sx={{
-                      padding: "10px 10px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ProductionQuantityLimitsIcon
-                      sx={{ fontSize: "90px", opacity: ".5", color: "white" }}
-                    />
-                    <Box>
-                      <Typography
-                        sx={{
-                          fontWeight: "600",
-                          fontSize: "1.3em",
-                          color: "white",
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        &#8358;20000
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </Box>
+                    <Typography
+                      sx={{
+                        fontWeight: "50",
+                        fontSize: "1.3em",
+                        color: "white",
+                        padding: "3px",
+                      }}
+                    >
+                      Users
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      sx={{
+                        padding: "10px 10px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <SupervisedUserCircleIcon
+                        sx={{ fontSize: "90px", opacity: ".5", color: "white" }}
+                      />
+                      <Box>
+                        <Typography
+                          sx={{
+                            fontWeight: "200",
+                            fontSize: "1.3em",
+                            color: "white",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {users && users.length}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Box>
+                )}
               </Stack>
-              <Box sx={{ padding: "12px" }}>
+
+              <Box sx={{ padding: { md: "12px", xs: "" } }}>
                 {loading ? (
                   <Container
                     fixed

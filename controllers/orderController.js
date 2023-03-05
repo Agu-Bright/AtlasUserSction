@@ -1,13 +1,15 @@
 const Order = require("../model/orderModel");
-const Books = require("../model/productModel");
+const Product = require("../model/productModel");
 
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 
 const updateStock = async (id, quantity) => {
-  const book = await Books.findById(id);
-  book.stock = book.stock - quantity;
-  await book.save({ validateBeforeSave: false });
+  console.log({ id: id, Quantity: quantity });
+  const product = await Product.findById(id);
+  product.stock = product.stock - quantity;
+  console.log(product);
+  await product.save({ validateBeforeSave: false });
 };
 
 //create new order => api/v1/order/new
@@ -73,7 +75,7 @@ const allOrders = catchAsyncErrors(async (req, res, next) => {
   let totalAmount = 0;
   let orders = await Order.find();
   if (req.user.role === "seller") {
-    //get orders that includes books created by the seller
+    //get orders that includess created by the seller
     const sellersOrders = orders.filter((order) =>
       order.sellers.includes(req.user._id)
     );
@@ -118,9 +120,9 @@ const updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (order.orderStatus === "Delivered") {
     return next(new ErrorHandler("This Order is Alresdy Delivered", 400));
   }
-  //update the book stock
+  //update the stock
   order.orderItems.forEach(async (item) => {
-    await updateStock(item.book, item.quantity);
+    await updateStock(item.product, item.quantity);
   });
   //update the order status
   order.orderStatus = status;
@@ -132,7 +134,6 @@ const updateOrder = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
-
 //Admin delete order => api/v1/order/:id
 const deleteOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
