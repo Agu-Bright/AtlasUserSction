@@ -240,6 +240,7 @@ function OrdersList() {
                           sx={{
                             width: "auto",
                             overflowX: "scroll",
+                            padding: "10px",
                           }}
                         >
                           <MUIDataTable

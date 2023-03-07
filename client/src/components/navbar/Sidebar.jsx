@@ -25,7 +25,7 @@ import { useSelector, useDispatch } from "react-redux";
 function Sidebar() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const { dashboard, orders, products, customers } = useSelector(
+  const { dashboard, orders, products, customers, myBrand } = useSelector(
     (state) => state.highlight
   );
   const { brand } = useSelector((state) => state.myBrand);
@@ -191,6 +191,7 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
         <Divider />
+
         <ListItem
           sx={{
             marginTop: "5px",
@@ -201,8 +202,10 @@ function Sidebar() {
             sx={{
               "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
               borderRadius: "10px",
+              background: myBrand ? "rgb(24, 104, 183)" : "",
+              color: myBrand ? "white" : "",
             }}
-            onClick={() => navigate(`/brand/${brand._id}`)}
+            onClick={() => navigate(`/myBrand`)}
           >
             <ListItemIcon>
               <DashboardIcon />

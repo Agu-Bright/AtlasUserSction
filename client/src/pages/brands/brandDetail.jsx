@@ -161,7 +161,7 @@ function BrandDetail() {
               />
             ) : (
               <Avatar
-                src={brandDetail?.brandLogo.url}
+                src={brandDetail?.brandLogo?.url}
                 alt="image"
                 sx={{
                   border: "5px solid white",
@@ -197,26 +197,39 @@ function BrandDetail() {
                 }}
               />
             ) : (
-              <Typography
-                sx={{
-                  marginTop: "25px",
-                  paddingTop: { md: "auto", xs: "" },
-                  paddingLeft: { md: "25px", xs: "10px" },
-                  fontWeight: "900",
-                  fontSize: { md: "25px", sm: "20px", xs: "18px" },
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                {brandDetail?.brandName}
-                {brandDetail?.verified && (
-                  <span style={{ color: "blue" }}>
-                    <IconButton sx={{ color: "blue" }}>
-                      <VerifiedIcon sx={{ fontSize: "15px" }} />
-                    </IconButton>
-                  </span>
-                )}
-              </Typography>
+              <>
+                <Typography
+                  sx={{
+                    marginTop: "25px",
+                    paddingTop: { md: "auto", xs: "" },
+                    paddingLeft: { md: "25px", xs: "10px" },
+                    fontWeight: "900",
+                    fontSize: { md: "25px", sm: "20px", xs: "18px" },
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {brandDetail?.brandName}
+                  {brandDetail?.verified && (
+                    <span style={{ color: "blue" }}>
+                      <IconButton sx={{ color: "blue" }}>
+                        <VerifiedIcon sx={{ fontSize: "15px" }} />
+                      </IconButton>
+                    </span>
+                  )}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    paddingLeft: { md: "25px", xs: "10px" },
+                  }}
+                >
+                  Brand Type :
+                  <Typography sx={{ display: "inline-block" }}>
+                    {brandDetail?.brandType}
+                  </Typography>
+                </Typography>
+              </>
             )}
             {loading ? (
               <Skeleton

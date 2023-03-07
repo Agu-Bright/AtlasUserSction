@@ -19,6 +19,12 @@ const {
 } = require("../middlewares/authMiddleware");
 
 router.post("/user/createBrand", authMiddleware, userCreateBrand);
+router.put(
+  "/updateBrand/:id",
+  authMiddleware,
+  authorizeRoles("admin", "seller"),
+  updateBrand
+);
 router.get("/newBrands", getNewBrands);
 router.get("/brandDetails/:id", getBrand);
 router.get("/brandProduct/:id", getBrandProducts);

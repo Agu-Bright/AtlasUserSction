@@ -41,6 +41,7 @@ import ProductList from "./pages/adminPages/productList";
 import UpdateProduct from "./pages/adminPages/AdminProductDetail";
 import OrdersList from "./pages/adminPages/OrderList";
 import ProcessOrder from "./pages/adminPages/ProcessOrder";
+import MyBrand from "./pages/adminPages/MyBrand";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -85,14 +86,14 @@ const App = () => {
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
           <Route path="orderList" element={<OrdersList />} />
           <Route path="/admin/order/:id" element={<ProcessOrder />} />
+          <Route path="/myBrand" element={<MyBrand />} />
+          {/* <Route path="/admin/users" element={<UsersList />} /> */}
           {/* 
-            <Route path="/admin/users" element={<UsersList />} />
             <Route path="/admin/sellers" element={<SellersList />} /> */}
         </Route>
         <Route path="/orders/me" element={<ListOrders />} />
         <Route path="/payment/verify" element={<Payment />} />
-        {/* <Route path="/admin/user/:id" element={<UpdateUser />} />
-          <Route path="/me/seller" element={<Seller />} /> */}
+        {/* <Route path="/admin/user/:id" element={<UpdateUser />} />*/}
       </Routes>
     </Router>
   );

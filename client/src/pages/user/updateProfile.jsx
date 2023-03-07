@@ -88,7 +88,6 @@ function UpdateProfile() {
     formData.set("name", name);
     formData.set("email", email);
     formData.set("campus", location);
-    // formData.set("course", course);
     formData.set("avatar", avatar);
 
     dispatch(updateProfile(formData));

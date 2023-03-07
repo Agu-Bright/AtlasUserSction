@@ -319,37 +319,39 @@ function ProcessOrder() {
                               {orderItems &&
                                 orderItems.map((item) => (
                                   <>
-                                    <Stack
-                                      key={item.product}
-                                      direction="row"
-                                      justifyContent="space-between"
-                                      alignItems="center"
-                                      sx={{ padding: "10px 10px" }}
-                                    >
-                                      {" "}
-                                      <Avatar
-                                        src={item.image}
-                                        alt={item.name}
-                                      />
-                                      <Typography
-                                        sx={{
-                                          textAlign: "start",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() =>
-                                          navigate`/product/${item.product}`()
-                                        }
+                                    {user.role === "seller" &&
+                                    user._id === item.seller ? (
+                                      <Stack
+                                        key={item.product}
+                                        direction="row"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                        sx={{ padding: "10px 10px" }}
                                       >
-                                        {item.name}
-                                      </Typography>
-                                      <Typography
-                                        sx={{
-                                          textAlign: "start",
-                                        }}
-                                      >
-                                        &#8358;{item.price}
-                                      </Typography>
-                                      {/* <div className="col-4 col-lg-3 mt-4 mt-lg-0">
+                                        {" "}
+                                        <Avatar
+                                          src={item.image}
+                                          alt={item.name}
+                                        />
+                                        <Typography
+                                          sx={{
+                                            textAlign: "start",
+                                            cursor: "pointer",
+                                          }}
+                                          onClick={() =>
+                                            navigate`/product/${item.product}`()
+                                          }
+                                        >
+                                          {item.name}
+                                        </Typography>
+                                        <Typography
+                                          sx={{
+                                            textAlign: "start",
+                                          }}
+                                        >
+                                          &#8358;{item.price}
+                                        </Typography>
+                                        {/* <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                       <p>{`${item.quantity} Piece(s)`}</p>
                                       {User._id === item.seller && (
                                         <Typography>
@@ -362,7 +364,53 @@ function ProcessOrder() {
                                         </Typography>
                                       )}
                                     </div> */}
-                                    </Stack>
+                                      </Stack>
+                                    ) : (
+                                      <Stack
+                                        key={item.product}
+                                        direction="row"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                        sx={{ padding: "10px 10px" }}
+                                      >
+                                        {" "}
+                                        <Avatar
+                                          src={item.image}
+                                          alt={item.name}
+                                        />
+                                        <Typography
+                                          sx={{
+                                            textAlign: "start",
+                                            cursor: "pointer",
+                                          }}
+                                          onClick={() =>
+                                            navigate`/product/${item.product}`()
+                                          }
+                                        >
+                                          {item.name}
+                                        </Typography>
+                                        <Typography
+                                          sx={{
+                                            textAlign: "start",
+                                          }}
+                                        >
+                                          &#8358;{item.price}
+                                        </Typography>
+                                        {/* <div className="col-4 col-lg-3 mt-4 mt-lg-0">
+                                      <p>{`${item.quantity} Piece(s)`}</p>
+                                      {User._id === item.seller && (
+                                        <Typography>
+                                          <Alert
+                                            icon={false}
+                                            severity="warning"
+                                          >
+                                            Your order{" "}
+                                          </Alert>
+                                        </Typography>
+                                      )}
+                                    </div> */}
+                                      </Stack>
+                                    )}
                                     <Divider />
                                   </>
                                 ))}
@@ -401,6 +449,9 @@ function ProcessOrder() {
 
                             <Stack>
                               <LoadingButton
+                                disabled={
+                                  orderStatus === "delivered" ? false : true
+                                }
                                 id="login_button"
                                 type="submit"
                                 color="primary"

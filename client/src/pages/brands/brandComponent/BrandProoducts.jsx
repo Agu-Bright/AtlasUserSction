@@ -13,6 +13,7 @@ import {
   Pagination,
   ListItemText,
   Divider,
+  Button,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 
@@ -79,7 +80,8 @@ function BrandProoducts({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const { brand } = useSelector((state) => state.myBrand);
+  const { user } = useSelector((state) => state.auth);
   return (
     <Box sx={{ marginTop: "20px" }}>
       <Box
@@ -228,6 +230,38 @@ function BrandProoducts({
                 >
                   No Product found
                 </Typography>
+                <Button>Create Product</Button>
+              </Box>
+            )}
+            {!brandProducts && user?._id === brand?.user && (
+              <Box
+                sx={{
+                  padding: "inherit",
+                  margin: "inhert",
+                  width: "100%",
+                  height: "50vh",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginLeft: "20px",
+                }}
+              >
+                <Button
+                  sx={{
+                    color: "white",
+                    background: "rgb(24, 104, 183)",
+                    "&:focus": {
+                      outline: "none",
+                    },
+                    "&:hover": {
+                      background: "rgb(24, 90, 200)",
+                      color: "white",
+                    },
+                  }}
+                  onClick={() => navigate("/newProduct")}
+                >
+                  Create Product
+                </Button>
               </Box>
             )}
           </Grid>

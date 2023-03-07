@@ -149,7 +149,7 @@ function MuiDrawer({
                     </ListItemAvatar>
                   </ListItemIcon>
                   <Typography sx={{ fontWeight: "800" }}>
-                    {user.role}
+                    {user.role} dashboard
                   </Typography>
                 </ListItemButton>
               </ListItem>

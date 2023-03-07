@@ -59,6 +59,7 @@ const getAllBrands = catchAsyncErrors(async (req, res, next) => {
   let filteredBrandCount = brands.length;
   const numberOfPages = Math.ceil(brandCount / resperpage);
   const searchNumberOfPages = Math.ceil(filteredBrandCount / resperpage);
+
   res.status(200).json({
     success: true,
     brands,
@@ -72,23 +73,57 @@ const getAllBrands = catchAsyncErrors(async (req, res, next) => {
 
 //update brand ==> /api/v1/brand/user/updateBrand/:id
 const updateBrand = catchAsyncErrors(async (req, res, next) => {
-  //To update the brand logo,
-  //To update the coverImage
+  const update = { ...req.body };
+  console.log(req.body);
+  const { id } = req.params;
   //To update the certificate
   //To update the social links and others
-
-  const { id } = req.params;
-  const brand = await brandModel.findById(id);
-  if (!brand) {
-    return next(ErrorHandler("Brand Not found", 404));
+  //update brand logo
+  if (req.body?.brandLogo !== "") {
+    const brand = await brandModel.findById(id);
+    if (brand.brandLogo.public_id) {
+      const image_id = brand?.brandLogo?.public_id;
+      await cloudinary.v2.uploader.destroy(image_id);
+    }
+    const result = await cloudinary.v2.uploader.upload(req.body.brandLogo, {
+      folder: "brandLogo",
+      width: 150,
+      crop: "scale",
+    });
+    update.brandLogo = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
   }
+  //To update the coverImage
+
+  if (req.body?.backgroundImage !== "") {
+    const brand = await brandModel.findById(id);
+    if (brand.backgroundImage.public_id) {
+      const image_id = brand?.backgroundImage?.public_id;
+      await cloudinary.v2.uploader.destroy(image_id);
+    }
+    const result = await cloudinary.v2.uploader.upload(
+      req.body.backgroundImage,
+      {
+        folder: "backgroundImage",
+        width: 150,
+        crop: "scale",
+      }
+    );
+    update.backgroundImage = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+
   //handle the image upload to cloudinary later
-  const update = { ...req.body };
   await brandModel.findByIdAndUpdate(id, update, {
     new: true,
     runvalidator: true,
     useFindAndModify: true,
   });
+
   res.status(200).json({ success: true });
 });
 
@@ -116,8 +151,8 @@ const getBrand = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
 
   const brand = await brandModel.findById(id);
-  if (!brand || brand.status !== "approved") {
-    return next(new ErrorHandler("No Book Found", 404));
+  if (!brand) {
+    return next(new ErrorHandler("No brand Found", 404));
   }
   res.status(200).json({
     success: true,
@@ -130,7 +165,7 @@ const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
 
   const brand = await brandModel.findById(id).populate("user");
-  if (!brand || brand.status !== "approved") {
+  if (!brand) {
     return next(new ErrorHandler("No product Found", 404));
   }
 

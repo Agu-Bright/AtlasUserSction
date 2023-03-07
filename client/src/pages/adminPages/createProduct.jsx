@@ -110,7 +110,7 @@ function CreateProduct() {
       console.log("success");
       dispatch({ type: CREATE_PRODUCTS_RESET });
     }
-  }, [error, success, dispatch, navigate]);
+  }, [error, success, dispatch, navigate, brand]);
   // const handleClose = (e, reason) => {
   //   if (reason === "clickaway") {
   //     return;

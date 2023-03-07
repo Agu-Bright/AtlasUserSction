@@ -21,6 +21,10 @@ import {
   BRANDS_IN_LOCATION_SUCCESS,
   BRANDS_IN_LOCATION_FAIL,
   SAVE_CREATE_BRAND_INFO,
+  UPDATE_BRAND_REQUEST,
+  UPDATE_BRAND_SUCCESS,
+  UPDATE_BRAND_RESET,
+  UPDATE_BRAND_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -50,6 +54,41 @@ export const createBrand = (state = { brand: null }, action) => {
 
     default:
       return state;
+  }
+};
+
+export const updateBrandReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_BRAND_REQUEST:
+      return {
+        updating: true,
+      };
+    case UPDATE_BRAND_SUCCESS:
+      return {
+        ...state,
+        updating: false,
+        isUpdated: action.payload,
+      };
+    case UPDATE_BRAND_RESET:
+      return {
+        ...state,
+        isUpdated: false,
+      };
+    case UPDATE_BRAND_FAIL:
+      return {
+        ...state,
+        updating: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return {
+        state,
+      };
   }
 };
 

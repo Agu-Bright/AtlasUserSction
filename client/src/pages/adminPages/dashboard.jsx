@@ -152,7 +152,7 @@ function Dashboard() {
           paddingTop: { md: "12.2vh", xs: "9vh" },
           backgroundColor: "white",
           margin: "0px !important",
-          height: "calc(100vh - 12.2vh)",
+          height: "100vh",
         }}
       >
         <Stack

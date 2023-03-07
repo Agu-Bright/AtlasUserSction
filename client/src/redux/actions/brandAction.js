@@ -22,6 +22,9 @@ import {
   BRANDS_IN_LOCATION_SUCCESS,
   BRANDS_IN_LOCATION_FAIL,
   SAVE_CREATE_BRAND_INFO,
+  UPDATE_BRAND_REQUEST,
+  UPDATE_BRAND_SUCCESS,
+  UPDATE_BRAND_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -140,6 +143,22 @@ export const getBrandsInLocation = () => async (dispatch) => {
       type: BRANDS_IN_LOCATION_FAIL,
       payload: error.response.data.Message,
     });
+  }
+};
+export const updateBrand = (id, formData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_BRAND_REQUEST });
+    const { data } = await axios.put(
+      `api/v1/brand/updateBrand/${id}`,
+      formData,
+      {
+        withCredentials: true,
+        credentials: "include",
+      }
+    );
+    dispatch({ type: UPDATE_BRAND_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({ type: UPDATE_BRAND_FAIL, payload: error.response.data.Message });
   }
 };
 

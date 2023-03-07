@@ -75,19 +75,19 @@ const brandSchema = mongoose.Schema({
       values: [
         "Abia",
         "Adamawa",
-        "Akwa Ibom",
+        "Akwa-Ibom",
         "Anambra",
         "Bauchi",
         "Bayelsa",
         "Benue",
         "Borno",
-        "Cross River",
+        "Cross-River",
         "Delta",
         "Ebonyi",
         "Edo",
         "Ekiti",
         "Enugu",
-        "FCT - Abuja",
+        "FCT-Abuja",
         "Gombe",
         "Imo",
         "Jigawa",
@@ -118,10 +118,13 @@ const brandSchema = mongoose.Schema({
     whatsApp: {
       type: String,
     },
-    Instagram: {
+    instagram: {
       type: String,
     },
     faceBook: {
+      type: String,
+    },
+    twitter: {
       type: String,
     },
   },
@@ -150,7 +153,7 @@ const brandSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: true,
-    unique: [true, "you can't create more than one store"],
+    unique: [true, "you can't create more than one brand"],
   },
   verified: { type: Boolean, default: false },
   status: {

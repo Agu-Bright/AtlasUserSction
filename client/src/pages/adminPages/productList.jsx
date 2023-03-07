@@ -134,6 +134,7 @@ function ProductList() {
           paddingTop: { md: "12.2vh", xs: "9vh" },
           backgroundColor: "white",
           margin: "0px !important",
+          height: "100vh",
         }}
       >
         <Stack
