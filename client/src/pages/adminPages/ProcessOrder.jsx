@@ -121,6 +121,7 @@ function ProcessOrder() {
           paddingTop: { md: "12.2vh", xs: "9vh" },
           backgroundColor: "white",
           margin: "0px !important",
+          height: " 100%",
         }}
       >
         <Stack
@@ -133,7 +134,7 @@ function ProcessOrder() {
         >
           <Box
             sx={{
-              borderRight: "0.1px solid gray",
+              borderRight: "0.1px solid #d9d3d3",
               width: "20%",
               display: { md: state ? "block" : "none", sm: "none", xs: "none" },
             }}
@@ -351,19 +352,19 @@ function ProcessOrder() {
                                         >
                                           &#8358;{item.price}
                                         </Typography>
-                                        {/* <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                                      <p>{`${item.quantity} Piece(s)`}</p>
-                                      {User._id === item.seller && (
-                                        <Typography>
-                                          <Alert
-                                            icon={false}
-                                            severity="warning"
-                                          >
-                                            Your order{" "}
-                                          </Alert>
-                                        </Typography>
-                                      )}
-                                    </div> */}
+                                        <div className="col-4 col-lg-3 mt-4 mt-lg-0">
+                                          <p>{`${item.quantity} Piece(s)`}</p>
+                                          {User._id === item.seller && (
+                                            <Typography>
+                                              <Alert
+                                                icon={false}
+                                                severity="warning"
+                                              >
+                                                Your order{" "}
+                                              </Alert>
+                                            </Typography>
+                                          )}
+                                        </div>
                                       </Stack>
                                     ) : (
                                       <Stack

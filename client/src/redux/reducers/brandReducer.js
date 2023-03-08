@@ -25,6 +25,9 @@ import {
   UPDATE_BRAND_SUCCESS,
   UPDATE_BRAND_RESET,
   UPDATE_BRAND_FAIL,
+  ADMIN_ALL_BRAND_REQUEST,
+  ADMIN_ALL_BRAND_SUCCESS,
+  ADMIN_ALL_BRAND_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -276,6 +279,38 @@ export const allBrandsReducer = (state = { brands: null }, action) => {
 
     default:
       return state;
+  }
+};
+
+export const allBrands = (state = { brands: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_ALL_BRAND_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ADMIN_ALL_BRAND_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        brands: action.payload,
+      };
+
+    case ADMIN_ALL_BRAND_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return {
+        state,
+      };
   }
 };
 

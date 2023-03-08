@@ -12,6 +12,7 @@ import {
   createBrand,
   myBrandReducer,
   updateBrandReducer,
+  allBrands,
 } from "./reducers/brandReducer";
 import {
   trendingProductReducer,
@@ -64,6 +65,7 @@ const reducer = combineReducers({
   createBrand: createBrandReducer,
   brand: createBrand,
   updateBrand: updateBrandReducer,
+  allBrands: allBrands,
   //product reducer section
   createProduct: createProductReducer,
   trendingProducts: trendingProductReducer,

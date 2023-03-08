@@ -25,8 +25,27 @@ import {
   UPDATE_BRAND_REQUEST,
   UPDATE_BRAND_SUCCESS,
   UPDATE_BRAND_FAIL,
+  ADMIN_ALL_BRAND_REQUEST,
+  ADMIN_ALL_BRAND_SUCCESS,
+  ADMIN_ALL_BRAND_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
+
+export const allBrands = () => async (dispatch) => {
+  try {
+    dispatch({ type: ADMIN_ALL_BRAND_REQUEST });
+    const { data } = await axios.get("/api/v1/brand/admin/brands", {
+      withCredentials: true,
+      credentials: "include",
+    });
+    dispatch({ type: ADMIN_ALL_BRAND_SUCCESS, payload: data.brands });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_ALL_BRAND_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 export const createBrand = (formData) => async (dispatch) => {
   try {
@@ -148,6 +167,7 @@ export const getBrandsInLocation = () => async (dispatch) => {
 export const updateBrand = (id, formData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_BRAND_REQUEST });
+    console.log(formData);
     const { data } = await axios.put(
       `api/v1/brand/updateBrand/${id}`,
       formData,

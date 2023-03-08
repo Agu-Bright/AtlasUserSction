@@ -114,20 +114,20 @@ const brandSchema = mongoose.Schema({
       message: "Select the location of your bussiness",
     },
   },
-  socials: {
-    whatsApp: {
-      type: String,
-    },
-    instagram: {
-      type: String,
-    },
-    faceBook: {
-      type: String,
-    },
-    twitter: {
-      type: String,
-    },
+
+  whatsApp: {
+    type: String,
   },
+  instagram: {
+    type: String,
+  },
+  faceBook: {
+    type: String,
+  },
+  twitter: {
+    type: String,
+  },
+
   website: {
     type: String,
   },

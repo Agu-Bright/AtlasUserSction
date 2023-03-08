@@ -23,7 +23,7 @@ import { useSelector, useDispatch } from "react-redux";
 function SidebarDrawer({ open, close }) {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const { dashboard, orders, products, customers } = useSelector(
+  const { dashboard, orders, products, brandList, userList } = useSelector(
     (state) => state.highlight
   );
   const { brand } = useSelector((state) => state.myBrand);
@@ -162,7 +162,7 @@ function SidebarDrawer({ open, close }) {
               </Stack>
             </AccordionDetails>
           </Accordion>
-          <ListItem
+          {/* <ListItem
             sx={{
               marginTop: "5px",
               cursor: "pointer",
@@ -180,6 +180,48 @@ function SidebarDrawer({ open, close }) {
                 <DashboardIcon />
               </ListItemIcon>
               <ListItemText primary="Customers" />
+            </ListItemButton>
+          </ListItem> */}
+          <ListItem
+            sx={{
+              marginTop: "5px",
+              cursor: "pointer",
+            }}
+          >
+            <ListItemButton
+              sx={{
+                "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
+                borderRadius: "10px",
+                background: brandList ? "rgb(24, 104, 183)" : "",
+                color: brandList ? "white" : "",
+              }}
+              onClick={() => navigate(`/admin/brands`)}
+            >
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Brand List" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            sx={{
+              marginTop: "5px",
+              cursor: "pointer",
+            }}
+          >
+            <ListItemButton
+              sx={{
+                "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
+                borderRadius: "10px",
+                background: userList ? "rgb(24, 104, 183)" : "",
+                color: userList ? "white" : "",
+              }}
+              onClick={() => navigate(`/admin/users`)}
+            >
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="User List" />
             </ListItemButton>
           </ListItem>
           <ListItem

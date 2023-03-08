@@ -68,9 +68,11 @@ const AdminGetAllProducts = catchAsyncErrors(async (req, res, next) => {
   const role = req.user.role;
   let products;
   if (role === "seller") {
-    products = await Product.find({ user: req.user._id });
+    const mainProduct = await Product.find({ user: req.user._id });
+    products = mainProduct.reverse();
   } else {
-    products = await Product.find();
+    const mainProduct = await Product.find();
+    products = mainProduct.reverse();
   }
 
   res.status(200).json({

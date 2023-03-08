@@ -12,6 +12,7 @@ const {
   getRecommendedProducts,
   brandsInYourLocation,
   getMyBrand,
+  getBrands,
 } = require("../controllers/brandController");
 const {
   authMiddleware,
@@ -37,4 +38,5 @@ router.get(
   authorizeRoles("admin", "seller"),
   getMyBrand
 );
+router.get("/admin/brands", authMiddleware, authorizeRoles("admin"), getBrands);
 module.exports = router;

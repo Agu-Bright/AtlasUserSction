@@ -165,7 +165,7 @@ function Dashboard() {
         >
           <Box
             sx={{
-              borderRight: "0.1px solid gray",
+              borderRight: "0.1px solid #d9d3d3",
               width: "20%",
               display: { md: state ? "block" : "none", sm: "none", xs: "none" },
             }}

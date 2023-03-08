@@ -47,12 +47,13 @@ function UpdateProduct() {
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(0);
   const [location, setLocation] = useState("");
-  const [images, setImages] = useState([]);
   const [status, setStatus] = useState("");
   const [category, setCategory] = useState("");
 
+  const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+
   const { id } = useParams();
   const [openUpdate, setOpenUpdate] = useState(false);
   const { error, product } = useSelector((state) => state.productDetail);
@@ -168,7 +169,7 @@ function UpdateProduct() {
         >
           <Box
             sx={{
-              borderRight: "0.1px solid gray",
+              borderRight: "0.1px solid #d9d3d3",
               width: "20%",
               display: { md: state ? "block" : "none", sm: "none", xs: "none" },
             }}

@@ -43,6 +43,7 @@ function MyBrand() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [openM, setOpenM] = useState(false);
   const { id } = useParams();
   const { brand, loading } = useSelector((state) => state.myBrand);
   const { error, isUpdated, updating } = useSelector(
@@ -55,17 +56,21 @@ function MyBrand() {
   const [brandDetail, setBrandDetail] = useState("");
   const [location, setLocation] = useState("");
   const [website, setWebsite] = useState("");
-  const [socials, setSocials] = useState();
+  const [whatsApp, setWhatsApp] = useState();
+  const [faceBook, setFaceBook] = useState();
+  const [instagram, setInstagram] = useState();
+  const [twitter, setTwitter] = useState();
   const [bank, setBank] = useState("");
   const [accountName, setAccountname] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [verified, setVerified] = useState(false);
-  const [brandLogo, setBrandLogo] = useState({});
+  const [brandLogo, setBrandLogo] = useState();
   const [brandLogoPreview, setBrandLogoPreview] = useState(
     "/images/default_Avater.png"
   );
-  const [backgroundImage, setBackgroundImage] = useState({});
+  const [backgroundImage, setBackgroundImage] = useState();
+  console.log(brandLogo);
   const [backgroundPreview, setBackgroundPreview] = useState(
     "/images/default_Avater.png"
   );
@@ -77,23 +82,24 @@ function MyBrand() {
     setBrandDetail(brand?.brandDetail);
     setLocation(brand?.location);
     setWebsite(brand?.website);
-    setSocials(brand?.socials);
+    setWhatsApp(brand?.whatsApp);
+    setFaceBook(brand?.faceBook);
+    setInstagram(brand?.instagram);
+    setTwitter(brand?.twitter);
     setBank(brand?.bank);
     setAccountname(brand?.accountName);
     setAccountNumber(brand?.accountNumber);
     setPhoneNumber(brand?.phoneNumber);
     setVerified(brand?.verified);
-    setBrandLogo(brand?.brandLogo);
     setBrandLogoPreview(brand?.brandLogo?.url);
     setBackgroundPreview(brand?.backgroundImage?.url);
-    setBackgroundImage(brand?.backgroundImage);
     console.log(brand);
     if (error) {
       setErrorMessage(error);
       dispatch(clearErrors());
     }
     if (isUpdated) {
-      setOpen(true);
+      setOpenM(true);
       dispatch(getMyBrand());
       dispatch({ type: UPDATE_BRAND_RESET });
     }
@@ -131,12 +137,13 @@ function MyBrand() {
     e.preventDefault();
     const formData = new FormData();
     formData.set("brandName", brandName);
-    brandLogo && formData.set("brandLogo", brandLogo);
-    backgroundImage && formData.set("backgroundImage", backgroundImage);
     formData.set("brandType", brandType);
     formData.set("brandDetail", brandDetail);
     formData.set("location", location);
-    socials && formData.set("socials", socials);
+    whatsApp && formData.set("whatsApp", whatsApp);
+    faceBook && formData.set("faceBook", faceBook);
+    instagram && formData.set("instagram", instagram);
+    twitter && formData.set("twitter", twitter);
     website && formData.set("website", website);
     formData.set("bank", bank);
     formData.set("accountName", accountName);
@@ -145,13 +152,16 @@ function MyBrand() {
     formData.set("verified", verified);
     formData.set("user", user._id);
     if (user.role === "admin") formData.set("verified", verified);
+    brandLogo && formData.append("brandLogo", brandLogo);
+    backgroundImage && formData.append("backgroundImage", backgroundImage);
+
     dispatch(updateBrand(brand._id, formData));
   };
 
   //ui functionalities
   useEffect(() => {
     dispatch({ type: SET_MY_BRAND });
-  }, []);
+  }, [dispatch]);
 
   const [navbar, setNavbar] = useState(true);
   const [state, setState] = useState(true);
@@ -187,7 +197,7 @@ function MyBrand() {
         >
           <Box
             sx={{
-              borderRight: "0.1px solid gray",
+              borderRight: "0.1px solid #d9d3d3",
               width: "20%",
               display: { md: state ? "block" : "none", sm: "none", xs: "none" },
             }}
@@ -404,7 +414,6 @@ function MyBrand() {
                       name="website"
                       value={website}
                       onChange={(e) => setWebsite(e.target.value)}
-                      required
                     />
                     <TextField
                       label="Bank"
@@ -443,56 +452,32 @@ function MyBrand() {
                       label="WhatsApp Number"
                       type="text"
                       name="whatsApp"
-                      value={socials?.whatsApp}
-                      onChange={(e) =>
-                        setSocials((prev) => {
-                          const name = [e.target.name];
-                          const value = e.target.value;
-                          return { ...prev, [name]: value };
-                        })
-                      }
+                      value={whatsApp}
+                      onChange={(e) => setWhatsApp(e.target.value)}
                     />
 
                     <TextField
                       label="instagram Link"
                       type="text"
                       name="instagram"
-                      value={socials?.instagram}
-                      onChange={(e) =>
-                        setSocials((prev) => {
-                          const name = [e.target.name];
-                          const value = e.target.value;
-                          return { ...prev, [name]: value };
-                        })
-                      }
+                      value={instagram}
+                      onChange={(e) => setInstagram(e.target.value)}
                     />
 
                     <TextField
                       label="FaceBook Link"
                       type="text"
                       name="faceBook"
-                      value={socials?.facebook}
-                      onChange={(e) =>
-                        setSocials((prev) => {
-                          const name = [e.target.name];
-                          const value = e.target.value;
-                          return { ...prev, [name]: value };
-                        })
-                      }
+                      value={faceBook}
+                      onChange={(e) => setFaceBook(e.target.value)}
                     />
 
                     <TextField
                       label="Twitter Link"
                       type="text"
                       name="twitter"
-                      value={socials?.twitter}
-                      onChange={(e) =>
-                        setSocials((prev) => {
-                          const name = [e.target.name];
-                          const value = e.target.value;
-                          return { ...prev, [name]: value };
-                        })
-                      }
+                      value={twitter}
+                      onChange={(e) => setTwitter(e.target.value)}
                     />
 
                     <FormControl fullWidth>
@@ -515,24 +500,6 @@ function MyBrand() {
                       </Select>
                     </FormControl>
 
-                    {user.role === "admin" && (
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          verify Brand
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={verified}
-                          label="Location"
-                          name="brandType"
-                          onChange={(e) => setVerified(e.target.value)}
-                        >
-                          <MenuItem value="Plug">true</MenuItem>
-                          <MenuItem value="Store">false</MenuItem>
-                        </Select>
-                      </FormControl>
-                    )}
                     <Stack
                       justifyContent="flex-end"
                       sx={{
@@ -549,6 +516,14 @@ function MyBrand() {
                             outline: "none",
                             color: "white",
                           },
+                          "&:hover": {
+                            background: "rgb(24, 104, 183)",
+                            outline: "none",
+                            color: "white",
+                          },
+                          background: "rgb(24, 104, 183)",
+                          outline: "none",
+                          color: "white",
                         }}
                         loading={updating ? true : false}
                         onClick={handleSubmit}
@@ -564,6 +539,11 @@ function MyBrand() {
         </Stack>
         <SidebarDrawer open={open} close={handleDrawerClose} />
       </Box>
+      <Snackbar open={openM} autoHideDuration={4000} onClose={handleClose}>
+        <SnackbarAlert>
+          <Typography>Brand update successful</Typography>
+        </SnackbarAlert>
+      </Snackbar>
     </>
   );
 }

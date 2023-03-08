@@ -235,8 +235,8 @@ const logoutUser = catchAsyncErrors(async (req, res, next) => {
 //get all users => api/v1/admin
 
 const getUsers = catchAsyncErrors(async (req, res, next) => {
-  const users = await User.find();
-
+  const allusers = await User.find();
+  const users = allusers.reverse();
   res.status(200).json({
     success: true,
     users,

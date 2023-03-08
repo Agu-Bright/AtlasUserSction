@@ -79,7 +79,10 @@ const updateBrand = catchAsyncErrors(async (req, res, next) => {
   //To update the certificate
   //To update the social links and others
   //update brand logo
-  if (req.body?.brandLogo !== "") {
+  const brand = brandModel.findById(id);
+  if (!brand) return next("No Brand Found", 404);
+  console.log(brand);
+  if (req.body.brandLogo && req.body.brandLogo !== "") {
     const brand = await brandModel.findById(id);
     if (brand.brandLogo.public_id) {
       const image_id = brand?.brandLogo?.public_id;
@@ -97,7 +100,7 @@ const updateBrand = catchAsyncErrors(async (req, res, next) => {
   }
   //To update the coverImage
 
-  if (req.body?.backgroundImage !== "") {
+  if (req.body.backgroundImage && req.body.backgroundImage !== "") {
     const brand = await brandModel.findById(id);
     if (brand.backgroundImage.public_id) {
       const image_id = brand?.backgroundImage?.public_id;
@@ -234,6 +237,16 @@ const getMyBrand = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ success: true, brand });
 });
 
+const getBrands = catchAsyncErrors(async (req, res, next) => {
+  const allBrands = await brandModel.find().populate("user");
+  console.log(allBrands);
+  const brands = allBrands.reverse();
+  res.status(200).json({
+    success: true,
+    brands,
+  });
+});
+
 module.exports = {
   userCreateBrand,
   getAllBrands,
@@ -245,4 +258,5 @@ module.exports = {
   getRecommendedProducts,
   brandsInYourLocation,
   getMyBrand,
+  getBrands,
 };

@@ -29,6 +29,7 @@ import { UPDATE_PROFILE_RESET } from "../../redux/constants/userConstants";
 import { states } from "../../utils/stateData";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
 });

@@ -9,6 +9,7 @@ import {
   Snackbar,
   Stack,
   Button,
+  Avatar,
 } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 
@@ -18,12 +19,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/navbar/Navbar";
 import ArticleIcon from "@mui/icons-material/Article";
-import { SET_PRODUCTS } from "../../redux/reducers/highlightReducer";
+import { SET_BRAND_LIST } from "../../redux/reducers/highlightReducer";
 import {
   adminGetProducts,
   deleteProduct,
 } from "../../redux/actions/productAction";
-
+import { allBrands } from "../../redux/actions/brandAction";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Sidebar from "../../components/navbar/Sidebar";
@@ -34,7 +35,7 @@ const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
 });
 
-function ProductList() {
+function BrandList() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -62,58 +63,62 @@ function ProductList() {
   const handleCloseM = () => setOpenM(false);
 
   // const [open, setOpen] = useState(false);
-  const [bookId, setBookId] = useState();
+  const [brandId, setbrandId] = useState();
   // const [errorMessage, setErrorMessage] = useState();
   const dispatch = useDispatch();
 
-  const { loading, error, products } = useSelector(
-    (state) => state.allProducts
-  );
-  const { isDeleted, reset, deleting } = useSelector(
-    (state) => state.deleteProduct
-  );
+  const { loading, error, brands } = useSelector((state) => state.allBrands);
 
   useEffect(() => {
-    dispatch(adminGetProducts());
+    dispatch(allBrands());
 
     // if (deleteError) {
     //   alert(deleteError);
     // }
-  }, [dispatch, isDeleted, reset]);
+  }, [dispatch]);
   useEffect(() => {
-    dispatch({ type: SET_PRODUCTS });
-  });
+    dispatch({ type: SET_BRAND_LIST });
+  }, [dispatch]);
   const handleDelete = (id) => {
     dispatch(deleteProduct(id));
   };
 
-  const columns = ["Product Id", "Name", "Price", "Stock", "action"];
+  const columns = ["Brand Id", "Logo", "Brand Name", "Brand Type", "Status"];
   const data = [];
-  products &&
-    products.map((product) =>
+  brands &&
+    brands.map((brand) =>
       data.push([
-        product._id,
-        product.name,
-        product.price,
-        product.stock,
-        <>
-          <Link to={`/admin/product/${product._id}`}>
-            <IconButton sx={{ "&:focus": { outline: "none" } }}>
-              <EditIcon color="primary" />
-            </IconButton>
-          </Link>
-
-          <IconButton
-            color="error"
-            sx={{ "&:focus": { outline: "none" } }}
-            onClick={() => {
-              setBookId(product._id);
-              handleOpenM();
+        brand._id,
+        <Avatar src={brand?.brandLogo?.url} alt={brand.brandName} />,
+        brand.brandName,
+        brand.brandType,
+        brand.verified ? (
+          <Typography
+            sx={{
+              padding: "5px",
+              fontSize: "0.9em",
+              borderRadius: "15px",
+              background: "#87d287",
+              textAlign: "center",
+              color: "whitesmoke",
             }}
           >
-            <DeleteIcon />
-          </IconButton>
-        </>,
+            verified
+          </Typography>
+        ) : (
+          <Typography
+            sx={{
+              padding: "5px",
+              fontSize: "0.9em",
+              borderRadius: "15px",
+              background: "#f3855a",
+              textAlign: "center",
+              color: "whitesmoke",
+            }}
+          >
+            unverified
+          </Typography>
+        ),
       ])
     );
 
@@ -161,6 +166,7 @@ function ProductList() {
               width: "100%",
               overflowY: "scroll",
               paddingRight: "10px",
+              height: "100vh",
             }}
           >
             <Box sx={{ width: "100%", margin: "0", padding: "0" }}>
@@ -193,7 +199,7 @@ function ProductList() {
                     <ArticleIcon sx={{ fontSize: "1.2em" }} />
                   </IconButton>
                   <Typography sx={{ fontWeight: "600", fontSize: "1.3em" }}>
-                    All Products
+                    All Brand
                   </Typography>
                 </Box>
 
@@ -206,7 +212,7 @@ function ProductList() {
                   }}
                 >
                   <MUIDataTable
-                    title={"Product List"}
+                    title={"Brand List"}
                     data={data}
                     columns={columns}
                     options={options}
@@ -214,7 +220,7 @@ function ProductList() {
                 </Box>
 
                 <Snackbar
-                  open={isDeleted}
+                  open={false}
                   autoHideDuration={4000}
                   // onClose={handleClose}
                 >
@@ -249,7 +255,7 @@ function ProductList() {
                       <Button
                         sx={{ "&:focus": { outline: "none" } }}
                         onClick={() => {
-                          handleDelete(bookId);
+                          handleDelete(brandId);
                           setOpenM(false);
                         }}
                       >
@@ -268,4 +274,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default BrandList;
