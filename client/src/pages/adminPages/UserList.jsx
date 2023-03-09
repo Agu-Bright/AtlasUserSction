@@ -74,7 +74,7 @@ function UserList() {
   // const { isDeleted, reset, deleting } = useSelector(
   //   (state) => state.deleteProduct
   // );
-  const { loading, error, users } = useSelector((state) => state.allUsers);
+  const { users } = useSelector((state) => state.allUsers);
   const { reset } = useSelector((state) => state.DeleteUser);
 
   useEffect(() => {
@@ -91,33 +91,11 @@ function UserList() {
     dispatch(deleteUser(id));
   };
 
-  const columns = ["User Id", "Name", "Email", "Role", "Actions"];
+  const columns = ["User Id", "Name", "Email", "Role"];
   const data = [];
   users &&
     users.map((user) =>
-      data.push([
-        user._id,
-        user.name,
-        user.email,
-        user.role,
-        <>
-          <Link to={`/admin/user/${user._id}`}>
-            <IconButton sx={{ "&:focus": { outline: "none" } }}>
-              <EditIcon color="primary" />
-            </IconButton>
-          </Link>
-          <IconButton
-            color="error"
-            sx={{ "&:focus": { outline: "none" } }}
-            onClick={() => {
-              setUserId(user._id);
-              handleOpenM();
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </>,
-      ])
+      data.push([user._id, user.name, user.email, user.role])
     );
 
   const options = {

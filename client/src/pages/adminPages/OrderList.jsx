@@ -26,8 +26,7 @@ import {
 import MUIDataTable from "mui-datatables";
 
 import { Container } from "@mui/system";
-import { MDBDataTable } from "mdbreact";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import Sidebar from "../../components/navbar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
@@ -38,15 +37,16 @@ import Navbar from "../../components/navbar/Navbar";
 // });
 
 function OrdersList() {
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   const toggle = () => {
     setState((prev) => !prev);
   };
   const [navbar, setNavbar] = useState(true);
   const [open, setOpen] = useState(false);
   const [state, setState] = useState(true);
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
   const style = {
     position: "absolute",
     top: "50%",

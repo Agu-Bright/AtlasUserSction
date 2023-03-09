@@ -1,6 +1,5 @@
 import React, { useEffect, useState, forwardRef } from "react";
 import {
-  CircularProgress,
   IconButton,
   Typography,
   Box,
@@ -12,7 +11,7 @@ import {
   Avatar,
 } from "@mui/material";
 import MUIDataTable from "mui-datatables";
-
+import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Link } from "react-router-dom";
@@ -20,17 +19,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/navbar/Navbar";
 import ArticleIcon from "@mui/icons-material/Article";
 import { SET_BRAND_LIST } from "../../redux/reducers/highlightReducer";
-import {
-  adminGetProducts,
-  deleteProduct,
-} from "../../redux/actions/productAction";
+// import { deleteProduct } from "../../redux/actions/productAction";
 import { allBrands } from "../../redux/actions/brandAction";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Sidebar from "../../components/navbar/Sidebar";
 import SidebarDrawer from "../../components/navbar/SidebarBrawer";
 // import { DELETE_BOOKS_RESET } from "../../redux/constants/bookConstants";
-
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
 });
@@ -59,19 +52,17 @@ function BrandList() {
   const [state, setState] = useState(true);
 
   const [openM, setOpenM] = useState(false);
-  const handleOpenM = () => setOpenM(true);
   const handleCloseM = () => setOpenM(false);
 
   // const [open, setOpen] = useState(false);
-  const [brandId, setbrandId] = useState();
+
   // const [errorMessage, setErrorMessage] = useState();
   const dispatch = useDispatch();
 
-  const { loading, error, brands } = useSelector((state) => state.allBrands);
+  const { brands } = useSelector((state) => state.allBrands);
 
   useEffect(() => {
     dispatch(allBrands());
-
     // if (deleteError) {
     //   alert(deleteError);
     // }
@@ -79,11 +70,18 @@ function BrandList() {
   useEffect(() => {
     dispatch({ type: SET_BRAND_LIST });
   }, [dispatch]);
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id));
-  };
+  // const handleDelete = (id) => {
+  //   dispatch(deleteProduct(id));
+  // };
 
-  const columns = ["Brand Id", "Logo", "Brand Name", "Brand Type", "Status"];
+  const columns = [
+    "Brand Id",
+    "Logo",
+    "Brand Name",
+    "Brand Type",
+    "Status",
+    "Edit",
+  ];
   const data = [];
   brands &&
     brands.map((brand) =>
@@ -119,6 +117,11 @@ function BrandList() {
             unverified
           </Typography>
         ),
+        <Link to={`/admin/brand/${brand._id}`}>
+          <IconButton sx={{ "&:focus": { outline: "none" } }}>
+            <EditIcon color="primary" />
+          </IconButton>
+        </Link>,
       ])
     );
 
@@ -255,7 +258,6 @@ function BrandList() {
                       <Button
                         sx={{ "&:focus": { outline: "none" } }}
                         onClick={() => {
-                          handleDelete(brandId);
                           setOpenM(false);
                         }}
                       >

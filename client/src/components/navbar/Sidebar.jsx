@@ -1,20 +1,16 @@
 import {
   List,
   ListItem,
-  Typography,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Button,
   Stack,
   Divider,
 } from "@mui/material";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
 import GroupIcon from "@mui/icons-material/Group";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
 import React from "react";
@@ -23,13 +19,12 @@ import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 function Sidebar() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { dashboard, orders, products, myBrand, brandList, userList } =
     useSelector((state) => state.highlight);
-  const { brand } = useSelector((state) => state.myBrand);
 
   return (
     <div>
@@ -193,50 +188,60 @@ function Sidebar() {
         </ListItem>
         <Divider /> */}
 
-        <ListItem
-          sx={{
-            marginTop: "5px",
-            cursor: "pointer",
-          }}
-        >
-          <ListItemButton
-            sx={{
-              "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
-              borderRadius: "10px",
-              background: brandList ? "rgb(24, 104, 183)" : "",
-              color: brandList ? "white" : "",
-            }}
-            onClick={() => navigate(`/admin/brands`)}
-          >
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Brand List" />
-          </ListItemButton>
-        </ListItem>
-        <Divider />
-        <ListItem
-          sx={{
-            marginTop: "5px",
-            cursor: "pointer",
-          }}
-        >
-          <ListItemButton
-            sx={{
-              "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
-              borderRadius: "10px",
-              background: userList ? "rgb(24, 104, 183)" : "",
-              color: userList ? "white" : "",
-            }}
-            onClick={() => navigate(`/admin/users`)}
-          >
-            <ListItemIcon>
-              <GroupIcon />
-            </ListItemIcon>
-            <ListItemText primary="User List" />
-          </ListItemButton>
-        </ListItem>
-        <Divider />
+        {user && user.role === "admin" && (
+          <>
+            <ListItem
+              sx={{
+                marginTop: "5px",
+                cursor: "pointer",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  "&:hover": {
+                    background: "rgb(24, 104, 183)",
+                    color: "white",
+                  },
+                  borderRadius: "10px",
+                  background: brandList ? "rgb(24, 104, 183)" : "",
+                  color: brandList ? "white" : "",
+                }}
+                onClick={() => navigate(`/admin/brands`)}
+              >
+                <ListItemIcon>
+                  <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Brand List" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem
+              sx={{
+                marginTop: "5px",
+                cursor: "pointer",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  "&:hover": {
+                    background: "rgb(24, 104, 183)",
+                    color: "white",
+                  },
+                  borderRadius: "10px",
+                  background: userList ? "rgb(24, 104, 183)" : "",
+                  color: userList ? "white" : "",
+                }}
+                onClick={() => navigate(`/admin/users`)}
+              >
+                <ListItemIcon>
+                  <GroupIcon />
+                </ListItemIcon>
+                <ListItemText primary="User List" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+          </>
+        )}
         <ListItem
           sx={{
             marginTop: "5px",

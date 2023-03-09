@@ -76,8 +76,8 @@ export const highlightReducer = (state = { dashboard: false }, action) => {
         products: false,
         customers: false,
         myBrand: false,
-        brandList: true,
-        userList: false,
+        brandList: false,
+        userList: true,
       };
 
     default:

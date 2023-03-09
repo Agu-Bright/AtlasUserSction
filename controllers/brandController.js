@@ -153,13 +153,16 @@ const getNewBrands = catchAsyncErrors(async (req, res, next) => {
 const getBrand = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
 
-  const brand = await brandModel.findById(id);
+  const brand = await brandModel.findById(id).populate("user");
   if (!brand) {
     return next(new ErrorHandler("No brand Found", 404));
   }
+  const user = brand.user._id;
+  const productsCount = await Product.countDocuments({ user: user });
   res.status(200).json({
     success: true,
     brand,
+    productsCount,
   });
 });
 

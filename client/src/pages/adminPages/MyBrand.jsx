@@ -8,8 +8,6 @@ import {
   IconButton,
   FormControl,
   InputLabel,
-  OutlinedInput,
-  InputAdornment,
   Select,
   MenuItem,
   TextField,
@@ -25,9 +23,8 @@ import {
   getMyBrand,
 } from "../../redux/actions/brandAction";
 import { SET_MY_BRAND } from "../../redux/reducers/highlightReducer";
-
-import { states, categories } from "../../utils/stateData";
-import { useNavigate, useParams } from "react-router-dom";
+import { states } from "../../utils/stateData";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -44,13 +41,11 @@ function MyBrand() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openM, setOpenM] = useState(false);
-  const { id } = useParams();
-  const { brand, loading } = useSelector((state) => state.myBrand);
+  const { brand } = useSelector((state) => state.myBrand);
   const { error, isUpdated, updating } = useSelector(
     (state) => state.updateBrand
   );
   const { user } = useSelector((state) => state.auth);
-
   const [brandName, setBrandName] = useState("");
   const [brandType, setBrandType] = useState("");
   const [brandDetail, setBrandDetail] = useState("");
@@ -70,7 +65,6 @@ function MyBrand() {
     "/images/default_Avater.png"
   );
   const [backgroundImage, setBackgroundImage] = useState();
-  console.log(brandLogo);
   const [backgroundPreview, setBackgroundPreview] = useState(
     "/images/default_Avater.png"
   );
@@ -154,7 +148,6 @@ function MyBrand() {
     if (user.role === "admin") formData.set("verified", verified);
     brandLogo && formData.append("brandLogo", brandLogo);
     backgroundImage && formData.append("backgroundImage", backgroundImage);
-
     dispatch(updateBrand(brand._id, formData));
   };
 
@@ -243,7 +236,7 @@ function MyBrand() {
                     <ArticleIcon sx={{ fontSize: "1.2em" }} />
                   </IconButton>
                   <Typography sx={{ fontWeight: "600", fontSize: "1.3em" }}>
-                    Brand Detail
+                    My brand
                   </Typography>
                 </Box>
 
@@ -282,6 +275,8 @@ function MyBrand() {
                         justifyContent: "center",
                       }}
                     >
+                      <Typography>Cover Image</Typography>
+
                       <Box
                         sx={{
                           border: "0.1px dashed grey",
@@ -332,6 +327,8 @@ function MyBrand() {
                         justifyContent: "center",
                       }}
                     >
+                      <Typography>Brand Logo</Typography>
+
                       <Box
                         sx={{
                           border: "0.1px dashed grey",
@@ -340,6 +337,7 @@ function MyBrand() {
                           height: "200px",
                           justifySelf: "center",
                           display: "flex",
+
                           alignItems: "center",
                           justifyContent: "center",
                         }}

@@ -16,8 +16,6 @@ import {
   Stack,
   Box,
   IconButton,
-  Button,
-  Modal,
   Divider,
   Avatar,
 } from "@mui/material";
@@ -88,7 +86,7 @@ function ProcessOrder() {
   };
   useEffect(() => {
     dispatch({ type: SET_ORDERS });
-  }, []);
+  }, [dispatch]);
   const toggle = () => {
     setState((prev) => !prev);
   };

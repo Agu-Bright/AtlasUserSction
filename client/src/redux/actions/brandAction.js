@@ -152,7 +152,7 @@ export const getBrandsInLocation = () => async (dispatch) => {
   try {
     dispatch({ type: BRANDS_IN_LOCATION_REQUEST });
 
-    const { data } = await axios.get("api/v1/brand/brandsInLocation", {
+    const { data } = await axios.get("/api/v1/brand/brandsInLocation", {
       withCredentials: true,
       credentials: "include",
     });
@@ -169,7 +169,7 @@ export const updateBrand = (id, formData) => async (dispatch) => {
     dispatch({ type: UPDATE_BRAND_REQUEST });
     console.log(formData);
     const { data } = await axios.put(
-      `api/v1/brand/updateBrand/${id}`,
+      `/api/v1/brand/updateBrand/${id}`,
       formData,
       {
         withCredentials: true,
