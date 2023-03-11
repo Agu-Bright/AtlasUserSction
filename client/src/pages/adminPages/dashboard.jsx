@@ -72,14 +72,12 @@ function Dashboard() {
     });
   useEffect(() => {
     dispatch({ type: SET_DASHBOARD });
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     if (error) {
-      console.log(error);
       dispatch(clearErrors());
     }
     if (isDeleted) {
-      console.log("deleted");
     }
   }, [dispatch, error, isDeleted]);
   useEffect(() => {

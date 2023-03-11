@@ -16,6 +16,8 @@ import {
   // Snackbar,
   Button,
 } from "@mui/material";
+import SidebarDrawer from "../../components/navbar/SidebarBrawer";
+
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -87,7 +89,7 @@ function OrdersList() {
 
   useEffect(() => {
     dispatch({ type: SET_ORDERS });
-  }, []);
+  }, [dispatch]);
   // const handleClose = (e, reason) => {
   //   if (reason === "clickaway") {
   //     return;
@@ -308,6 +310,7 @@ function OrdersList() {
           </Box>
         </Stack>
       </Box>
+      <SidebarDrawer open={open} close={handleDrawerClose} />
     </>
   );
 }

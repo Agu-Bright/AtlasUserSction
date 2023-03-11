@@ -45,6 +45,7 @@ import MyBrand from "./pages/adminPages/MyBrand";
 import UserList from "./pages/adminPages/UserList";
 import BrandList from "./pages/adminPages/brandList";
 import AdminBrandDetail from "./pages/adminPages/AdminBrandDetail";
+import UserProtectedRoute from "./routes/userProtectedRoute";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -69,20 +70,6 @@ const App = () => {
         <Route path="/password/reset/:token" element={<NewPassword />} />
 
         <Route element={<SellerProtected />}>
-          <Route path="/landingPage" element={<HomeAd />} />
-          <Route path="/firstDetails" element={<FirstDetaili />} />
-          <Route path="/brandName" element={<BrandName />} />
-          <Route path="/brandDetails" element={<BrandDetails />} />
-          <Route path="/brandType" element={<BrandType />} />
-          <Route path="/brandLocation" element={<BrandLocation />} />
-          <Route path="/personal" element={<Personal />} />
-        </Route>
-        <Route element={<ProtectedRoute />}>
-          <Route path="/me" element={<Profile />} exact />
-          <Route path="/update-profile" element={<UpdateProfile />} exact />
-          <Route path="/shipping" element={<Shipping />} />
-          <Route path="/confirm" element={<ConfirmOrder />} />
-          <Route path="/order/:id" element={<OrderDetails />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/newProduct" element={<CreateProduct />} />
           <Route path="/productList" element={<ProductList />} />
@@ -93,6 +80,24 @@ const App = () => {
           <Route path="/admin/users" element={<UserList />} />
           <Route path="/admin/brands" element={<BrandList />} />
           <Route path="/admin/brand/:id" element={<AdminBrandDetail />} />
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/me" element={<Profile />} exact />
+          <Route path="/update-profile" element={<UpdateProfile />} exact />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/confirm" element={<ConfirmOrder />} />
+          <Route path="/order/:id" element={<OrderDetails />} />
+        </Route>
+
+        <Route element={<UserProtectedRoute />}>
+          <Route path="/firstDetails" element={<FirstDetaili />} />
+          <Route path="/brandName" element={<BrandName />} />
+          <Route path="/brandDetails" element={<BrandDetails />} />
+          <Route path="/brandType" element={<BrandType />} />
+          <Route path="/brandLocation" element={<BrandLocation />} />
+          <Route path="/personal" element={<Personal />} />
+          <Route path="/landingPage" element={<HomeAd />} />
         </Route>
         <Route path="/orders/me" element={<ListOrders />} />
         <Route path="/payment/verify" element={<Payment />} />

@@ -55,7 +55,6 @@ function ConfirmOrder() {
       );
       window.location.replace(data.data.authorization_url);
     } catch (error) {
-      console.log(error);
       navigate("/payment");
     }
   };

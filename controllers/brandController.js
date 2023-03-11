@@ -22,6 +22,27 @@ const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
   //   crop: "scale",
   // });
   //update user to seller
+  const result = await cloudinary.v2.uploader.upload(req.body.brandLogo, {
+    folder: "brandLogo",
+    width: 150,
+    crop: "scale",
+  });
+  // if (req.body.brandLogo && req.body.brandLogo !== "") {
+  //   const brand = await brandModel.findById(id);
+  //   if (brand.brandLogo.public_id) {
+  //     const image_id = brand?.brandLogo?.public_id;
+  //     await cloudinary.v2.uploader.destroy(image_id);
+  //   }
+  //   const result = await cloudinary.v2.uploader.upload(req.body.brandLogo, {
+  //     folder: "brandLogo",
+  //     width: 150,
+  //     crop: "scale",
+  //   });
+  //   update.brandLogo = {
+  //     public_id: result.public_id,
+  //     url: result.secure_url,
+  //   };
+  // }
   const user = await User.findById(req.user._id);
   if (!user) {
     return next(new ErrorHandler("You must Sign In to create this brand"), 404);
@@ -29,7 +50,7 @@ const userCreateBrand = catchAsyncErrors(async (req, res, next) => {
 
   const brand = await brandModel.create({
     ...brandData,
-    // BrandLogo: { public_id: result?.public_id, url: result?.secure_url },
+    brandLogo: { public_id: result?.public_id, url: result?.secure_url },
   });
   //update user
   const data = await User.findByIdAndUpdate(
@@ -74,14 +95,12 @@ const getAllBrands = catchAsyncErrors(async (req, res, next) => {
 //update brand ==> /api/v1/brand/user/updateBrand/:id
 const updateBrand = catchAsyncErrors(async (req, res, next) => {
   const update = { ...req.body };
-  console.log(req.body);
   const { id } = req.params;
   //To update the certificate
   //To update the social links and others
   //update brand logo
   const brand = brandModel.findById(id);
   if (!brand) return next("No Brand Found", 404);
-  console.log(brand);
   if (req.body.brandLogo && req.body.brandLogo !== "") {
     const brand = await brandModel.findById(id);
     if (brand.brandLogo.public_id) {
@@ -242,12 +261,20 @@ const getMyBrand = catchAsyncErrors(async (req, res, next) => {
 
 const getBrands = catchAsyncErrors(async (req, res, next) => {
   const allBrands = await brandModel.find().populate("user");
-  console.log(allBrands);
   const brands = allBrands.reverse();
   res.status(200).json({
     success: true,
     brands,
   });
+});
+
+const getBandId = catchAsyncErrors(async (req, res, next) => {
+  //find the brand with theuserId
+  const { id } = req.params;
+  //find a brand whose user is this id
+  const [brand] = await brandModel.find({ user: id });
+
+  res.status(200).json({ success: true, brandId: brand._id });
 });
 
 module.exports = {
@@ -262,4 +289,5 @@ module.exports = {
   brandsInYourLocation,
   getMyBrand,
   getBrands,
+  getBandId,
 };

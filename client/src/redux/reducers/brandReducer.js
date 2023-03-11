@@ -28,6 +28,9 @@ import {
   ADMIN_ALL_BRAND_REQUEST,
   ADMIN_ALL_BRAND_SUCCESS,
   ADMIN_ALL_BRAND_FAIL,
+  GET_BRAND_ID_REQUEST,
+  GET_BRAND_ID_SUCCESS,
+  GET_BRAND_ID_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -137,6 +140,34 @@ export const myBrandReducer = (state = { brand: null }, action) => {
         brand: action.payload,
       };
     case GET_MYBRAND_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+export const brandId = (state = { brandId: null }, action) => {
+  switch (action.type) {
+    case GET_BRAND_ID_REQUEST:
+      return {
+        loading: true,
+        brandId: null,
+      };
+
+    case GET_BRAND_ID_SUCCESS:
+      return {
+        loading: false,
+        brandId: action.payload,
+      };
+    case GET_BRAND_ID_FAIL:
       return {
         loading: false,
         error: action.payload,

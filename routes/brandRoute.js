@@ -13,6 +13,7 @@ const {
   brandsInYourLocation,
   getMyBrand,
   getBrands,
+  getBandId,
 } = require("../controllers/brandController");
 const {
   authMiddleware,
@@ -39,4 +40,10 @@ router.get(
   getMyBrand
 );
 router.get("/admin/brands", authMiddleware, authorizeRoles("admin"), getBrands);
+router.get(
+  "/admin/brandId/:id",
+  authMiddleware,
+  authorizeRoles("admin"),
+  getBandId
+);
 module.exports = router;

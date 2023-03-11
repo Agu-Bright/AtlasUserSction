@@ -21,8 +21,8 @@ export default function ProductCard({ key, data, addToCart }) {
   //   setCart(true);
   // };
   return (
-    <Grid item sx={{ margin: "0px !important" }} key={key}>
-      <Card sx={{ width: { md: 300, sm: 200, xs: 300 } }} component="div">
+    <Grid item xs={2} sm={4} md={4} sx={{ margin: "0px !important" }} key={key}>
+      <Card sx={{ width: "100%" }} component="div">
         <CardMedia
           component="img"
           alt="green iguana"
@@ -65,7 +65,7 @@ export default function ProductCard({ key, data, addToCart }) {
         >
           <Button
             size="small"
-            sx={{ color: "white" }}
+            sx={{ color: "white", fontSize: { md: "1em", xs: "0.6em" } }}
             onClick={() => navigate(`/product/${data._id}`)}
           >
             View details
@@ -81,7 +81,7 @@ export default function ProductCard({ key, data, addToCart }) {
                       </LoadingButton> */}
           <Button
             size="small"
-            sx={{ color: "white" }}
+            sx={{ color: "white", fontSize: { md: "1em", xs: "0.6em" } }}
             onClick={() => addToCart(data._id)}
           >
             Add to Cart

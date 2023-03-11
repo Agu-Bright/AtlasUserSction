@@ -28,6 +28,9 @@ import {
   ADMIN_ALL_BRAND_REQUEST,
   ADMIN_ALL_BRAND_SUCCESS,
   ADMIN_ALL_BRAND_FAIL,
+  GET_BRAND_ID_REQUEST,
+  GET_BRAND_ID_SUCCESS,
+  GET_BRAND_ID_FAIL,
   CLEAR_ERROR,
 } from "../constants/brandConstant";
 
@@ -42,6 +45,21 @@ export const allBrands = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN_ALL_BRAND_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+export const getBrandId = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_BRAND_ID_REQUEST });
+    const { data } = await axios.get(`/api/v1/brand/admin/brandId/${id}`, {
+      withCredentials: true,
+      credentials: "include",
+    });
+    dispatch({ type: GET_BRAND_ID_SUCCESS, payload: data.brandId });
+  } catch (error) {
+    dispatch({
+      type: GET_BRAND_ID_FAIL,
       payload: error.response.data.message,
     });
   }
@@ -167,7 +185,6 @@ export const getBrandsInLocation = () => async (dispatch) => {
 export const updateBrand = (id, formData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_BRAND_REQUEST });
-    console.log(formData);
     const { data } = await axios.put(
       `/api/v1/brand/updateBrand/${id}`,
       formData,
@@ -184,7 +201,6 @@ export const updateBrand = (id, formData) => async (dispatch) => {
 
 //seller point actions
 export const saveBrandInfo = (data) => async (dispatch, getState) => {
-  console.log("hello");
   dispatch({ type: SAVE_CREATE_BRAND_INFO, payload: data });
 
   localStorage.setItem("createBrandInfo", JSON.stringify(data));

@@ -26,6 +26,7 @@ import {
 } from "../../redux/actions/orderAction";
 import { LoadingButton } from "@mui/lab";
 import { SET_ORDERS } from "../../redux/reducers/highlightReducer";
+import BrandId from "./brandId";
 
 const SnackbarAlert = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
@@ -325,7 +326,10 @@ function ProcessOrder() {
                                         direction="row"
                                         justifyContent="space-between"
                                         alignItems="center"
-                                        sx={{ padding: "10px 10px" }}
+                                        sx={{
+                                          padding: "10px 10px",
+                                          overflowX: "scroll",
+                                        }}
                                       >
                                         {" "}
                                         <Avatar
@@ -350,19 +354,13 @@ function ProcessOrder() {
                                         >
                                           &#8358;{item.price}
                                         </Typography>
-                                        <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                                          <p>{`${item.quantity} Piece(s)`}</p>
-                                          {User._id === item.seller && (
-                                            <Typography>
-                                              <Alert
-                                                icon={false}
-                                                severity="warning"
-                                              >
-                                                Your order{" "}
-                                              </Alert>
-                                            </Typography>
-                                          )}
-                                        </div>
+                                        <Typography
+                                          sx={{
+                                            textAlign: "start",
+                                          }}
+                                        >
+                                          {`${item.quantity} Piece(s)`}
+                                        </Typography>
                                       </Stack>
                                     ) : (
                                       <Stack
@@ -370,7 +368,10 @@ function ProcessOrder() {
                                         direction="row"
                                         justifyContent="space-between"
                                         alignItems="center"
-                                        sx={{ padding: "10px 10px" }}
+                                        sx={{
+                                          padding: "10px 10px",
+                                          overflowX: "scroll",
+                                        }}
                                       >
                                         {" "}
                                         <Avatar
@@ -395,19 +396,14 @@ function ProcessOrder() {
                                         >
                                           &#8358;{item.price}
                                         </Typography>
-                                        {/* <div className="col-4 col-lg-3 mt-4 mt-lg-0">
-                                      <p>{`${item.quantity} Piece(s)`}</p>
-                                      {User._id === item.seller && (
-                                        <Typography>
-                                          <Alert
-                                            icon={false}
-                                            severity="warning"
-                                          >
-                                            Your order{" "}
-                                          </Alert>
+                                        <Typography
+                                          sx={{
+                                            textAlign: "start",
+                                          }}
+                                        >
+                                          {`${item.quantity} Piece(s)`}
                                         </Typography>
-                                      )}
-                                    </div> */}
+                                        <BrandId id={item.seller} />
                                       </Stack>
                                     )}
                                     <Divider />

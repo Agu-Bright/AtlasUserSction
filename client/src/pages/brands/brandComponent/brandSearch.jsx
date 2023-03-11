@@ -48,13 +48,16 @@ function BrandSearch({ searchQuery }) {
       {brands && brands.length === 0 && (
         <Typography
           sx={{
-            border: "1px solid black",
             textAlign: "center",
-            fontWeight: "700",
-            fontSize: "2em",
+            border: "0.2px solid grey",
+            lineHeight: "1.5em",
+            padding: "20px 0px",
+            borderRadius: "11px",
           }}
         >
-          {`Sorry No Brand Marches Your search (${searchQuery})`}
+          <span style={{ fontSize: "1.1em", fontWeight: "200" }}>
+            {`Sorry No Brand Marches Your search (${searchQuery})`}
+          </span>
         </Typography>
       )}
       {loading && (
@@ -178,7 +181,7 @@ function BrandSearch({ searchQuery }) {
                       sx={{ position: "relative" }}
                     >
                       <Avatar
-                        src={brand?.brandLogo.url}
+                        src={brand?.brandLogo?.url}
                         sx={{
                           borderRadius: "10px",
                           width: "60px",

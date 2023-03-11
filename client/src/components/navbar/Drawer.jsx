@@ -32,6 +32,7 @@ function MuiDrawer({
   signInNav,
   brandNav,
   dashboard,
+  myBrandNav,
 }) {
   const { user } = useSelector((state) => state.auth);
   return (
@@ -150,6 +151,25 @@ function MuiDrawer({
                   </ListItemIcon>
                   <Typography sx={{ fontWeight: "800" }}>
                     {user.role} dashboard
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+            </>
+          )}
+          {user && user.role !== "seller" && (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton onClick={myBrandNav}>
+                  <ListItemIcon>
+                    <ListItemAvatar>
+                      <Avatar sx={{ backgroundColor: "white" }}>
+                        <ShoppingCartCheckoutIcon sx={{ color: "black" }} />
+                      </Avatar>
+                    </ListItemAvatar>
+                  </ListItemIcon>
+                  <Typography sx={{ fontWeight: "800" }}>
+                    Brand profile
                   </Typography>
                 </ListItemButton>
               </ListItem>

@@ -107,7 +107,6 @@ function CreateProduct() {
     }
     if (success) {
       navigate(`/brand/${brand?._id}`);
-      console.log("success");
       dispatch({ type: CREATE_PRODUCTS_RESET });
     }
   }, [error, success, dispatch, navigate, brand]);

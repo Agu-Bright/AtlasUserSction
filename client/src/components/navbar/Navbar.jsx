@@ -17,11 +17,12 @@ import {
   ListItemText,
   ListItemIcon,
   ListItemAvatar,
-  Chip,
   Drawer as SearchDrawer,
+  MenuItem,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import CloseIcon from "@mui/icons-material/Close";
+import Logout from "@mui/icons-material/Logout";
 
 import PrimarySearchAppBar from "../../components/search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -36,6 +37,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SearchIcon from "@mui/icons-material/Search";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 
 function Navbar({ navbar, setNavbar, active, background, border }) {
   const [open, setOpen] = useState(false);
@@ -48,7 +50,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const { user, loading } = useSelector((state) => state.auth);
-
+  const { brand } = useSelector((state) => state.myBrand);
   // Navbar scroll change background color function
   const changeBackground = () => {
     if (window.scrollY >= 72) {
@@ -114,6 +116,12 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
       setDrawer(false);
     }
     navigate("/");
+  };
+  const handleMyBrandNav = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate(`/brand/${brand._id}`);
   };
   const handleProfileNav = () => {
     if (Drawer) {
@@ -187,6 +195,12 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
     }
     navigate("/dashboard");
   };
+  const createBrandNav = () => {
+    if (Drawer) {
+      setDrawer(false);
+    }
+    navigate("/firstDetails");
+  };
   const logoutHandler = () => {
     if (Drawer) {
       setDrawer(false);
@@ -200,7 +214,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
 
   const renderMenu = (
     <Menu
-      sx={{ padding: "0 !important", margin: "0 !important", width: "100%" }}
+      sx={{ width: "100%" }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "bottom",
@@ -219,7 +233,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
         {user && !loading ? (
           <>
             {user?.role === "seller" && (
-              <ListItem disablePadding>
+              <ListItem disablePadding sx={{ border: "none" }}>
                 <ListItemButton onClick={dashboardNav}>
                   <ListItemIcon>
                     <ListItemAvatar>
@@ -233,23 +247,44 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
               </ListItem>
             )}
             {user?.role === "admin" && (
-              <ListItem disablePadding>
-                <ListItemButton onClick={dashboardNav}>
-                  <ListItemIcon>
-                    <ListItemAvatar>
-                      <Avatar sx={{ backgroundColor: "white" }}>
-                        <DashboardRoundedIcon color="warning" />
-                      </Avatar>
-                    </ListItemAvatar>
-                  </ListItemIcon>
-                  <ListItemText primary="Dashboard" secondary={user.role} />
-                </ListItemButton>
-              </ListItem>
+              <>
+                <ListItem disablePadding sx={{ border: "none" }}>
+                  <ListItemButton onClick={dashboardNav}>
+                    <ListItemIcon>
+                      <ListItemAvatar>
+                        <Avatar sx={{ backgroundColor: "white" }}>
+                          <DashboardRoundedIcon color="warning" />
+                        </Avatar>
+                      </ListItemAvatar>
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard" secondary={user.role} />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
             )}
-
-            <Divider />
-            <ListItem disablePadding>
-              <ListItemButton onClick={handleProfileNav}>
+            {user?.role === "seller" && (
+              <>
+                <ListItem disablePadding sx={{ border: "none" }}>
+                  <ListItemButton onClick={handleMyBrandNav}>
+                    <ListItemIcon>
+                      <ListItemAvatar>
+                        <Avatar sx={{ backgroundColor: "white" }}>
+                          <AddBusinessIcon sx={{ color: "black" }} />
+                        </Avatar>
+                      </ListItemAvatar>
+                    </ListItemIcon>
+                    <ListItemText primary="My Brand" />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
+            )}
+            <ListItem disablePadding sx={{ border: "none" }}>
+              <ListItemButton
+                onClick={handleProfileNav}
+                sx={{ border: "none" }}
+              >
                 <ListItemIcon>
                   <ListItemAvatar>
                     <Avatar alt={user.name} src={user?.avatar?.url} />
@@ -260,15 +295,50 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
             </ListItem>
             <Divider />
 
-            <ListItem disablePadding onClick={logoutHandler}>
+            {user?.role !== "seller" && (
+              <>
+                <ListItem disablePadding sx={{ border: "none" }}>
+                  <ListItemButton onClick={createBrandNav}>
+                    <ListItemIcon>
+                      <ListItemAvatar>
+                        <Avatar sx={{ backgroundColor: "white" }}>
+                          <AddBusinessIcon sx={{ color: "black" }} />
+                        </Avatar>
+                      </ListItemAvatar>
+                    </ListItemIcon>
+                    <ListItemText primary="Create Brand" />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
+            )}
+            <ListItem disablePadding sx={{ border: "none" }}>
+              <ListItemButton onClick={logoutHandler}>
+                <ListItemIcon>
+                  <ListItemAvatar>
+                    <Avatar sx={{ backgroundColor: "white" }}>
+                      <Logout fontSize="small" sx={{ color: "black" }} />
+                    </Avatar>
+                  </ListItemAvatar>
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </ListItem>
+            {/* <ListItem disablePadding onClick={logoutHandler}>
               <ListItemButton>
                 <Typography color="warning">logout</Typography>
               </ListItemButton>
             </ListItem>
+            <MenuItem onClick={logoutHandler}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem> */}
           </>
         ) : (
           <>
-            <ListItem disablePadding>
+            <ListItem disablePadding sx={{ border: "none" }}>
               <ListItemButton onClick={handleSIgnUp}>
                 <ListItemIcon>
                   <ListItemAvatar></ListItemAvatar>
@@ -277,7 +347,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
               </ListItemButton>
             </ListItem>
             <Divider />
-            <ListItem disablePadding>
+            <ListItem disablePadding sx={{ border: "none" }}>
               <ListItemButton onClick={handleSignIn}>
                 <ListItemIcon>
                   <ListItemAvatar></ListItemAvatar>
@@ -373,16 +443,11 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
         )}
 
         {user && !loading && (
-          <Chip
-            // sx={{ display: { md: "block", xs: "none" } }}
+          <Avatar
             onClick={handleProfileMenuOpen}
-            aria-label="account of current user"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            avatar={<Avatar alt={user.name} src={user?.avatar?.url} />}
-            label={`${user.name}`}
-            variant="outlined"
-            sx={{ fontSize: "10px" }}
+            alt={user.name}
+            src={user?.avatar?.url}
+            size="small"
           />
         )}
 
@@ -428,6 +493,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
         signUpNav={() => {
           handleSIgnUp();
         }}
+        myBrandNav={() => handleMyBrandNav()}
         dashboard={() => dashboardNav()}
         orderNav={() => handleOrderNavigate()}
         homeNav={() => handleHomeNavigate()}

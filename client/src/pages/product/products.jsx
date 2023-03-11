@@ -251,7 +251,7 @@ function BrandProoducts({ id }) {
                   sx={{
                     padding: "inherit",
                     margin: "inhert",
-                    width: "inherit",
+                    width: "100%",
                     height: "50vh",
                     display: "flex",
                     alignItems: "center",
@@ -264,6 +264,7 @@ function BrandProoducts({ id }) {
                       fontWeight: "800",
                       fontSize: "2em",
                       textAlign: "center",
+                      width: "100%",
                     }}
                   >
                     No Product found

@@ -19,7 +19,6 @@ function Swiper() {
   const { loading, brands, error } = useSelector((state) => state.newBrands);
   useEffect(() => {
     if (error) {
-      console.log("error");
     }
     dispatch(getNewBrands());
   }, [dispatch, error]);
@@ -75,8 +74,6 @@ function Swiper() {
         className="main-slide-container"
         // install Swiper modules
         navigation={{ color: "black" }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
       >
         {loading && (
           <>

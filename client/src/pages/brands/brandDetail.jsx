@@ -7,28 +7,26 @@ import {
   ButtonGroup,
   IconButton,
   Skeleton,
-  ListItemText,
-  ListItemButton,
-  List,
+  Menu,
+  Divider,
 } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 import Navbar from "../../components/navbar/Navbar";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import AppsIcon from "@mui/icons-material/Apps";
+import moment from "moment";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import ProductCard from "../../components/cardComponent/productCard";
 import Footer from "../../components/footer/Footer";
-import PrimarySearchAppBar from "../../components/search";
-import Modal from "@mui/material/Modal";
 import { useParams } from "react-router-dom";
-import { categories } from "../../utils/stateData";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors } from "../../redux/actions/brandAction";
 import { getBrandDetail } from "../../redux/actions/brandAction";
 import BrandProoducts from "./brandComponent/BrandProoducts";
-import { useNavigate, useLocation } from "react-router-dom";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useNavigate } from "react-router-dom";
+
+const ITEM_HEIGHT = 48;
 const style = {
   position: "absolute",
   top: "50%",
@@ -72,16 +70,15 @@ const ReadMore = ({ children }) => {
 function BrandDetail() {
   const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = params;
   const [navbar, setNavbar] = useState(true);
   const [toggle, setToggle] = useState(true);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [brandType, setBrandType] = useState("");
-
   const { brandDetail, loading, error } = useSelector(
     (state) => state.brandDetails
   );
-
   const toggelSideBar = () => {
     setToggle((prev) => !prev);
   };
@@ -95,10 +92,15 @@ function BrandDetail() {
   useEffect(() => {
     dispatch(getBrandDetail(id));
   }, [dispatch, id]);
-  brandDetail ? console.log(brandDetail) : console.log("waiting");
 
-  const handleBrandTypeSelect = (brandType) => {
-    setBrandType(brandType);
+  //menu setup
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
   return (
     <>
@@ -218,17 +220,6 @@ function BrandDetail() {
                     </span>
                   )}
                 </Typography>
-                <Typography
-                  sx={{
-                    fontWeight: "600",
-                    paddingLeft: { md: "25px", xs: "10px" },
-                  }}
-                >
-                  Brand Type :
-                  <Typography sx={{ display: "inline-block" }}>
-                    {brandDetail?.brandType}
-                  </Typography>
-                </Typography>
               </>
             )}
             {loading ? (
@@ -250,20 +241,64 @@ function BrandDetail() {
                   paddingLeft: { md: "25px", xs: "10px" },
                 }}
               >
-                <IconButton>
-                  <TwitterIcon sx={{ color: "black" }} />
-                </IconButton>
+                {brandDetail?.twitter && (
+                  <IconButton target="_blank" href={`${brandDetail.twitter}`}>
+                    <TwitterIcon sx={{ color: "black" }} />
+                  </IconButton>
+                )}
 
-                <IconButton>
-                  <InstagramIcon sx={{ color: "black" }} />
-                </IconButton>
+                {brandDetail?.instagram && (
+                  <IconButton target="_blank" href={`${brandDetail.instagram}`}>
+                    <InstagramIcon sx={{ color: "black" }} />
+                  </IconButton>
+                )}
 
-                <IconButton>
-                  <FacebookIcon sx={{ color: "black" }} />
+                {brandDetail?.faceBook && (
+                  <IconButton target="_blank" href={`${brandDetail.facebook}`}>
+                    <FacebookIcon sx={{ color: "black" }} />
+                  </IconButton>
+                )}
+                {brandDetail?.whatsApp && (
+                  <IconButton target="_blank" href={`${brandDetail.whatsApp}`}>
+                    <WhatsAppIcon sx={{ color: "black" }} />
+                  </IconButton>
+                )}
+                <IconButton
+                  aria-label="more"
+                  id="long-button"
+                  aria-controls={open ? "long-menu" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                  sx={{ "&:focus": { outline: "none" } }}
+                >
+                  <MoreVertIcon />
                 </IconButton>
-                <IconButton>
-                  <MoreHorizIcon sx={{ color: "black" }} />
-                </IconButton>
+                <Menu
+                  id="long-menu"
+                  MenuListProps={{
+                    "aria-labelledby": "long-button",
+                  }}
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 4.5,
+                      width: "20ch",
+                    },
+                  }}
+                >
+                  <>
+                    <MenuItem onClick={() => navigate("/newProduct")}>
+                      Add Item
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={() => navigate("/myBrand")}>
+                      Update Brand
+                    </MenuItem>
+                  </>
+                </Menu>
               </ButtonGroup>
             )}
           </Stack>
@@ -288,11 +323,22 @@ function BrandDetail() {
                   paddingLeft: { md: "25px", xs: "10px" },
                 }}
               >
-                <Typography sx={{ marginRight: "25px" }}>
-                  Items <span style={{ fontWeight: "700" }}>9999</span>
-                </Typography>
                 <Typography>
-                  Created <span style={{ fontWeight: "700" }}>jan 2022</span>
+                  Created{" "}
+                  <span style={{ fontWeight: "700" }}>
+                    {moment(brandDetail?.createdAt).fromNow()}
+                  </span>
+                </Typography>
+                <Typography
+                  sx={{
+                    fontWeight: "600",
+                    paddingLeft: { md: "25px", xs: "10px" },
+                  }}
+                >
+                  Brand Type :
+                  <Typography sx={{ display: "inline-block" }}>
+                    {brandDetail?.brandType}
+                  </Typography>
                 </Typography>
               </Box>
             )}
@@ -317,7 +363,7 @@ function BrandDetail() {
                 ) : (
                   <ReadMore>{brandDetail?.brandDetail}</ReadMore>
                 )} */}
-                {brandDetail?.brandDetail}
+                <ReadMore>{`${brandDetail?.brandDetail}`}</ReadMore>
               </Typography>
             </Box>
           </div>

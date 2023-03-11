@@ -19,14 +19,16 @@ import { useNavigate } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import { useSelector, useDispatch } from "react-redux";
+import GroupIcon from "@mui/icons-material/Group";
+
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+
+import { useSelector } from "react-redux";
 function SidebarDrawer({ open, close }) {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const { dashboard, orders, products, brandList, userList } = useSelector(
-    (state) => state.highlight
-  );
-  const { brand } = useSelector((state) => state.myBrand);
+  const { dashboard, orders, products, brandList, userList, myBrand } =
+    useSelector((state) => state.highlight);
 
   return (
     <Drawer anchor="left" open={open} onClose={close}>
@@ -219,7 +221,7 @@ function SidebarDrawer({ open, close }) {
               onClick={() => navigate(`/admin/users`)}
             >
               <ListItemIcon>
-                <DashboardIcon />
+                <GroupIcon />
               </ListItemIcon>
               <ListItemText primary="User List" />
             </ListItemButton>
@@ -234,11 +236,13 @@ function SidebarDrawer({ open, close }) {
               sx={{
                 "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
                 borderRadius: "10px",
+                background: myBrand ? "rgb(24, 104, 183)" : "",
+                color: myBrand ? "white" : "",
               }}
-              onClick={() => navigate(`/brand/${brand._id}`)}
+              onClick={() => navigate(`/myBrand`)}
             >
               <ListItemIcon>
-                <DashboardIcon />
+                <AddBusinessIcon />
               </ListItemIcon>
               <ListItemText primary="My Brand" />
             </ListItemButton>

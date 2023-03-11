@@ -5,10 +5,8 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 
 const updateStock = async (id, quantity) => {
-  console.log({ id: id, Quantity: quantity });
   const product = await Product.findById(id);
   product.stock = product.stock - quantity;
-  console.log(product);
   await product.save({ validateBeforeSave: false });
 };
 
@@ -159,11 +157,9 @@ const sellerOrders = catchAsyncErrors(async (req, res, next) => {
     // element.orderItems.map((item) => {
     //   items.push(item);
     // });
-    console.log(element);
     for (let i = 0; i <= element.orderItems.length; i++) {
       items.push(element.orderItems[i]);
     }
-    // console.log(items);
     orderItems = items;
     return orderItems;
   });

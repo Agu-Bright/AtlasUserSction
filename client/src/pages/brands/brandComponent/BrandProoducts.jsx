@@ -65,7 +65,6 @@ function BrandProoducts({
     searchNumberOfPages,
     error,
   } = useSelector((state) => state.brandProductReducer);
-
   useEffect(() => {
     dispatch(getBrandProducts(id, searchQuery, page, category));
   }, [dispatch, id, searchQuery, page, category]);
@@ -193,8 +192,8 @@ function BrandProoducts({
         >
           <Grid
             container
-            rowSpacing={2}
-            columnSpacing={4}
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 4, sm: 8, md: 12 }}
             sx={{
               margin: "0",
               padding: "0",
@@ -230,38 +229,6 @@ function BrandProoducts({
                 >
                   No Product found
                 </Typography>
-                <Button>Create Product</Button>
-              </Box>
-            )}
-            {!brandProducts && user?._id === brand?.user && (
-              <Box
-                sx={{
-                  padding: "inherit",
-                  margin: "inhert",
-                  width: "100%",
-                  height: "50vh",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: "20px",
-                }}
-              >
-                <Button
-                  sx={{
-                    color: "white",
-                    background: "rgb(24, 104, 183)",
-                    "&:focus": {
-                      outline: "none",
-                    },
-                    "&:hover": {
-                      background: "rgb(24, 90, 200)",
-                      color: "white",
-                    },
-                  }}
-                  onClick={() => navigate("/newProduct")}
-                >
-                  Create Product
-                </Button>
               </Box>
             )}
           </Grid>

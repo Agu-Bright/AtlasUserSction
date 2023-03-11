@@ -78,11 +78,9 @@ function UpdateProduct() {
     setOldImages(product?.product?.images);
 
     if (error) {
-      console.log(error);
       dispatch(clearErrors());
     }
     if (updateError) {
-      console.log(updateError);
     }
     if (isUpdated) {
       setOpenUpdate(true);

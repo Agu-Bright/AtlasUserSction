@@ -11,6 +11,7 @@ import {
   CircularProgress,
   Alert,
   AlertTitle,
+  FormControl,
 } from "@mui/material";
 // import { createBrand } from "../../../redux/actions/brandAction";
 import { createBrand } from "../../../redux/actions/brandAction";
@@ -32,6 +33,21 @@ function Personal() {
   const [phoneNumber, setPhoneNumber] = useState(
     createBrandInfo.setPhoneNumber
   );
+  const [brandLogo, setBrandLogo] = useState();
+  const [brandLogoPreview, setBrandLogoPreview] = useState(
+    "/images/default_Avater.png"
+  );
+
+  const handleChangeL = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setBrandLogoPreview(reader.result);
+        setBrandLogo(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
   const data = localStorage.getItem("createBrandInfo");
   const { brandName, brandDetail, brandType, location } = JSON.parse(data);
   const { loading, brand, error } = useSelector((state) => state.brand);
@@ -47,6 +63,7 @@ function Personal() {
         accountName,
         accountNumber,
         phoneNumber,
+        brandLogo,
       })
     );
     dispatch(
@@ -59,8 +76,10 @@ function Personal() {
         accountName,
         accountNumber,
         phoneNumber,
+        brandLogo,
       })
     );
+    navigate("/dashboard");
   };
 
   return (
@@ -108,6 +127,57 @@ function Personal() {
               </Box>
             ) : (
               <Stack direction="column" spacing={2} sx={{ margin: "9px 0px" }}>
+                {/* brandLogo */}
+                <FormControl
+                  fullWidth
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography>Brand Logo</Typography>
+
+                  <Box
+                    sx={{
+                      border: "0.1px dashed grey",
+                      borderRadius: "20px",
+                      width: "50%",
+                      height: "200px",
+                      justifySelf: "center",
+                      display: "flex",
+
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <input
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      type="file"
+                      name="brandLogo"
+                      multiple
+                      onChange={handleChangeL}
+                    />
+                  </Box>
+
+                  <Stack
+                    direction="row"
+                    spacing={3}
+                    sx={{ borderRadius: "10px" }}
+                  >
+                    <img
+                      style={{ borderRadius: "inherit" }}
+                      src={brandLogoPreview}
+                      alt="images-preview"
+                      width="55"
+                      height="52"
+                    />
+                  </Stack>
+                </FormControl>
                 <TextField
                   label="Bank Name"
                   name="bank"
