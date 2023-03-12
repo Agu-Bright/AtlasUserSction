@@ -233,9 +233,9 @@ function BrandProoducts({ id }) {
 
             <Grid
               container
-              rowSpacing={2}
-              columnSpacing={4}
-              sx={{ padding: "0", margin: "0", width: "auto" }}
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+              sx={{ padding: "10px", margin: "0", width: "auto" }}
             >
               {loading && <ProductCardLoader />}
               {products &&

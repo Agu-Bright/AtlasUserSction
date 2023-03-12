@@ -186,7 +186,7 @@ const getBrand = catchAsyncErrors(async (req, res, next) => {
 });
 
 const getBrandProducts = catchAsyncErrors(async (req, res, next) => {
-  const resperpage = 9;
+  const resperpage = 8;
   const { id } = req.params;
 
   const brand = await brandModel.findById(id).populate("user");

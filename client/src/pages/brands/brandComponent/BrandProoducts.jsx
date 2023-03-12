@@ -6,7 +6,6 @@ import {
   Typography,
   Stack,
   IconButton,
-  Grid,
   List,
   Paper,
   ListItemButton,
@@ -14,6 +13,7 @@ import {
   ListItemText,
   Divider,
   Button,
+  Grid,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 
@@ -88,7 +88,7 @@ function BrandProoducts({
           width: "100%",
           display: "flex",
           justifyContent: "space-between",
-          border: "1px solid black",
+          border: "1px solid #cdc6c6",
           marginBottom: "10px",
         }}
       >
@@ -183,6 +183,7 @@ function BrandProoducts({
           elevation={24}
           sx={{
             margin: "0px !important",
+            padding: "10px",
             paddingBottom: "20px",
             width: {
               md: `${toggle ? "75%" : "100%"}`,
@@ -239,6 +240,7 @@ function BrandProoducts({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              marginTop: "10px",
             }}
           >
             <Pagination

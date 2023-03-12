@@ -136,7 +136,12 @@ function BrandDetail() {
             <>
               {!loading && (
                 <Avatar
-                  sx={{ width: "100%", height: "inherit", borderRadius: "0px" }}
+                  sx={{
+                    width: "100%",
+                    height: "inherit",
+                    borderRadius: "0px",
+                    marginTop: "10px",
+                  }}
                 >
                   {brandDetail?.brandName}
                 </Avatar>
@@ -320,25 +325,31 @@ function BrandDetail() {
               <Box
                 sx={{
                   display: "flex",
+                  flexDirection: "column",
                   paddingLeft: { md: "25px", xs: "10px" },
                 }}
               >
                 <Typography>
                   Created{" "}
-                  <span style={{ fontWeight: "700" }}>
+                  <span
+                    style={{
+                      fontWeight: "700",
+                      fontSize: { md: "1em", xs: "0.8em" },
+                    }}
+                  >
                     {moment(brandDetail?.createdAt).fromNow()}
                   </span>
                 </Typography>
-                <Typography
-                  sx={{
-                    fontWeight: "600",
-                    paddingLeft: { md: "25px", xs: "10px" },
-                  }}
-                >
+                <Typography>
                   Brand Type :
-                  <Typography sx={{ display: "inline-block" }}>
+                  <span
+                    style={{
+                      fontWeight: "700",
+                      fontSize: { md: "1em", xs: "0.8em" },
+                    }}
+                  >
                     {brandDetail?.brandType}
-                  </Typography>
+                  </span>
                 </Typography>
               </Box>
             )}

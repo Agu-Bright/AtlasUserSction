@@ -11,7 +11,7 @@ const Search = styled("div")(({ theme }) => ({
   borderRadius: "12px",
   borderColor: "transparent",
   backgroundColor: "rgba(255, 255, 255, 0.7)",
-  border: "2px solid rgb(101, 100, 100)",
+  background: "#dde2f1",
 
   // backgroundColor: alpha(theme.palette.common.white, 0.15),
   // "&:hover": {

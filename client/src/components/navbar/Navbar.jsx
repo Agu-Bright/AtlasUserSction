@@ -6,10 +6,7 @@ import {
   IconButton,
   ButtonGroup,
   Badge,
-  Button,
   Avatar,
-  Snackbar,
-  Alert,
   Divider,
   List,
   ListItem,
@@ -447,7 +444,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
             onClick={handleProfileMenuOpen}
             alt={user.name}
             src={user?.avatar?.url}
-            size="small"
+            sx={{ width: "35px", height: "35px" }}
           />
         )}
 
