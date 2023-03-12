@@ -97,8 +97,8 @@ const App = () => {
           <Route path="/brandType" element={<BrandType />} />
           <Route path="/brandLocation" element={<BrandLocation />} />
           <Route path="/personal" element={<Personal />} />
-          <Route path="/landingPage" element={<HomeAd />} />
         </Route>
+        <Route path="/landingPage" element={<HomeAd />} />
         <Route path="/orders/me" element={<ListOrders />} />
         <Route path="/payment/verify" element={<Payment />} />
       </Routes>

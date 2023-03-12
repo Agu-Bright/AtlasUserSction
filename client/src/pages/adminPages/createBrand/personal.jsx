@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -51,6 +51,11 @@ function Personal() {
   const data = localStorage.getItem("createBrandInfo");
   const { brandName, brandDetail, brandType, location } = JSON.parse(data);
   const { loading, brand, error } = useSelector((state) => state.brand);
+  useEffect(() => {
+    if (brand) {
+      navigate("/dashboard");
+    }
+  }, [brand, navigate]);
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(
@@ -79,7 +84,6 @@ function Personal() {
         brandLogo,
       })
     );
-    navigate("/dashboard");
   };
 
   return (
