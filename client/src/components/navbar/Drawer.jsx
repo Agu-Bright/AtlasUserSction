@@ -16,6 +16,9 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import HomeIcon from "@mui/icons-material/Home";
 import CloseIcon from "@mui/icons-material/Close";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { useSelector } from "react-redux";
 function MuiDrawer({
@@ -145,7 +148,7 @@ function MuiDrawer({
                   <ListItemIcon>
                     <ListItemAvatar>
                       <Avatar sx={{ backgroundColor: "white" }}>
-                        <ShoppingCartCheckoutIcon sx={{ color: "black" }} />
+                        <DashboardIcon sx={{ color: "black" }} />
                       </Avatar>
                     </ListItemAvatar>
                   </ListItemIcon>
@@ -164,7 +167,7 @@ function MuiDrawer({
                   <ListItemIcon>
                     <ListItemAvatar>
                       <Avatar sx={{ backgroundColor: "white" }}>
-                        <ShoppingCartCheckoutIcon sx={{ color: "black" }} />
+                        <AddBusinessIcon sx={{ color: "black" }} />
                       </Avatar>
                     </ListItemAvatar>
                   </ListItemIcon>

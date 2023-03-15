@@ -100,7 +100,12 @@ const updateBrand = catchAsyncErrors(async (req, res, next) => {
   //To update the social links and others
   //update brand logo
   const brand = brandModel.findById(id);
-  if (!brand) return next("No Brand Found", 404);
+  if (!brand) {
+    return next(new ErrorHandler("No Brand Found", 404));
+  }
+  if (req.user._id !== brand.user) {
+    return next(new ErrorHandler("Unathorized User", 403));
+  }
   if (req.body.brandLogo && req.body.brandLogo !== "") {
     const brand = await brandModel.findById(id);
     if (brand.brandLogo.public_id) {

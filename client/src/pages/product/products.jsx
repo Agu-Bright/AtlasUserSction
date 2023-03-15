@@ -103,8 +103,14 @@ function BrandProoducts({ id }) {
     setCart(false);
   };
   return (
-    <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+    <Box sx={{ background: "white" }}>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active2"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           height: "auto",
@@ -120,7 +126,7 @@ function BrandProoducts({ id }) {
           <Paper
             elevation={24}
             sx={{
-              transition: "0.5s",
+              transition: "0.2s",
               width: `${toggle ? "23%" : "0%"}`,
               minHeight: "100vh",
               display: { md: "flex", sm: "flex", xs: "none" },
@@ -130,7 +136,7 @@ function BrandProoducts({ id }) {
             {toggle && (
               <Box
                 sx={{
-                  transition: "0.5s",
+                  transition: "0.2s",
                   overflow: "hidden",
                   width: "100%",
                   margin: "10px",
@@ -343,7 +349,7 @@ function BrandProoducts({ id }) {
           <Typography>Item Added to cart</Typography>
         </SnackbarAlert2>
       </Snackbar>
-    </>
+    </Box>
   );
 }
 

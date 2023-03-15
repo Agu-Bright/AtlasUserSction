@@ -413,7 +413,6 @@ function ProcessOrder() {
                             <hr />
                           </Stack>
                         </Box>
-
                         <Box
                           sx={{
                             width: { md: "49%", xs: "100%" },

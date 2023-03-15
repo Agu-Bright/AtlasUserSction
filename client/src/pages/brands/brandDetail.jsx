@@ -25,6 +25,7 @@ import { getBrandDetail } from "../../redux/actions/brandAction";
 import BrandProoducts from "./brandComponent/BrandProoducts";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
+import { useSelect } from "@mui/base";
 
 const ITEM_HEIGHT = 48;
 const style = {
@@ -74,11 +75,13 @@ function BrandDetail() {
   const { id } = params;
   const [navbar, setNavbar] = useState(true);
   const [toggle, setToggle] = useState(true);
+  const [errorMessage, setErrorMessage] = useState();
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  const [brandType, setBrandType] = useState("");
   const { brandDetail, loading, error } = useSelector(
     (state) => state.brandDetails
   );
+  const { user } = useSelector((state) => state.auth);
+  const { brand } = useSelector((state) => state.myBrand);
   const toggelSideBar = () => {
     setToggle((prev) => !prev);
   };
@@ -91,7 +94,10 @@ function BrandDetail() {
 
   useEffect(() => {
     dispatch(getBrandDetail(id));
-  }, [dispatch, id]);
+    if (error) {
+      setErrorMessage(error);
+    }
+  }, [dispatch, id, error]);
 
   //menu setup
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -268,42 +274,47 @@ function BrandDetail() {
                     <WhatsAppIcon sx={{ color: "black" }} />
                   </IconButton>
                 )}
-                <IconButton
-                  aria-label="more"
-                  id="long-button"
-                  aria-controls={open ? "long-menu" : undefined}
-                  aria-expanded={open ? "true" : undefined}
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                  sx={{ "&:focus": { outline: "none" } }}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="long-menu"
-                  MenuListProps={{
-                    "aria-labelledby": "long-button",
-                  }}
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  PaperProps={{
-                    style: {
-                      maxHeight: ITEM_HEIGHT * 4.5,
-                      width: "20ch",
-                    },
-                  }}
-                >
+                {user && user?._id === brandDetail?.user?._id && (
                   <>
-                    <MenuItem onClick={() => navigate("/newProduct")}>
-                      Add Item
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem onClick={() => navigate("/myBrand")}>
-                      Update Brand
-                    </MenuItem>
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? "long-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                      sx={{ "&:focus": { outline: "none" } }}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+
+                    <Menu
+                      id="long-menu"
+                      MenuListProps={{
+                        "aria-labelledby": "long-button",
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      PaperProps={{
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5,
+                          width: "20ch",
+                        },
+                      }}
+                    >
+                      <Menu>
+                        <MenuItem onClick={() => navigate("/newProduct")}>
+                          Add Item
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={() => navigate("/myBrand")}>
+                          Update Brand
+                        </MenuItem>
+                      </Menu>
+                    </Menu>
                   </>
-                </Menu>
+                )}
               </ButtonGroup>
             )}
           </Stack>

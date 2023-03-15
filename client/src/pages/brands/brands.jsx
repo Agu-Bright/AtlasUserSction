@@ -21,12 +21,9 @@ import { getAllBrands } from "../../redux/actions/brandAction";
 import { brandTypes } from "../../utils/stateData";
 import Navbar from "../../components/navbar/Navbar";
 import AppsIcon from "@mui/icons-material/Apps";
-import PrimarySearchAppBar from "../../components/search";
-import ProductCard from "../../components/cardComponent/productCard";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCardLoader from "../../components/cardComponent/productCardSkeleton";
-import { getAllProducts } from "../../redux/actions/productAction";
 import Footer from "../../components/footer/Footer";
 import BrandCard from "../../components/cardComponent/brandCard";
 
@@ -48,24 +45,16 @@ function useQuery() {
 }
 function BrandProoducts({ id }) {
   const [toggle, setToggle] = useState(true);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [navbar, setNavbar] = useState(true);
 
   const [page, setPage] = useState(1);
   const [brandType, setBrandType] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const query = useQuery();
   const searchQuery = query.get("search");
-  const {
-    loading,
-    brands,
-    brandCount,
-    filteredBrandCount,
-    numberOfPages,
-    searchNumberOfPages,
-    error,
-  } = useSelector((state) => state.allBrandsReducer);
+  const { loading, brands, numberOfPages, searchNumberOfPages } = useSelector(
+    (state) => state.allBrandsReducer
+  );
 
   useEffect(() => {
     dispatch(getAllBrands(searchQuery, page, brandType));
@@ -80,21 +69,25 @@ function BrandProoducts({ id }) {
   const toggelSideBar = () => {
     setToggle((prev) => !prev);
   };
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
+
   //modal setup
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
 
   return (
-    <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+    <Box sx={{ background: "white" }}>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active2"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           height: "auto",
-          paddingTop: { md: "100px", xs: "60px" },
+          paddingTop: { md: "100px", xs: "65px" },
           paddingBottom: "20px",
         }}
       >
@@ -106,7 +99,7 @@ function BrandProoducts({ id }) {
           <Paper
             elevation={24}
             sx={{
-              transition: "0.5s",
+              transition: "0.2s",
               width: `${toggle ? "23%" : "0%"}`,
               minHeight: "100vh",
               display: { md: "flex", sm: "flex", xs: "none" },
@@ -116,7 +109,7 @@ function BrandProoducts({ id }) {
             {toggle && (
               <Box
                 sx={{
-                  transition: "0.5s",
+                  transition: "0.2s",
                   overflow: "hidden",
                   width: "100%",
                   margin: "10px",
@@ -144,7 +137,6 @@ function BrandProoducts({ id }) {
                   {brandTypes.map((type) => (
                     <ListItemButton
                       key={type.key}
-                      selected={selectedIndex === type.key}
                       onClick={() => handleBrandTypeSelect(type.cat)}
                     >
                       {" "}
@@ -181,9 +173,27 @@ function BrandProoducts({ id }) {
                   sx={{
                     background: "rgb(32, 129, 226)",
                     margin: "5px",
+                    display: { md: "flex", sm: "flex", xs: "none" },
                   }}
                 >
-                  <AppsIcon sx={{ color: "black" }} />
+                  <AppsIcon
+                    sx={{
+                      color: "black",
+                    }}
+                  />
+                </IconButton>
+                <IconButton
+                  onClick={handleOpen}
+                  sx={{
+                    margin: "5px",
+                    display: { md: "none", sm: "none", xs: "flex" },
+                  }}
+                >
+                  <AppsIcon
+                    sx={{
+                      color: "black",
+                    }}
+                  />
                 </IconButton>
                 {!brandType && <Chip label={"All Brands"} />}
                 {brandType && <Chip label={`${brandType}`} />}
@@ -191,15 +201,11 @@ function BrandProoducts({ id }) {
             </Box>
             <Grid
               container
-              rowSpacing={2}
-              columnSpacing={4}
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
               sx={{
-                padding: "0",
+                padding: "10px",
                 margin: "0",
-                width: "auto",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
               }}
             >
               {loading && <ProductCardLoader />}
@@ -283,7 +289,6 @@ function BrandProoducts({ id }) {
             {brandTypes.map((type) => (
               <ListItemButton
                 key={type.key}
-                selected={selectedIndex === type.key}
                 onClick={() => {
                   handleBrandTypeSelect(type.cat);
                   handleClose();
@@ -296,7 +301,7 @@ function BrandProoducts({ id }) {
           </List>
         </Box>
       </Modal>
-    </>
+    </Box>
   );
 }
 

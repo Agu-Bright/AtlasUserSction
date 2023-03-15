@@ -22,6 +22,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import { useSelector } from "react-redux";
 function Sidebar() {
   const { user } = useSelector((state) => state.auth);
+  const { brand } = useSelector((state) => state.myBrand);
   const navigate = useNavigate();
   const { dashboard, orders, products, myBrand, brandList, userList } =
     useSelector((state) => state.highlight);
@@ -166,27 +167,6 @@ function Sidebar() {
           </AccordionDetails>
         </Accordion>
         <Divider />
-        {/* <ListItem
-          sx={{
-            marginTop: "5px",
-            cursor: "pointer",
-          }}
-        >
-          <ListItemButton
-            sx={{
-              "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
-              borderRadius: "10px",
-              background: customers ? "rgb(24, 104, 183)" : "",
-              color: customers ? "white" : "",
-            }}
-          >
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Customers" />
-          </ListItemButton>
-        </ListItem>
-        <Divider /> */}
 
         {user && user.role === "admin" && (
           <>
@@ -242,28 +222,35 @@ function Sidebar() {
             <Divider />
           </>
         )}
-        <ListItem
-          sx={{
-            marginTop: "5px",
-            cursor: "pointer",
-          }}
-        >
-          <ListItemButton
-            sx={{
-              "&:hover": { background: "rgb(24, 104, 183)", color: "white" },
-              borderRadius: "10px",
-              background: myBrand ? "rgb(24, 104, 183)" : "",
-              color: myBrand ? "white" : "",
-            }}
-            onClick={() => navigate(`/myBrand`)}
-          >
-            <ListItemIcon>
-              <AddBusinessIcon />
-            </ListItemIcon>
-            <ListItemText primary="My Brand" />
-          </ListItemButton>
-        </ListItem>
-        <Divider />
+        {brand && (
+          <>
+            <ListItem
+              sx={{
+                marginTop: "5px",
+                cursor: "pointer",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  "&:hover": {
+                    background: "rgb(24, 104, 183)",
+                    color: "white",
+                  },
+                  borderRadius: "10px",
+                  background: myBrand ? "rgb(24, 104, 183)" : "",
+                  color: myBrand ? "white" : "",
+                }}
+                onClick={() => navigate(`/myBrand`)}
+              >
+                <ListItemIcon>
+                  <AddBusinessIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Brand" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+          </>
+        )}
       </List>
     </div>
   );

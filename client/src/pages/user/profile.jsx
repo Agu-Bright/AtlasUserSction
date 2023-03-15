@@ -20,8 +20,13 @@ function Profile() {
 
   return (
     <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
-
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active2"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           display: "flex",
@@ -31,7 +36,6 @@ function Profile() {
           height: "auto",
           paddingTop: { md: "100px", xs: "60px" },
           paddingBottom: "20px",
-          border: "1px solid black",
         }}
       >
         {loading ? (
@@ -51,11 +55,10 @@ function Profile() {
             >
               <Box
                 sx={{
-                  border: "1px solid",
                   width: "inherit",
                   display: "flex",
                   flexDirection: { xs: "column", md: "column" },
-                  alignItems: "center",
+                  alignItems: "start",
                   justifyContent: "space-between",
                 }}
               >
@@ -63,14 +66,13 @@ function Profile() {
                   style={{
                     width: "auto",
                     paddingLeft: "6px",
-                    alignSelf: "start",
-                    borderLeft: "10px solid #48e5c2",
-                    borderBottom: "0.1px solid #48e5c2",
+                    borderLeft: "10px solid rgb(24, 104, 183)",
+                    borderBottom: "0.1px solid rgb(24, 104, 183)",
                     borderRadius: "10px",
                     borderBottomRightRadius: "0px",
                   }}
                 >
-                  My profile
+                  User Profile
                 </h3>
                 <Stack spacing={3} sx={{ width: "auto", margin: "20px" }}>
                   <Avatar

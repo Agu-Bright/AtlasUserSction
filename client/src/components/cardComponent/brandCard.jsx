@@ -23,9 +23,9 @@ export default function BrandCard({ key, data }) {
   //   setCart(true);
   // };
   return (
-    <Grid item sx={{ margin: "0px !important" }} key={key}>
+    <Grid item xs={4} sm={4} md={3} sx={{ margin: "0px !important" }} key={key}>
       <Card
-        sx={{ width: { md: 300, sm: 200, xs: 290 } }}
+        sx={{ width: "100%" }}
         component="div"
         onClick={() => navigate(`/brand/${data._id}`)}
       >

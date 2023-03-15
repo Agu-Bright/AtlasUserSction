@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -6,16 +6,38 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import { Grid, Stack, Rating } from "@mui/material";
-export default function ProductCard({ key, data, addToCart }) {
+import { Grid, Stack, Rating, Alert, Snackbar } from "@mui/material";
+import { addItemToCart } from "../../redux/actions/cartAction";
+import { useDispatch } from "react-redux";
+const SnackbarAlert2 = forwardRef(function SnackbarAlert(props, ref) {
+  return <Alert severity="success" elevation={6} ref={ref} {...props} />;
+});
+export default function ProductCard({ key, data }) {
+  const [cart, setCart] = useState();
   const navigate = useNavigate();
-
-  // const addToCart = () => {
-  //   dispatch(addItemToCart(id, count));
-  //   setCart(true);
-  // };
+  const dispatch = useDispatch();
+  const addToCart = () => {
+    dispatch(addItemToCart(data._id, 1));
+    setCart(true);
+  };
+  const handleClose2 = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setCart(false);
+  };
   return (
     <Grid item xs={2} sm={4} md={3} sx={{ margin: "0px !important" }} key={key}>
+      <Snackbar
+        size="small"
+        open={cart}
+        autoHideDuration={4000}
+        onClose={handleClose2}
+      >
+        <SnackbarAlert2>
+          <Typography>Item Added to cart</Typography>
+        </SnackbarAlert2>
+      </Snackbar>
       <Card sx={{ width: "100%" }} component="div">
         <CardMedia
           component="img"
@@ -49,9 +71,6 @@ export default function ProductCard({ key, data, addToCart }) {
               ({data.numberOfReviews} reviews)
             </Typography>
           </Stack>
-          {/* <Typography variant="body2" color="text.secondary">
-            hello
-          </Typography> */}
         </CardContent>
         <CardActions
           sx={{
@@ -72,15 +91,7 @@ export default function ProductCard({ key, data, addToCart }) {
           >
             View details
           </Button>
-          {/* <LoadingButton
-                        loading={adding ? true : false}
-                        variant="outlined"
-                        sx={{ "&:focus": { outline: "none" },color: "white"  }}
-                        onClick={addToCart}
-                        disabled={book?.book?.stock === 0}
-                      >
-                        <Typography variant="h5">Add to cart</Typography>
-                      </LoadingButton> */}
+
           <Button
             size="small"
             sx={{ color: "white", fontSize: { md: "0.8em", xs: "0.45em" } }}

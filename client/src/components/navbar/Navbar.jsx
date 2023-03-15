@@ -321,17 +321,6 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
                 <ListItemText primary="Logout" />
               </ListItemButton>
             </ListItem>
-            {/* <ListItem disablePadding onClick={logoutHandler}>
-              <ListItemButton>
-                <Typography color="warning">logout</Typography>
-              </ListItemButton>
-            </ListItem>
-            <MenuItem onClick={logoutHandler}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem> */}
           </>
         ) : (
           <>
@@ -366,7 +355,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
         height: { md: "10vh" },
         zIndex: "999",
         background: background,
-        borderBottom: border ? ".2px solid " : "",
+        borderBottom: border ? ".2px solid #a39f9f " : "",
       }}
     >
       <Typography

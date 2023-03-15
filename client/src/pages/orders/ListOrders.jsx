@@ -42,8 +42,14 @@ export default function ListOrders() {
     }
   }, [diapatch, error, open]);
   return (
-    <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+    <Box sx={{ background: "white" }}>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active2"
+        background="white"
+        border={true}
+      />
 
       <Box
         sx={{
@@ -52,91 +58,100 @@ export default function ListOrders() {
           paddingBottom: "20px",
         }}
       >
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Order ID</TableCell>
-                <TableCell align="right">Num Of Items</TableCell>
-                <TableCell align="right">Amount</TableCell>
-                <TableCell align="right">Status</TableCell>
-                <TableCell align="right">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {orders &&
-                orders.map((order) => (
-                  <TableRow
-                    key={order._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {order._id}
-                    </TableCell>
-                    <TableCell align="right">
-                      {order.orderItems.length}
-                    </TableCell>
-                    <TableCell align="right">
-                      {
-                        <span style={{ color: "green" }}>
-                          &#8358;{order.itemsPrice}
-                        </span>
-                      }
-                    </TableCell>
-                    <TableCell align="right">
-                      {order.orderStatus &&
-                      String(order.orderStatus).includes("Delivered") ? (
-                        <p style={{ color: "green" }}>{order.orderStatus}</p>
-                      ) : (
-                        <p style={{ color: "red" }}>{order.orderStatus}</p>
-                      )}
-                    </TableCell>
-                    <TableCell align="right">
-                      {
-                        <Link to={`/order/${order._id}`}>
-                          <IconButton sx={{ "&:focus": { outline: "none" } }}>
-                            <AcUnitIcon color="primary" />
-                          </IconButton>
-                        </Link>
-                      }
-                    </TableCell>
-                  </TableRow>
-                ))}
-              {loading && (
-                <Container
-                  fixed
-                  sx={{
-                    height: "60vh",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CircularProgress />
-                  <Typography>ORDERS....</Typography>
-                </Container>
-              )}
-            </TableBody>
-          </Table>
-          {orders && orders.length < 1 && (
-            <Typography
-              sx={{
-                width: "955",
-                marginTop: "15vh",
-                marginButtom: "15vh",
-                textAlign: "center",
-                fontSize: "2em",
-                fontWeight: "800",
-              }}
+        <Box sx={{ padding: "10px", height: "80vh" }}>
+          <Typography sx={{ fontWeight: "600", fontSize: "1.2em" }}>
+            My Orders
+          </Typography>
+          <TableContainer component={Paper} elevation={6}>
+            <Table
+              sx={{ width: "100%" }}
+              size="small"
+              aria-label="a dense table"
             >
-              You have no orders yet
-            </Typography>
-          )}
-        </TableContainer>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Order ID</TableCell>
+                  <TableCell align="right">Num Of Items</TableCell>
+                  <TableCell align="right">Amount</TableCell>
+                  <TableCell align="right">Status</TableCell>
+                  <TableCell align="right">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orders &&
+                  orders.map((order) => (
+                    <TableRow
+                      key={order._id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {order._id}
+                      </TableCell>
+                      <TableCell align="right">
+                        {order.orderItems.length}
+                      </TableCell>
+                      <TableCell align="right">
+                        {
+                          <span style={{ color: "green" }}>
+                            &#8358;{order.itemsPrice}
+                          </span>
+                        }
+                      </TableCell>
+                      <TableCell align="right">
+                        {order.orderStatus &&
+                        String(order.orderStatus).includes("Delivered") ? (
+                          <p style={{ color: "green" }}>{order.orderStatus}</p>
+                        ) : (
+                          <p style={{ color: "red" }}>{order.orderStatus}</p>
+                        )}
+                      </TableCell>
+                      <TableCell align="right">
+                        {
+                          <Link to={`/order/${order._id}`}>
+                            <IconButton sx={{ "&:focus": { outline: "none" } }}>
+                              <AcUnitIcon color="primary" />
+                            </IconButton>
+                          </Link>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                {loading && (
+                  <Container
+                    fixed
+                    sx={{
+                      height: "60vh",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress />
+                    <Typography>ORDERS....</Typography>
+                  </Container>
+                )}
+              </TableBody>
+            </Table>
+            {orders && orders.length < 1 && (
+              <Typography
+                sx={{
+                  width: "955",
+                  marginTop: "15vh",
+                  marginButtom: "15vh",
+                  textAlign: "center",
+                  fontSize: "2em",
+                  fontWeight: "800",
+                }}
+              >
+                You have no orders yet
+              </Typography>
+            )}
+          </TableContainer>
+        </Box>
       </Box>
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
-    </>
+    </Box>
   );
 }

@@ -12,11 +12,10 @@ import {
   Pagination,
   ListItemText,
   Divider,
-  Button,
   Grid,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
-
+import { addItemToCart } from "../../../redux/actions/cartAction";
 import { categories } from "../../../utils/stateData";
 import AppsIcon from "@mui/icons-material/Apps";
 import PrimarySearchAppBar from "../../../components/search";
@@ -56,15 +55,8 @@ function BrandProoducts({
   // const searchQuery = query.get("search");
 
   const [searchQuery, setSearchQuery] = useState(false);
-  const {
-    loading,
-    brandProducts,
-    productCount,
-    filteredProductCount,
-    numberOfPages,
-    searchNumberOfPages,
-    error,
-  } = useSelector((state) => state.brandProductReducer);
+  const { loading, brandProducts, numberOfPages, searchNumberOfPages } =
+    useSelector((state) => state.brandProductReducer);
   useEffect(() => {
     dispatch(getBrandProducts(id, searchQuery, page, category));
   }, [dispatch, id, searchQuery, page, category]);
@@ -81,6 +73,7 @@ function BrandProoducts({
   const handleClose = () => setOpen(false);
   const { brand } = useSelector((state) => state.myBrand);
   const { user } = useSelector((state) => state.auth);
+
   return (
     <Box sx={{ marginTop: "20px" }}>
       <Box
@@ -136,7 +129,7 @@ function BrandProoducts({
         <Paper
           elevation={24}
           sx={{
-            transition: "0.5s",
+            transition: "0.2s",
             width: `${toggle ? "23%" : "0%"}`,
             minHeight: "100vh",
             display: { md: "flex", sm: "flex", xs: "none" },
@@ -146,7 +139,7 @@ function BrandProoducts({
           {toggle && (
             <Box
               sx={{
-                transition: "0.5s",
+                transition: "0.2s",
                 overflow: "hidden",
                 width: "100%",
                 margin: "10px",
