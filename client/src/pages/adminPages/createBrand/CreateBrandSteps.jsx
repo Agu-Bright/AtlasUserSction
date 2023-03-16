@@ -56,36 +56,44 @@ function CreateBrandSteps({
         <Typography
           sx={{
             textAlign: "start",
-            fontWeight: "550",
-            fontSize: "1.1em",
-            padding: "9px 0px",
+            fontWeight: "600",
+            fontSize: "1.5em",
           }}
         >
-          Lets get started. Choose a unique name that best describes your brand
+          Brand Name
+          <p style={{ fontWeight: "50", fontSize: "15px" }}>
+            Lets get started. Choose a unique name that best describes your
+            brand
+          </p>
         </Typography>
       )}
       {brandType && (
         <Typography
           sx={{
-            textAlign: "center",
+            textAlign: "start",
             fontWeight: "600",
             fontSize: "1.5em",
           }}
         >
-          what is your plan for selling( typically asking about your physical
-          store )
+          Brand Type
+          <p style={{ fontWeight: "50", fontSize: "15px" }}>
+            what is your plan for selling( typically asking about your physical
+            store )
+          </p>
         </Typography>
       )}
       {brandDetails && (
         <Typography
           sx={{
             textAlign: "start",
-            fontWeight: "550",
-            fontSize: "1.1em",
-            padding: "9px 0px",
+            fontWeight: "600",
+            fontSize: "1.5em",
           }}
         >
-          Write a brief description of what your brand is about
+          Brand Description
+          <p style={{ fontWeight: "50", fontSize: "15px" }}>
+            Write a brief description of what your brand is about
+          </p>
         </Typography>
       )}
       {location && (

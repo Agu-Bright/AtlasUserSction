@@ -44,9 +44,27 @@ import {
   USER_DETAILS_FAIL,
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
+  EMAIL_REQUEST,
+  EMAIL_SUCCESS,
+  EMAIL_FAIL,
 } from "../constants/userConstants";
 import axios from "axios";
 
+//email
+export const postEmail = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: EMAIL_REQUEST });
+
+    const { data } = await axios.post("/api/v1/newsLetter", { email: email });
+
+    dispatch({ type: EMAIL_SUCCESS, payload: data.email });
+  } catch (error) {
+    dispatch({
+      type: EMAIL_FAIL,
+      payload: error.response.data.Message,
+    });
+  }
+};
 //login
 export const login = (formData) => async (dispatch) => {
   try {

@@ -45,8 +45,41 @@ import {
   REGISTER_SELLER_RESET,
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
+  EMAIL_REQUEST,
+  EMAIL_SUCCESS,
+  EMAIL_FAIL,
   CLEAR_ERRORS,
 } from "../constants/userConstants";
+
+export const emailReducer = (state = { email: null }, action) => {
+  switch (action.type) {
+    case EMAIL_REQUEST:
+      return {
+        loading: true,
+        email: null,
+      };
+
+    case EMAIL_SUCCESS:
+      return {
+        loading: false,
+        email: action.payload.email,
+      };
+
+    case EMAIL_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
 
 export const userReducer = (state = { user: {} }, action) => {
   switch (action.type) {

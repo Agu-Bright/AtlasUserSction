@@ -50,25 +50,31 @@ function BrandType() {
     color: "secondary",
   });
   return (
-    <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />
+    <Box sx={{ background: "white" }}>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           width: "100%",
-          height: "60vh",
+          height: "90vh",
           paddingTop: { md: "100px", xs: "60px" },
           paddingBottom: "20px",
         }}
       >
         <Paper
+          elevation={6}
           sx={{
             marginTop: "20px",
             width: { md: "40%", xs: "90%" },
             padding: "20px",
-            boxShadow: 2,
             borderRadius: "15px",
           }}
         >
@@ -133,7 +139,11 @@ function BrandType() {
               color="primary"
               type="submit"
               variant="outlined"
-              sx={{ "&:focus": { outline: "none" }, width: "30%" }}
+              sx={{
+                "&:focus": { outline: "none" },
+                width: "30%",
+                fontSize: { md: "1em", xs: "0.6em" },
+              }}
             >
               Previous
             </Button>
@@ -142,7 +152,11 @@ function BrandType() {
               color="primary"
               type="submit"
               variant="contained"
-              sx={{ "&:focus": { outline: "none" }, width: "30%" }}
+              sx={{
+                "&:focus": { outline: "none" },
+                width: "30%",
+                fontSize: { md: "1em", xs: "0.6em" },
+              }}
             >
               Next
             </Button>
@@ -152,7 +166,7 @@ function BrandType() {
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
-    </>
+    </Box>
   );
 }
 

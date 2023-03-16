@@ -13,6 +13,7 @@ const {
   adminGetUserDetail,
   adminUpdateUserDetails,
   deleteUser,
+  postEmail,
 } = require("../controllers/authController");
 const {
   authMiddleware,
@@ -21,6 +22,7 @@ const {
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.post("/newsLetter", postEmail);
 
 router.post("/forgotPassword", forgotPassword);
 router.put("/password/reset/:token", resetPassword);

@@ -87,26 +87,32 @@ function Personal() {
   };
 
   return (
-    <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />
+    <Box sx={{ background: "white" }}>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           width: "100%",
-          height: "60vh",
+          height: "100vh",
           paddingTop: { md: "200px", xs: "150px" },
           paddingBottom: "20px",
           marginBottom: "70px",
         }}
       >
         <Paper
+          elevation={6}
           sx={{
             margin: "50px 0px",
             width: { md: "40%", xs: "90%" },
             padding: "20px",
-            boxShadow: 2,
             borderRadius: "15px",
           }}
         >
@@ -261,7 +267,7 @@ function Personal() {
       >
         <Footer />
       </div>
-    </>
+    </Box>
   );
 }
 

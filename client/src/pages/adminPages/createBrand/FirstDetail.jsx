@@ -21,25 +21,31 @@ function FirstDetaili() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />
+    <Box sx={{ background: "white" }}>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           width: "100%",
-          height: "60vh",
+          height: "90vh",
           paddingTop: { md: "100px", xs: "80px" },
           paddingBottom: "20px",
         }}
       >
         <Paper
+          elevation={5}
           sx={{
             marginTop: "20px",
             width: { md: "50%", xs: "90%" },
             padding: "20px",
-            boxShadow: 2,
             borderRadius: "15px",
           }}
         >
@@ -102,7 +108,7 @@ function FirstDetaili() {
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
-    </>
+    </Box>
   );
 }
 

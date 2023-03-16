@@ -49,8 +49,14 @@ function Shipping() {
     navigate("/confirm");
   };
   return (
-    <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active" />
+    <Box sx={{ background: "white" }}>
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           display: "flex",
@@ -263,7 +269,7 @@ function Shipping() {
       <div className="footer" style={{ oveflow: "hidden" }}>
         <Footer />
       </div>
-    </>
+    </Box>
   );
 }
 

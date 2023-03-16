@@ -6,7 +6,13 @@ const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const cloudinary = require("cloudinary");
+const Email = require("../model/emailModel");
 
+const postEmail = catchAsyncErrors(async (req, res, next) => {
+  const email = req.body.email;
+  await Email.create({ email: email });
+  res.status(200).json({ success: true });
+});
 //Register a user => /api/v1/register POST
 const registerUser = catchAsyncErrors(async (req, res, next) => {
   if (req.body.avatar) {
@@ -282,7 +288,6 @@ const deleteUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   //Remove avater from cloudinary- TODO
-
   await user.remove();
   res.status(200).json({
     success: true,
@@ -302,4 +307,5 @@ module.exports = {
   adminGetUserDetail,
   adminUpdateUserDetails,
   deleteUser,
+  postEmail,
 };

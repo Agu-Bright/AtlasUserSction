@@ -1,24 +1,64 @@
-import React from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import "./footer.scss";
 import {
   Typography,
   Box,
-  Button,
   Stack,
+  Alert,
   ButtonGroup,
   IconButton,
   TextField,
   Divider,
   List,
   ListItem,
+  Snackbar,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { postEmail } from "../../redux/actions/userActions";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+const SnackbarAlert2 = forwardRef(function SnackbarAlert(props, ref) {
+  return <Alert severity="success" elevation={6} ref={ref} {...props} />;
+});
 function Footer() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState();
+  const { loading, error, email } = useSelector((state) => state.emailReducer);
+  const [mail, setEmail] = useState("");
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setErrorMessage(error);
+    }
+  }, [error]);
+  const handleSubmit = () => {
+    console.log("email");
+    dispatch(postEmail(mail));
+    setOpen(true);
+  };
+  const handleClose2 = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <div className="footer-container" style={{ margin: 0, paddingLeft: 0 }}>
+      <Snackbar
+        size="small"
+        open={open}
+        autoHideDuration={4000}
+        onClose={handleClose2}
+      >
+        <SnackbarAlert2>
+          <Typography>Email Submitted</Typography>
+        </SnackbarAlert2>
+      </Snackbar>
+
       <Box
         className="footer-topic"
         sx={{
@@ -72,8 +112,12 @@ function Footer() {
                 background: "white",
                 borderRadius: "20px",
               }}
+              value={mail}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <Button
+            <LoadingButton
+              loading={loading ? true : false}
+              onClick={handleSubmit}
               sx={{
                 width: "25%",
                 fontSize: { md: "20px", xs: "12px" },
@@ -82,7 +126,7 @@ function Footer() {
               }}
             >
               Sign Up
-            </Button>
+            </LoadingButton>
           </Stack>
         </Box>
         <Divider

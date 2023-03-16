@@ -34,6 +34,7 @@ import {
   userDetailsReducer,
   updateUserReducer,
   allSellersReducer,
+  emailReducer,
 } from "./reducers/userReducer";
 import {
   orderReducer,
@@ -47,6 +48,7 @@ import { cartReducer } from "./reducers/cartReducer";
 
 const reducer = combineReducers({
   //user reducer section
+  emailReducer: emailReducer,
   auth: userReducer,
   user: usersReducer,
   allSellers: allSellersReducer,
