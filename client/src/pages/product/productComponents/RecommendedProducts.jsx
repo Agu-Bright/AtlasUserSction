@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import { Box, Typography, Skeleton } from "@mui/material";
 import { Navigation, A11y, Autoplay } from "swiper";
 import { Swiper as Slider, SwiperSlide } from "swiper/react";
-import { getNewBrands } from "../../../redux/actions/brandAction";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import Button from "@mui/material/Button";
-import { Stack, Rating } from "@mui/material";
+import { Stack, Rating, Alert, Snackbar } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -18,10 +17,15 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 import { getRecommendedProduct } from "../../../redux/actions/productAction";
+import { addItemToCart } from "../../../redux/actions/cartAction";
+const SnackbarAlert2 = forwardRef(function SnackbarAlert(props, ref) {
+  return <Alert severity="success" elevation={6} ref={ref} {...props} />;
+});
 
 function RecommendedProducts({ id }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [cart, setCart] = useState(false);
   const { products, loading, error } = useSelector(
     (state) => state.recommendedProducts
   );
@@ -32,26 +36,46 @@ function RecommendedProducts({ id }) {
     // dispatch(getNewBrands());
     dispatch(getRecommendedProduct(id));
   }, [dispatch, error, id]);
-
-  const navigateToBrand = (id) => {
-    navigate(`/brand/${id}`);
+  const addToCart = (data) => {
+    dispatch(addItemToCart(data, 1));
+    setCart(true);
+  };
+  const handleClose2 = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setCart(false);
   };
   return (
     <Box className="slider-container">
+      <Snackbar
+        size="small"
+        open={cart}
+        autoHideDuration={4000}
+        onClose={handleClose2}
+      >
+        <SnackbarAlert2>
+          <Typography>Item Added to cart</Typography>
+        </SnackbarAlert2>
+      </Snackbar>
       <Slider
         breakpoints={{
           // when window width is >= 320px
           400: {
-            slidesPerView: 1,
-            spaceBetween: 20,
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
           445: {
-            slidesPerView: 1,
-            spaceBetween: 20,
+            slidesPerView: 2,
+            spaceBetween: 10,
           },
           // when window width is >= 480px
           480: {
-            slidesPerView: 1,
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          500: {
+            slidesPerView: 2,
             spaceBetween: 10,
           },
           600: {
@@ -140,10 +164,7 @@ function RecommendedProducts({ id }) {
         {products &&
           products.map((product) => (
             <SwiperSlide className="slide" key={product._id}>
-              <Card
-                sx={{ width: { md: 300, sm: 200, xs: 250 } }}
-                component="div"
-              >
+              <Card sx={{ width: "100%" }} component="div">
                 <CardMedia
                   component="img"
                   alt="green iguana"
@@ -191,16 +212,12 @@ function RecommendedProducts({ id }) {
                   >
                     View details
                   </Button>
-                  {/* <LoadingButton
-                        loading={adding ? true : false}
-                        variant="outlined"
-                        sx={{ "&:focus": { outline: "none" },color: "white"  }}
-                        onClick={addToCart}
-                        disabled={book?.book?.stock === 0}
-                      >
-                        <Typography variant="h5">Add to cart</Typography>
-                      </LoadingButton> */}
-                  <Button size="small" sx={{ color: "white" }}>
+
+                  <Button
+                    size="small"
+                    sx={{ color: "white" }}
+                    onClick={() => addToCart(product._id)}
+                  >
                     Add to Cart
                   </Button>
                 </CardActions>

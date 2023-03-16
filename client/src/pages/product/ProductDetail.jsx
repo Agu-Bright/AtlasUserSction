@@ -7,13 +7,13 @@ import {
   Rating,
   Typography,
   Box,
-  Button,
   ButtonGroup,
   IconButton,
   Stack,
   Alert,
   Snackbar,
   Divider,
+  Paper,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -36,6 +36,10 @@ const SnackbarAlert2 = forwardRef(function SnackbarAlert(props, ref) {
   return <Alert severity="success" elevation={6} ref={ref} {...props} />;
 });
 function ProductDetail() {
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const dispatch = useDispatch();
   const params = useParams();
   const [state, setState] = useState(true);
@@ -50,6 +54,7 @@ function ProductDetail() {
   const { loading, product, error } = useSelector(
     (state) => state.productDetail
   );
+
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id, success]);
@@ -94,7 +99,13 @@ function ProductDetail() {
   };
   return (
     <>
-      <Navbar navbar={navbar} setNavbar={setNavbar} active="active2" />
+      <Navbar
+        navbar={navbar}
+        setNavbar={setNavbar}
+        active="active2"
+        background="white"
+        border={true}
+      />
       <Box
         sx={{
           height: "auto",
@@ -150,124 +161,136 @@ function ProductDetail() {
                 </Swiper>
               </Box>
 
-              <Box
+              <Paper
+                elevation={5}
                 sx={{
                   width: { md: "47%", xs: "100%" },
                   maxHeigth: "20vh",
+                  marginTop: { md: "none", xs: "10px" },
                 }}
               >
-                <Typography variant="h3">{product?.product?.name}</Typography>
-                <Typography>
-                  <strong>Stock:</strong> {product?.product?.stock}
-                </Typography>
-                <Box className="d-flex mb-3">
-                  <div className="text-primary mr-2">
-                    <Rating
-                      defaultValue={Number(product?.product?.rating)}
-                      precision={0.5}
-                      size="medium"
-                      readOnly
-                    />
-                  </div>
-                  <small className="pt-1">
-                    ({product?.product?.numberOfReviews} reviews)
-                  </small>
-                </Box>
-                <h3 className="font-weight-semi-bold mb-4">
-                  <span style={{ color: "green" }}>&#8358;</span>
-                  {product?.product?.price}
-                </h3>
+                <Box sx={{ padding: "10px" }}>
+                  <Typography variant="h3">{product?.product?.name}</Typography>
+                  <Typography>
+                    <strong>Stock:</strong> {product?.product?.stock}
+                  </Typography>
+                  <Box className="d-flex mb-3">
+                    <div className="text-primary mr-2">
+                      <Rating
+                        value={Number(product?.product?.rating)}
+                        precision={0.5}
+                        size="small"
+                        readOnly
+                      />
+                    </div>
+                    <small className="pt-1">
+                      ({product?.product?.numberOfReviews} reviews)
+                    </small>
+                  </Box>
+                  <h3 className="font-weight-semi-bold mb-4">
+                    <span style={{ color: "green" }}>&#8358;</span>
+                    {numberWithCommas(Number(product?.product?.price))}
+                  </h3>
 
-                <Stack
-                  spacing={2}
-                  sx={{ flexDirection: { xs: "column", md: "row" } }}
-                >
-                  <ButtonGroup
-                    variant="contained"
-                    orientation="horizontal"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: 0,
-                    }}
+                  <Stack
+                    spacing={2}
+                    sx={{ flexDirection: { xs: "column", md: "row" } }}
                   >
-                    <IconButton
-                      sx={{ "&:focus": { outline: "none" } }}
-                      onClick={decreaseQty}
-                    >
-                      <RemoveIcon />
-                    </IconButton>
-                    <Typography
-                      variant="h4"
+                    <ButtonGroup
+                      variant="contained"
+                      orientation="horizontal"
                       sx={{
-                        textAlign: "center",
-                        verticalAlign: "center",
-                        padding: "4px",
-                        border: "0.1px solid gray",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: 0,
                       }}
                     >
-                      {count}
-                    </Typography>
-                    <IconButton
-                      color="warning"
-                      sx={{ "&:focus": { outline: "none" } }}
-                      onClick={increaseQty}
+                      <IconButton
+                        sx={{ "&:focus": { outline: "none" } }}
+                        onClick={decreaseQty}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          textAlign: "center",
+                          verticalAlign: "center",
+                          padding: "4px",
+                          border: "0.1px solid gray",
+                        }}
+                      >
+                        {count}
+                      </Typography>
+                      <IconButton
+                        color="warning"
+                        sx={{ "&:focus": { outline: "none" } }}
+                        onClick={increaseQty}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </ButtonGroup>
+
+                    <LoadingButton
+                      loading={adding ? true : false}
+                      variant="outlined"
+                      sx={{
+                        "&:focus": { outline: "none" },
+                        background: "rgb(24, 104, 183)",
+                      }}
+                      onClick={addToCart}
+                      disabled={product?.product?.stock === 0}
                     >
-                      <AddIcon />
-                    </IconButton>
-                  </ButtonGroup>
+                      <Typography variant="h5">Add to cart</Typography>
+                    </LoadingButton>
+                  </Stack>
 
-                  <LoadingButton
-                    loading={adding ? true : false}
-                    variant="outlined"
+                  <Box
                     sx={{
-                      "&:focus": { outline: "none" },
-                      background: "rgb(24, 104, 183)",
+                      marginTop: "10px",
+                      padding: "5px",
                     }}
-                    onClick={addToCart}
-                    disabled={product?.product?.stock === 0}
                   >
-                    <Typography variant="h5">Add to cart</Typography>
-                  </LoadingButton>
-                </Stack>
-
-                <Box
-                  sx={{
-                    marginTop: "10px",
-                    padding: "5px",
-                  }}
-                >
-                  <Typography variant="h6">Description</Typography>
-                  <p className="mb-4">{product?.product?.description}</p>
+                    <Typography variant="h6">Description</Typography>
+                    <p className="mb-4">{product?.product?.description}</p>
+                  </Box>
                 </Box>
-              </Box>
+              </Paper>
             </Stack>
-            <ProductReview product={product} id={id} />
-            <Box
+            <Paper
+              elevation={5}
               sx={{
-                border: "0.1px solid grey",
-                margin: "15px 15px",
-                borderTopRightRadius: "10px",
-                borderTopLeftRadius: "10px",
+                marginTop: "10px",
+                width: { md: "100%", xs: "auto" },
+                padding: "10px",
               }}
             >
+              <ProductReview product={product} id={id} />
+            </Paper>
+            <Paper elevation={5} sx={{ padding: "20px 20px" }}>
               <Box
                 sx={{
-                  padding: "10px 10px",
+                  margin: "15px 5px",
                   borderTopRightRadius: "10px",
                   borderTopLeftRadius: "10px",
                 }}
               >
-                <Typography sx={{ fontWeight: "900" }}>
-                  More From This Brand
-                </Typography>
-                <Divider sx={{ width: "100%", paddingTop: "15px" }} />
-              </Box>
-              <Box sx={{ padding: "20px 20px" }}>
+                <Box
+                  sx={{
+                    padding: "10px 10px",
+                    borderTopRightRadius: "10px",
+                    borderTopLeftRadius: "10px",
+                  }}
+                >
+                  <Typography sx={{ fontWeight: "900" }}>
+                    More From This Brand
+                  </Typography>
+                  <Divider sx={{ width: "100%", paddingTop: "15px" }} />
+                </Box>
                 <RecommendedProducts id={id} />
               </Box>
-            </Box>
+            </Paper>
           </>
         )}
 

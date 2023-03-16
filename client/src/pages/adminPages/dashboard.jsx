@@ -138,7 +138,7 @@ function Dashboard() {
     responsive: "standard",
   };
   return (
-    <>
+    <Box sx={{ background: "white" }}>
       <Navbar
         navbar={navbar}
         setNavbar={setNavbar}
@@ -535,7 +535,7 @@ function Dashboard() {
         </Stack>
         <SidebarDrawer open={open} close={handleDrawerClose} />
       </Box>
-    </>
+    </Box>
   );
 }
 

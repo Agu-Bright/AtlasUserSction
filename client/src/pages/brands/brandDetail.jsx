@@ -340,27 +340,29 @@ function BrandDetail() {
                   paddingLeft: { md: "25px", xs: "10px" },
                 }}
               >
-                <Typography>
+                <Typography sx={{ fontWeight: "600" }}>
                   Created{" "}
-                  <span
+                  <Typography
                     style={{
-                      fontWeight: "700",
+                      fontWeight: "400",
+                      display: "inline-block",
                       fontSize: { md: "1em", xs: "0.8em" },
                     }}
                   >
                     {moment(brandDetail?.createdAt).fromNow()}
-                  </span>
+                  </Typography>
                 </Typography>
-                <Typography>
+                <Typography sx={{ fontWeight: "600" }}>
                   Brand Type :
-                  <span
+                  <Typography
                     style={{
-                      fontWeight: "700",
+                      fontWeight: "400",
+                      display: "inline-block",
                       fontSize: { md: "1em", xs: "0.8em" },
                     }}
                   >
                     {brandDetail?.brandType}
-                  </span>
+                  </Typography>
                 </Typography>
               </Box>
             )}

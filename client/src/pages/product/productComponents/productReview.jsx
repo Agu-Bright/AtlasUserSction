@@ -31,19 +31,19 @@ function ProductReview({ product, id }) {
   };
   const handlePostReview = (e) => {
     e.preventDefault();
-    const formData = {
+    const data = {
       rating: rating,
       comment: comment,
       productId: id,
     };
-    dispatch(postProductReview(formData));
+    dispatch(postProductReview(data));
     setRating(0);
     setComment("");
   };
   return (
     <Box className="row px-xl-5">
-      <Box className="col" sx={{ border: "1px solid" }}>
-        <div className="bg-light p-30">
+      <Box className="col">
+        <Box sx={{ padding: "10px" }}>
           <div className="nav nav-tabs mb-4">
             <Button
               variant={state ? "contained" : ""}
@@ -166,7 +166,7 @@ function ProductReview({ product, id }) {
               </Box>
             )}
           </div>
-        </div>
+        </Box>
       </Box>
       {/* <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
         <SnackbarAlert>

@@ -26,9 +26,6 @@ import {
   ADMIN_GET_PRODUCTS_REQUEST,
   ADMIN_GET_PRODUCTS_SUCCESS,
   ADMIN_GET_PRODUCTS_FAIL,
-  NEW_PRODUCTS_REQUEST,
-  NEW_PRODUCTS_SUCCESS,
-  NEW_PRODUCTS_FAIL,
   DELETE_PRODUCTS_REQUEST,
   DELETE_PRODUCTS_SUCCESS,
   DELETE_PRODUCTS_FAIL,
@@ -129,6 +126,7 @@ export const getRecommendedProduct = (id) => async (dispatch) => {
 
 export const postProductReview = (formData) => async (dispatch) => {
   try {
+    console.log(formData);
     dispatch({ type: PRODUCT_REVIEW_REQUEST });
     const { data } = await axios.put(`/api/v1/review`, formData, {
       withCredentials: true,
