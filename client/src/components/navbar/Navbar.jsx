@@ -35,9 +35,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import Cart from "../cart";
 
 function Navbar({ navbar, setNavbar, active, background, border }) {
   const [open, setOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [Drawer, setDrawer] = React.useState(false);
@@ -347,6 +349,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
       </List>
     </Menu>
   );
+
   return (
     <Stack
       direction="row"
@@ -439,7 +442,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
 
         <IconButton
           onClick={() => {
-            navigate("/cart");
+            setCartOpen(true);
           }}
           sx={{ "&:focus": { outline: "none" } }}
         >
@@ -459,6 +462,7 @@ function Navbar({ navbar, setNavbar, active, background, border }) {
           <DehazeIcon sx={{ color: "black", fontSize: "1.3em" }} />
         </IconButton>
       </ButtonGroup>
+      <Cart open={cartOpen} setOpen={setCartOpen} />
       <MuiDrawer
         open={open}
         close={handleDrawerClose}

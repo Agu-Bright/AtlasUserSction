@@ -1,9 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import { getProduct } from "../../redux/actions/productAction";
 import { useSelector, useDispatch } from "react-redux";
-import { Container } from "@mui/system";
 import {
-  CircularProgress,
   Rating,
   Typography,
   Box,
@@ -42,7 +40,6 @@ function ProductDetail() {
 
   const dispatch = useDispatch();
   const params = useParams();
-  const [state, setState] = useState(true);
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState(false);
   const [navbar, setNavbar] = useState(true);
@@ -51,17 +48,11 @@ function ProductDetail() {
   const { adding } = useSelector((state) => state.cart);
 
   const { id } = params;
-  const { loading, product, error } = useSelector(
-    (state) => state.productDetail
-  );
+  const { product, error } = useSelector((state) => state.productDetail);
 
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id, success]);
-
-  const toggleView = (view) => {
-    setState((prev) => (prev ? false : true));
-  };
 
   const handleClose = (e, reason) => {
     if (reason === "clickaway") {

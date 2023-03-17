@@ -69,11 +69,11 @@ function Shipping() {
         }}
       >
         <Paper
+          elevation={6}
           sx={{
             marginTop: "20px",
             width: { md: "50%", xs: "90%" },
             padding: "20px",
-            boxShadow: 2,
             borderRadius: "15px",
           }}
         >
