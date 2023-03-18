@@ -16,8 +16,6 @@ import ProductDetail from "./pages/product/ProductDetail";
 import ProtectedRoute from "./routes/protectedRoute";
 import Profile from "./pages/user/profile";
 import UpdateProfile from "./pages/user/updateProfile";
-import Shipping from "./pages/cart/shipping";
-import ConfirmOrder from "./pages/cart/ConfirmOrder";
 import { loadUser } from "./redux/actions/userActions";
 import ListOrders from "./pages/orders/ListOrders";
 import store from "./redux/store";
@@ -45,6 +43,7 @@ import UserList from "./pages/adminPages/UserList";
 import BrandList from "./pages/adminPages/brandList";
 import AdminBrandDetail from "./pages/adminPages/AdminBrandDetail";
 import UserProtectedRoute from "./routes/userProtectedRoute";
+import NotFound from "./pages/NotFound";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -82,11 +81,9 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/me" element={<Profile />} exact />
           <Route path="/update-profile" element={<UpdateProfile />} exact />
-          <Route path="/shipping" element={<Shipping />} />
-          <Route path="/confirm" element={<ConfirmOrder />} />
           <Route path="/order/:id" element={<OrderDetails />} />
         </Route>
-
+        <Route path="*" element={<NotFound />} />
         <Route element={<UserProtectedRoute />}>
           <Route path="/firstDetails" element={<FirstDetaili />} />
           <Route path="/brandName" element={<BrandName />} />

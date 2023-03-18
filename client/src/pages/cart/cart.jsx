@@ -42,7 +42,7 @@ function Cart() {
     dispatch(removeItemFromcart(id));
   };
   const checkOutHandler = () => {
-    navigate("/shipping");
+    navigate("/home");
   };
   return (
     <>
