@@ -30,20 +30,11 @@ import BrandDetails from "./pages/adminPages/createBrand/BrandDetails";
 import BrandType from "./pages/adminPages/createBrand/BrandType";
 import BrandLocation from "./pages/adminPages/createBrand/BrandLocation";
 import Personal from "./pages/adminPages/createBrand/personal";
-import Dashboard from "./pages/adminPages/dashboard";
-import SellerProtected from "./routes/sellerProtedtedRoute";
-import CreateProduct from "./pages/adminPages/createProduct";
 import { getMyBrand } from "./redux/actions/brandAction";
-import ProductList from "./pages/adminPages/productList";
-import UpdateProduct from "./pages/adminPages/AdminProductDetail";
-import OrdersList from "./pages/adminPages/OrderList";
-import ProcessOrder from "./pages/adminPages/ProcessOrder";
-import MyBrand from "./pages/adminPages/MyBrand";
-import UserList from "./pages/adminPages/UserList";
-import BrandList from "./pages/adminPages/brandList";
-import AdminBrandDetail from "./pages/adminPages/AdminBrandDetail";
+
 import UserProtectedRoute from "./routes/userProtectedRoute";
 import NotFound from "./pages/NotFound";
+import ScrollTop from "./components/ScrollToTop";
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -64,19 +55,6 @@ const App = () => {
         <Route path="/update-password" element={<UpdatePassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<NewPassword />} />
-
-        <Route element={<SellerProtected />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/newProduct" element={<CreateProduct />} />
-          <Route path="/productList" element={<ProductList />} />
-          <Route path="/admin/product/:id" element={<UpdateProduct />} />
-          <Route path="orderList" element={<OrdersList />} />
-          <Route path="/admin/order/:id" element={<ProcessOrder />} />
-          <Route path="/myBrand" element={<MyBrand />} />
-          <Route path="/admin/users" element={<UserList />} />
-          <Route path="/admin/brands" element={<BrandList />} />
-          <Route path="/admin/brand/:id" element={<AdminBrandDetail />} />
-        </Route>
 
         <Route element={<ProtectedRoute />}>
           <Route path="/me" element={<Profile />} exact />
